@@ -1,0 +1,33 @@
+Inputs : Name of card or cards (can take a list)
+         # of copies of the desired card or cards ( have a option for total copies or any amount of different cards.)
+         # of chances to draw the desired cards ( this number needs to be bigger then the previous numbers)
+         Version one Focus on a single card
+         Version two Focus on cards based on effect (ie drawing cards/ removing cards from the deck changes the numbers).
+         
+         Version One:
+         Given K = number of sucesses possilbe in the pool
+         L = Number of sucesses wanted from the pool
+         N = size of the pool
+         X = number of chances to draw
+         (K Choose L)*(N-K Choose L-K)/ (N choose X)
+          Example (I have 4 copies of dark confidant in my 60 card deck, what is the likelyhood of drawing one in my opening hand of 7 card?
+          K = 4
+          L = 1
+          N = 60
+          X = 7
+          (4 choose 1)*(60-4 Choose 1-4)/(60 Choose 7) = The chance to have a single copy of a card in your opening hand.
+          
+          Let K be the total number of cards found within the deck 
+              If there is only one card
+                Seach the deck and return how many copies of that specific card maximum 4.
+              If there is more then one card
+                Search the deck and return how many copies of the specified cards maxmimum (# of unique cards * 4).
+          Let L be the number of copies they want to draw
+              User input
+          Let N be the size of the deck
+            Ask for the deck size Minumum 60 cards
+          Let X be the Chances to draw the cards
+              User input
+              
+          Return  and deliver the Percentage to the user.
+          
