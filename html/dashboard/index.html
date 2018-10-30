@@ -1,10 +1,112 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-us">
 <head>
-    <meta charset="UTF-8">
-    <title>Magic The Gathering Application</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Magic: The Gathering Application" />
+    <title>Magic: The Gathering</title>
+    <link rel="stylesheet" href="../../css/site.min.css" />
+    <link rel="stylesheet" href="../../css/index.css" />
+    <script src="../../js/site.min.js"></script>
 </head>
 <body>
 
+<!-- menu items -->
+<header>
+    <nav class="transparent">
+        <div class="nav-wrapper container">
+            <ul class="right hide-on-med-and-down">
+                <li><a href="#RunHistory">Runs</a></li>
+                <li><a href="https://www.codeproject.com/Articles/Pero-Matic#Article" rel="nofollow">Simulations</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <a href="#" data-activates="mobile-menu" class="button-collapse waves-effect waves-light circle">
+                <i class="material-icons">menu</i>
+            </a>
+            <div id="mobile-menu" class="side-nav">
+                <h5 class="turing"><span>Turing Inc.</span><span class="typed-cursor">|</span></h5>
+                <ul>
+                    <li><a href="#RunHistory">Runs</a></li>
+                    <li><a href="https://www.codeproject.com/Articles/Pero-Matic#Article" rel="nofollow">Simulations</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<section id="home">
+    <noscript>
+        <div class="center-align company noscript">
+            <h1 class="turing"><span>Magic: The Gathering</span><span class="typed-cursor">|</span></h1>
+        </div>
+    </noscript>
+    <div class="center-align company">
+        <div class="panel" style="display: block;">
+            <h1>Input cards:</h1>
+            <h2>A lightweight JavaScript library for creating particles</h2>
+            <ul>
+                <li onclick="ga('send', 'event', 'GitHub', 'click');">
+                    <a href="https://github.com/VincentGarreau/particles.js/" target="_blank">
+                        <span class="label">GitHub</span>
+                        <div class="svg-wrap">
+                            <svg class="icon-github">
+                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-github"></use>
+                            </svg>
+                        </div>
+                    </a>
+                </li>
+                <li onclick="ga('send', 'event', 'Download', 'click');">
+                    <a download="" href="https://github.com/VincentGarreau/particles.js/archive/master.zip">
+                        <span class="label">Download</span>
+                        <div class="svg-wrap">
+                            <svg class="icon-download">
+                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-download"></use>
+                            </svg>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+</section>
+
+<section id="contact" class="scrollspy">
+    <div class="container">
+        <h5>Drop us a line</h5>
+        <div class="row">
+            <form class="col s12" method="post" action="/Home/SendEmail">
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input id="email" name="email" type="email" />
+                        <label for="email">Email</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <textarea id="message" name="message" class="materialize-textarea" maxlength="1000"></textarea>
+                        <label for="message">Your message</label>
+                    </div>
+                </div>
+                <div class="fixedLoader right">
+                    <button id="submitEmail" class="waves-effect waves-light btn" type="submit">
+                        Send
+                        <i class="material-icons right">send</i>
+                    </button>
+                </div>
+                <input name="__RequestVerificationToken" type="hidden" value="CfDJ8MltQtjRVB5Hlqnj1fY2gJUo-l9Oa3USjSKGKIEXCiC8f8qQRiI1ByqeGnJIKUzwlda3OBFfN92CJr3pjLX3ccXSAtIa8yAKX5WCl8j0aFer_OtyuN_Hy6p72uZb-N381ZxFqukSHmPh6hSv5TSFRH0" /></form>
+        </div>
+    </div>
+</section>
+
 </body>
+
+<script src="https://www.gstatic.com/firebasejs/5.5.6/firebase.js"></script>
+<!--<script src="../js/database/firebase_auth.js"></script>-->
+<script src="../../js/database/firebase_auth.js"></script>
+<script>
+    window.onload = verifyUserCredentials();
+</script>
 </html>
