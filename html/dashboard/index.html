@@ -1,10 +1,110 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-us">
 <head>
-    <meta charset="UTF-8">
-    <title>Magic The Gathering Application</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Magic: The Gathering Application" />
+    <title>Magic: The Gathering</title>
+    <link rel="stylesheet" href="../../css/site.min.css" />
+    <link rel="stylesheet" href="../../css/index.css" />
+    <script src="../../js/site.min.js"></script>
 </head>
 <body>
 
+<!-- menu items -->
+<header>
+    <nav class="transparent">
+        <div class="nav-wrapper container">
+            <ul class="right hide-on-med-and-down">
+                <li><a href="#RunHistory">Previous Runs</a></li>
+                <li><a href="https://www.codeproject.com/Articles/Pero-Matic#Article" rel="nofollow">Simulations</a></li>
+                <li><a href="#logout" onclick="logout()">Logout</a></li>
+            </ul>
+            <a href="#" data-activates="mobile-menu" class="button-collapse waves-effect waves-light circle">
+                <i class="material-icons">menu</i>
+            </a>
+            <div id="mobile-menu" class="side-nav">
+                <h5 class="turing"><span>Turing Inc.</span><span class="typed-cursor">|</span></h5>
+                <ul>
+                    <li><a href="#RunHistory">Previous Runs</a></li>
+                    <li><a href="https://www.codeproject.com/Articles/Pero-Matic#Article" rel="nofollow">Simulations</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<section id="home">
+    <noscript>
+        <div class="center-align company noscript">
+            <h1 class="turing"><span>Magic: The Gathering</span><span class="typed-cursor">|</span></h1>
+        </div>
+    </noscript>
+    <div class="company">
+        <div class="panel" id="inputCardBox" style="display: block;">
+            <h1>Input Cards</h1>
+            <ul>
+                <li>
+                    <a target="_blank">
+                        <textarea id="message1" name="message" class="materialize-textarea" maxlength="1000"></textarea>
+                    </a>
+                </li>
+            </ul>
+
+
+            <div class="submitButton">
+                <!--<button class="btn btn-1 btn-1a">Submit</button>-->
+
+                <button class="btn btn-4 btn-4a icon-arrow-right">Submit</button>
+                <!--<input type="button" value="Upload">-->
+            </div>
+        </div>
+        <div class="panel" id="decksCardBox" style="display: block;">
+            <h1>Decks</h1>
+            <ul>
+                <li>
+                    <a target="_blank">
+                        <textarea id="message2" name="message" class="materialize-textarea" maxlength="1000"></textarea>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="panel" id="outputCardBox" style="display: block;">
+            <h1>Decks</h1>
+            <ul>
+                <li>
+                    <a target="_blank">
+                        <textarea id="message3" name="message" class="materialize-textarea" maxlength="1000"></textarea>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section id="contact" class="scrollspy">
+    <div class="container">
+        <h5>How to use the application</h5>
+        <div class="row">
+            <form class="col s12" method="post" action="/Home/SendEmail">
+                <div class="row">
+                    <div class="input-field col s12">
+                        <label>Steps:</label>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
 </body>
+
+<script src="https://www.gstatic.com/firebasejs/5.5.6/firebase.js"></script>
+<!--<script src="../js/database/firebase_auth.js"></script>-->
+<script src="../../js/database/firebase_auth.js"></script>
+<script>
+    window.onload = verifyUserCredentialsForIndex();
+</script>
 </html>

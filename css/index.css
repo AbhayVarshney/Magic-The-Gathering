@@ -1,3 +1,118 @@
-main {
+.panel {
+    font-family: 'Lato', Calibri, Arial, sans-serif;;
+    font-size: 1.3em;
+    position: absolute;
+    z-index: 10;
+    height: 720px;
+    background: #eee;
+    top: 50%;
+    left: 50%;
+    padding: 20px;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
 
+#inputCardBox {
+    margin: -375px 0 0 -45%;
+    width: 22%;
+}
+
+#decksCardBox {
+    margin: -375px 0 0 -20%;
+    width: 22%;
+}
+
+#outputCardBox {
+    margin: -375px 0 0 5%;
+    width: 40%;
+}
+
+.panel li .svg-wrap svg {
+    fill: #222;
+    width: 100%;
+    height: 100%;
+    -webkit-transition: fill 0.2s ease;
+    transition: fill 0.2s ease;
+}
+
+.panel h1 {
+    padding-top: 30px;
+    font-size: 1.2em;
+    font-weight: 700;
+    text-align: center;
+    color: #222;
+    margin-top: -4px;
+    align-content: center;
+}
+
+.svg-wrap {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.submitButton {
+    text-align: center;
+}
+
+/* Button 1 */
+/*.btn-1 {*/
+    /*border: 1px solid #fff;*/
+    /*color: #fff;*/
+    /*background-color: #0e83cd;*/
+/*}*/
+
+/*!* Button 1a *!*/
+/*.btn-1a:hover,*/
+/*.btn-1a:active {*/
+    /*color: #0e83cd;*/
+    /*background: #eee;*/
+    /*border: 1px solid #eee;*/
+/*}*/
+
+
+/* Button 4 */
+.btn-4 {
+    border-radius: 50px;
+    border: 3px solid #fff;
+    color: #fff;
+    overflow: hidden;
+    width: 70%;
+    height: 50px;
+    background-color: #2e86de;
+}
+
+.btn-4:active {
+    border-color: #2e86de;
+    color: #2e86de;
+}
+
+.btn-4:hover {
+    background: #eee;
+    border-color: #2e86de;
+    color: #2e86de;
+}
+
+.btn-4:before {
+    position: absolute;
+    height: 100%;
+    font-size: 125%;
+    line-height: 3.5;
+    color: #fff;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+.btn-4:active:before {
+    color: #2e86de;
+}
+
+/* Button 4a */
+.btn-4a:before {
+    left: 130%;
+    top: 0;
+}
+
+.btn-4a:hover:before {
+    left: 80%;
 }
