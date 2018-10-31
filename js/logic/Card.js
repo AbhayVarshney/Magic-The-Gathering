@@ -49,6 +49,14 @@ Class Card
     }
     Constructor Card(string name)
   {
+    /* 
+    It's unclear how I reference our database and use that to populate this card.
+    var cardRef = firebase.database().ref("magic-thegathering");
+     cardRef.orderByChild("name").startAt(name).on("value", function(snapshot)
+     {
+        
+     });
+     */
       if() // the name exists in our data base
       {
           this.Name = name;
