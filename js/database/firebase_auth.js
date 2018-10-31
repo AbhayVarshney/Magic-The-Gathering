@@ -21,10 +21,47 @@ googleSignIn = () => {
     })
 };
 
-verifyUserCredentials = () => {
-    //Handle Account Status
+//Handle Account Status - returns whether user is a user or not
+verifyUserCredentialsForIndex = () => {
     firebase.auth().onAuthStateChanged(user => {
-        if (!user) window.location = '../../html/landing.html'; //If not currently signed user, user will be redirected to login screen
-    })
+        if (!user)  //If not currently signed user, user will be redirected to login screen
+            window.location = '../../html/landing.html';
+        else console.log(user);
+    });
 };
 
+verifyUserCredentialsForLanding = () => {
+    firebase.auth().onAuthStateChanged(user => {
+        if (user) //If not currently signed user, user will be redirected to login screen
+            window.location = '../html/dashboard/index.html';
+        else console.log(user);
+    });
+};
+
+// // if user is already logged in, go to the index page
+// isSignedIn = () => {
+//     console.log("checking if user is logged in");
+//     if(verifyUserCredentials()) {
+//         // window.location = '../html/dashboard/index.html'
+//     }
+// };
+
+// Logout the user from Firebase
+logout = () => {
+    firebase.auth().signOut().then(() => {
+        // Sign-out successful.
+        return firebase.auth().onAuthStateChanged(user => {
+            if (user) {
+                // User is still signed in.
+                console.log(user);
+                console.log("user is still logged in")
+            } else {
+                // No user is signed in. go to landing page
+                window.location = '../landing.html'
+            }
+        });
+    }, function(error) {
+        // An error happened.
+        console.log(error)
+    });
+};
