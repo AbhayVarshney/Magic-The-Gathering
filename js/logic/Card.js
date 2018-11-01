@@ -1,25 +1,4 @@
-/* @Objective Create the Card class with the following attributes
-   "A": "name",
-   "B": "mana_cost",
-   "C": "cmc",
-   "D": "type_line",
-   "E": "oracle_text",
-   "F": "power",
-   "G": "toughness",
-   "H": "colors",
-   "I": "color_identity",
-   "J": "legality_standard",
-   "L": "legality_frontier",
-   "M": "legality_modern",
-   "N": "legality_legacy",
-   "O": "legality_pauper",
-   "P": "legality_vintage",
-   "Q": "legality_penny",
-   "R": "legality_commander",
-   "S": "legality_1v1",
-   "T": "legality_duel",
-   "U": "legality_brawl",
-   "V": "set"
+/* 
 */
 Class Card
 {
@@ -140,5 +119,80 @@ Class Card
   {
     return this.Set;
   }
+    
+}
+   /*
+      @Objective Create a Deck class that has the following variables and member functions
+      Dobule AverageCMC
+      void Shuffle() Shuffles the deck
+      void CalcCmc() Finds the average CMC of the deck.
+      void Calclands()
+      void CalcNonLands()
+      void Verify() Makes sure that every card in the list is a valid card that we can recognize
+      void OddsOfCard Utilizes Hypergeometric distrubtuion to find the likely hood of drawing specific cards.
+   */
+
+class Deck
+{
+    Card DeckList[];
+    Dobule AverageCMC;
+    Int NumberOfLands;
+    Int NumberOfNonLands;
+    string Format;
+    
+    constructor Deck(Card list[], double ACMC, int NumLands, int NumNonLands,format)
+    {
+        for( int i = list.size(); i >= 0; i--)
+        {
+            this.DeckList[i] = list[i];
+        }
+        this.AverageCMC = ACMC;
+        this.NumberOfLands = NumLands;
+        this.NumberOfNonLands = NumNonLands;
+       this.Format = format;
+    }
+    void setACMC(double cmc)
+      {
+      this.AverageCMC = cmc;
+      }
+    void setLandCount(int land)
+      {
+            this.NumberofLands = land;
+      }
+    void setNonLandCount(int nonLand)
+   {
+         this.NumberOfNonLands = nonLand;
+   }
+    void CalcCMC()
+    {
+        double DeckCmc;
+        for( int i = Decklist.size(); i >=0; i--)
+        {
+           DeckCmc += Decklist[i].getCmc();
+        }
+        DeckCmc /= Decklist.size();
+        Deck.setACMC(DeckCmc);
+    }
+   void CalcLands()
+   {
+      int landCount,nonLandCount;
+       for (int i = DeckList[].size; i >= 0 ; i--)
+       {
+          if(Decklist[i].Typeline.includes('land'))
+          {
+             landCount++;
+          }
+          else
+          {
+             nonLandCount;
+          }
+       }
+      this.setLandCount(landCount);
+      this.setNonLandCount(nonLandCount);
+   }
+   void shuffle()
+   {
+      
+   }
     
 }
