@@ -190,6 +190,15 @@ class Deck
       this.setLandCount(landCount);
       this.setNonLandCount(nonLandCount);
    }
+   boolean verify()
+    {
+        for(int i = DeckList.size(); i >= 0; i--)
+        {
+            // Look up DeckList[i] in the database by name
+            // if true move to the next card
+            // otherwise return false
+        }
+    }
    void shuffle()
    {
       
