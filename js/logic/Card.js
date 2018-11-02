@@ -203,5 +203,43 @@ class Deck
    {
       
    }
+   double OddsOfCard(string cards[],int sucesses, int cardsDrawn)
+    {
+        double odds;
+        int deckSize = DeckList.size();
+        int totalCards; // number of possible cards to hit
+        if (cards.size() == 1)
+        {
+            /*
+                N choose K = ((N!)/(K!(N-K!))
+                Given K = number of sucesses possilbe in the pool
+                L = Number of sucesses wanted from the pool
+                N = size of the pool
+                X = number of chances to draw
+                (K Choose L)*(N-K Choose L-K)/ (N choose X)
+            */
+            int kFact,lFact,nFact,xFact;
+            for (int i = (totalCards-1); i >= 0; i--)
+                kFact *= i;
+            for( i = sucesses - 1 ; i >= 0 ; i--)
+                 lFact *= i;
+            for( i = deckSize - 1; i >= 0; i--)
+                nFact *= i;
+            for( i = cardsDrawn - 1; i >=0 ; i--)
+                xFact *= i;
+            int nMinuskFact = nFact-kFact;
+            int lMinuskFact = lFact-kFact;
+            double top = (kFact/(lFact(kFact-lFact)) * (nMinuskFact / (lMinuskFact)(nMinuskFact - lMinuskFact);
+            double bot = (nFact /(xFact - nFact));
+            double odds = top/bot;
+            return odds;
+        }
+        else        // need to add up the probabilites for multiple cards
+        {
+            
+        }
+        
+        return 1.0;
+    }
     
 }
