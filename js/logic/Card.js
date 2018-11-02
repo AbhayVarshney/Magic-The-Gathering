@@ -22,7 +22,7 @@ Class Card
       this.Power= power;
       this.Toughness = toughness;
       this.Colors= color;
-      this.ColorIdenidty = colorI;
+      this.ColorIdentity = colorI;
       this.Legality = Legal;
       this.Set=set;
     }
@@ -31,7 +31,7 @@ Class Card
     /* 
     It's unclear how I reference our database and use that to populate this card.
     var cardRef = firebase.database().ref("magic-thegathering");
-     cardRef.orderByChild("name").startAt(name).on("value", function(snapshot)
+     cardRef.orderByChild("name").startAt(name).on("value", function(snapshot) TODO
      {
         
      });
@@ -46,7 +46,7 @@ Class Card
           this.Power= 0 ;
           this.Toughness = 0 ;
           this.Colors= {" "};
-          this.ColorIdenidty ={ " "} ;
+          this.ColorIdentity ={ " "} ;
           this.Legality = " ";
           this.Set= " " ;
       }
@@ -89,9 +89,9 @@ Class Card
   {
       return this.Colors;
   }
-  string getColorIdendity()
+  string getColorIdentity()
   {
-      return this.ColorIdendity;    
+      return this.ColorIdentity;
   }
   string getLegality()
   {
@@ -207,7 +207,7 @@ class Deck
    {
       
    }
-   double OddsOfCard(string cards[],int sucesses, int cardsDrawn)
+   double OddsOfCard(string cards[],int successes, int cardsDrawn)
     {
         double odds;
         int deckSize = DeckList.size();
@@ -225,7 +225,7 @@ class Deck
             int kFact,lFact,nFact,xFact;
             for (int i = (totalCards-1); i >= 0; i--)
                 kFact *= i;
-            for( i = sucesses - 1 ; i >= 0 ; i--)
+            for( i = successes - 1 ; i >= 0 ; i--)
                  lFact *= i;
             for( i = deckSize - 1; i >= 0; i--)
                 nFact *= i;
@@ -247,7 +247,4 @@ class Deck
     }
     
 }
-int main()
-{
-     new Card test()
-}
+
