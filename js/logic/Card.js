@@ -62,7 +62,6 @@ Class Card
   }
   string getTypeLine()
   {
-     return this.TypeLine;
   }
   string getOracle()
   {
