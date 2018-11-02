@@ -65,7 +65,7 @@ Class Card
   }
   string getTypeLine()
   {
-     return this.TypeLine;
+     return this.Typeline;
   }
   string getOracle()
   {
@@ -73,14 +73,14 @@ Class Card
   }
   int getPower()
   {
-     if(this.typeline.contains('Creature'))
+     if(this.TypeLine.contains('Creature'))
         return this.Power;
       
       //Display error not a creature TODO.
   }
   int getToughness()
   {
-      if (this.typeline.includes('Creature'))
+      if (this.Typeline.includes('Creature'))
         return this.Toughness;
       
       //Display error not a creature.
@@ -119,6 +119,10 @@ Class Card
   {
     return this.Set;
   }
+  void printCard()
+  {
+        System.out.println(this.getName);
+  }
     
 }
    /*
@@ -135,7 +139,7 @@ Class Card
 class Deck
 {
     Card DeckList[];
-    Dobule AverageCMC;
+    Double AverageCMC;
     Int NumberOfLands;
     Int NumberOfNonLands;
     string Format;
@@ -157,7 +161,7 @@ class Deck
       }
     void setLandCount(int land)
       {
-            this.NumberofLands = land;
+            this.NumberOfLands = land;
       }
     void setNonLandCount(int nonLand)
    {
@@ -178,13 +182,13 @@ class Deck
       int landCount,nonLandCount;
        for (int i = DeckList[].size; i >= 0 ; i--)
        {
-          if(Decklist[i].Typeline.includes('land'))
+          if(DeckList[i].getTypeLine.includes('land'))
           {
              landCount++;
           }
           else
           {
-             nonLandCount;
+             nonLandCount++;
           }
        }
       this.setLandCount(landCount);
@@ -242,4 +246,8 @@ class Deck
         return 1.0;
     }
     
+}
+int main()
+{
+     new Card test()
 }
