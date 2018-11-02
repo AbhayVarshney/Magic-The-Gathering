@@ -22,6 +22,7 @@ Class Card
       this.Power= power;
       this.Toughness = toughness;
       this.Colors= color;
+      this.ColorIdentity = colorI;
       this.Legality = Legal;
       this.Set=set;
     }
@@ -30,6 +31,7 @@ Class Card
     /* 
     It's unclear how I reference our database and use that to populate this card.
     var cardRef = firebase.database().ref("magic-thegathering");
+     cardRef.orderByChild("name").startAt(name).on("value", function(snapshot) TODO
      {
         
      });
@@ -44,6 +46,7 @@ Class Card
           this.Power= 0 ;
           this.Toughness = 0 ;
           this.Colors= {" "};
+          this.ColorIdentity ={ " "} ;
           this.Legality = " ";
           this.Set= " " ;
       }
@@ -62,6 +65,7 @@ Class Card
   }
   string getTypeLine()
   {
+     return this.Typeline;
   }
   string getOracle()
   {
@@ -69,12 +73,14 @@ Class Card
   }
   int getPower()
   {
+     if(this.TypeLine.contains('Creature'))
         return this.Power;
       
       //Display error not a creature TODO.
   }
   int getToughness()
   {
+      if (this.Typeline.includes('Creature'))
         return this.Toughness;
       
       //Display error not a creature.
@@ -83,7 +89,9 @@ Class Card
   {
       return this.Colors;
   }
+  string getColorIdentity()
   {
+      return this.ColorIdentity;
   }
   string getLegality()
   {
@@ -111,6 +119,10 @@ Class Card
   {
     return this.Set;
   }
+  void printCard()
+  {
+        System.out.println(this.getName);
+  }
     
 }
    /*
@@ -127,6 +139,7 @@ Class Card
 class Deck
 {
     Card DeckList[];
+    Double AverageCMC;
     Int NumberOfLands;
     Int NumberOfNonLands;
     string Format;
@@ -148,6 +161,7 @@ class Deck
       }
     void setLandCount(int land)
       {
+            this.NumberOfLands = land;
       }
     void setNonLandCount(int nonLand)
    {
@@ -168,11 +182,13 @@ class Deck
       int landCount,nonLandCount;
        for (int i = DeckList[].size; i >= 0 ; i--)
        {
+          if(DeckList[i].getTypeLine.includes('land'))
           {
              landCount++;
           }
           else
           {
+             nonLandCount++;
           }
        }
       this.setLandCount(landCount);
@@ -191,6 +207,7 @@ class Deck
    {
       
    }
+   double OddsOfCard(string cards[],int successes, int cardsDrawn)
     {
         double odds;
         int deckSize = DeckList.size();
@@ -208,6 +225,7 @@ class Deck
             int kFact,lFact,nFact,xFact;
             for (int i = (totalCards-1); i >= 0; i--)
                 kFact *= i;
+            for( i = successes - 1 ; i >= 0 ; i--)
                  lFact *= i;
             for( i = deckSize - 1; i >= 0; i--)
                 nFact *= i;
