@@ -247,13 +247,10 @@ class Deck
     }
     
 }
-<<<<<<< HEAD
+
 int main()
 {
 // Constructor Card(name,manaCost,cmc,type,Oracle,power,toughness,color,colorI,Legal,set)
      new Card test("Birds of Paradise", "G" ,1, "Creature-Bird", "Flying , T:add one mana of any color", "Green", "Green" , " Legacy Commander Modern ","Alpha");
 
 }
-=======
-
->>>>>>> e0b1016b27b7fca5692066129fcc6bcc6b483971
