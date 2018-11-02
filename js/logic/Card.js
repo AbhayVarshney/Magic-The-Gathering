@@ -22,7 +22,6 @@ Class Card
       this.Power= power;
       this.Toughness = toughness;
       this.Colors= color;
-      this.ColorIdenidty = colorI;
       this.Legality = Legal;
       this.Set=set;
     }
@@ -31,7 +30,6 @@ Class Card
     /* 
     It's unclear how I reference our database and use that to populate this card.
     var cardRef = firebase.database().ref("magic-thegathering");
-     cardRef.orderByChild("name").startAt(name).on("value", function(snapshot)
      {
         
      });
@@ -46,7 +44,6 @@ Class Card
           this.Power= 0 ;
           this.Toughness = 0 ;
           this.Colors= {" "};
-          this.ColorIdenidty ={ " "} ;
           this.Legality = " ";
           this.Set= " " ;
       }
