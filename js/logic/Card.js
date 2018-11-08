@@ -1,23 +1,13 @@
 /* 
 */
+
 class Card
 {
-    string Name;
-    string ManaCost;
-    int Cmc;
-    string Typeline;
-    string OracleText;
-    int Power;
-    int Toughness;
-    string Colors;
-    string ColorIdenidty;
-    string Legality;
-    string Set;
-    Constructor Card(name,manaCost,cmc,type,Oracle,power,toughness,color,colorI,Legal,set)
-    function createCard (name, manaCost,cmc,type,Oracle,power,toughness,color,colorI,Legal,set)
+    Constructor (name, manaCost,cmc,type,Oracle,power,toughness,color,colorI,Legal,set,quantity)
     {
       this.Name = name;
       this.ManaCost = manaCost;
+      this.CMC = cmc;
       this.Typeline = type;
       this.OracleText = Oracle;
       this.Power= power;
@@ -26,31 +16,49 @@ class Card
       this.ColorIdentity = colorI;
       this.Legality = Legal;
       this.Set=set;
-    }
-    Constructor Card(string name)
+      this.Quantity = quantity;
 
+      return this;
+    }
+/*
     Constructor (name)
   {
-    /* 
+    /*
     It's unclear how I reference our database and use that to populate this card.
     var cardRef = firebase.database().ref("magic-thegathering");
      cardRef.orderByChild("name").startAt(name).on("value", function(snapshot) TODO
      {
-        
+
+        <script src="https://www.gstatic.com/firebasejs/5.5.7/firebase.js"></script>
+        <script>
+         // Initialize Firebase
+          // TODO: Replace with your project's customized code snippet
+        var config = {
+            apiKey: "<API_KEY>",
+         authDomain: "<PROJECT_ID>.firebaseapp.com",
+         databaseURL: "https://<DATABASE_NAME>.firebaseio.com",
+         projectId: "<PROJECT_ID>",
+         storageBucket: "<BUCKET>.appspot.com",
+         messagingSenderId: "<SENDER_ID>",
+        };
+        firebase.initializeApp(config);
+        </script>
+
+
+
      });
-     */
-      if() // the name exists in our data base
+
+      if( name === this.getName()) // the name exists in our data base
       {
           this.Name = name;
-          this.ManaCost = " "// get mana cost ;
-          this.SuperTypes = {" "} ;
-          this.Subtypes = {" "} ;
+          this.ManaCost = " ";// get mana cost ;
           this.Typeline = " ";
           this.OracleText = " " ;
+          this.CMC = 0;
           this.Power= 0 ;
           this.Toughness = 0 ;
-          this.Colors= {" "};
-          this.ColorIdentity ={ " "} ;
+          this.Colors= " ";
+          this.ColorIdentity =" " ;
           this.Legality = " ";
           this.Set= " " ;
       }
@@ -59,121 +67,96 @@ class Card
          //Display error card not found.
       }
   }
-  string getName()
-
+  */
   getName()
   {
     return this.Name;
   }
-  int getManaCost()
   getManaCost()
   {
       return this.ManaCost;
   }
-  string getTypeLine()
   getTypeLine()
   {
      return this.Typeline;
   }
-  string getOracle()
   getOracle()
   {
-      return this.Oracle;
+      return this.OracleText;
   }
-  int getPower()
   getPower()
   {
-     if(this.TypeLine.contains('Creature'))
      if(this.Typeline.contains('Creature'))
         return this.Power;
-      
+
       //Display error not a creature TODO.
   }
-  int getToughness()
   getToughness()
   {
       if (this.Typeline.includes('Creature'))
         return this.Toughness;
-      
+
       //Display error not a creature.
   }
-  string getColors()
   getColors()
   {
       return this.Colors;
   }
-  string getColorIdentity()
+  getCMC()
+  {
+      return this.CMC;
+  }
   getColorIdentity()
   {
       return this.ColorIdentity;
   }
-  string getLegality()
   getLegality()
   {
     // return this.Legality;
-    string formats = " ";
-            for ( int i =0; i < this.Legality.length ; i++)
-    var formats = " ";
-            for (let i =0; i < this.Legality.length() ; i++)
+    let formats = " ";
+            for (let i =0; i < this.Legality.length ; i++)
             {
-                  if(this.Legality[i] = "legal")
                   if(this.Legality[i] === "legal")
                   {
-                      formats.append(this.Legality[i] + ", ");        
+                      formats.append(this.Legality[i] + ", ");
                   }
-                 
+
             }
   }
-  boolean isLegal(string format)// Takes a given format and sees if the card is legal in that format.
   isLegal(format)// Takes a given format and sees if the card is legal in that format.
   {
-    for (int i =0; i< this.Legality.length; i++)
-    for (var i = 0; i< this.Legality.length; i++)
+    for (let i = 0; i< this.Legality.length; i++)
     {
-      if(this.Legality[i] = "legal" && this.Legality[i] == format)
-      if(this.Legality[i] = "legal" && this.Legality[i] === format)
+      if(this.Legality[i] === "legal" && this.Legality[i] === format)
         return true;
     }
     return false;
   }
-  string getSet()
+  getSet()
   {
     return this.Set;
   }
-  void printCard()
-  printCard()
-  {
-        System.out.println(this.getName);
-  }
-    
+
 }
    /*
       @Objective Create a Deck class that has the following variables and member functions
-      Dobule AverageCMC
+      Double AverageCMC
       void Shuffle() Shuffles the deck
       void CalcCmc() Finds the average CMC of the deck.
       void Calclands()
       void CalcNonLands()
       void Verify() Makes sure that every card in the list is a valid card that we can recognize
-      void OddsOfCard Utilizes Hypergeometric distrubtuion to find the likely hood of drawing specific cards.
+      void OddsOfCard Utilizes Hypergeometric distribution to find the likely hood of drawing specific cards.
    */
-
 class Deck
 {
-    Card DeckList[];
-    Double AverageCMC;
-    Int NumberOfLands;
-    Int NumberOfNonLands;
-    string Format;
-    
-    constructor Deck(Card list[], double ACMC, int NumLands, int NumNonLands,format)
+
     constructor (name, deckList, ACMC, NumLands, NumNonLands,format)
     {
-        for( int i = list.size(); i >= 0; i--)
-        for( let i = deckList.size(); i >= 0; i--)
-        {
-            this.DeckList[i] = list[i];
+        this.Size = 0;
+        for( let i = deckList.length(); i >= 0; i--) {
             this.DeckList[i] = deckList[i];
+            this.Size += deckList[i].Quantity;                  // adds how many copies of the card into the deck size.
         }
         this.Name = name;
         this.AverageCMC = ACMC;
@@ -181,63 +164,49 @@ class Deck
         this.NumberOfNonLands = NumNonLands;
        this.Format = format;
     }
-    void setACMC(double cmc)
-      {
-     setACMC(cmc){
+     setACMC(cmc)
+     {
       this.AverageCMC = cmc;
-      }
-    void setLandCount(int land)
-      {
-     setLandCount(land){
-            this.NumberOfLands = land;
-      }
-    void setNonLandCount(int nonLand)
-   {
+     }
+
+     setLandCount(land)
+     {
+         this.NumberOfLands = land;
+     }
       setNonLandCount(nonLand)
       {
          this.NumberOfNonLands = nonLand;
-   }
-    void CalcCMC()
-    {
-        double DeckCmc;
       }
-
-
-
-     CalcCMC()
+     CalcCMC()                                                      // Calculates the average Cmc in the decklist by adding each cards converted mana cost into a sum and then divides them by the total number of cards in the deck.
+     {
+        let DeckCmc = 0;
+        for( let i = this.Size; i > 0; i--)
         {
-        var DeckCmc;
-        for( int i = Decklist.size(); i >=0; i--)
-        {
-           DeckCmc += Decklist[i].getCmc();
+           DeckCmc += this.DeckList[i].getCMC();
         }
-        DeckCmc /= Decklist.size();
-        Deck.setACMC(DeckCmc);
-    }
-   void CalcLands()
+        DeckCmc /= this.Size;
+        this.setACMC(DeckCmc);
+     }
    CalcLands()
    {
-      int landCount,nonLandCount;
-       for (int i = DeckList[].size; i >= 0 ; i--)
-      var landCount,nonLandCount;
-       for (let i = DeckList[].length(); i >= 0 ; i--)
+      let landCount = 0;
+      let nonLandCount = 0;
+       for (let i = this.Size; i >= 0 ; i--)
        {
-          if(DeckList[i].getTypeLine.includes('land'))
+          if(this.DeckList[i].getTypeLine.includes('land'))
           {
-             landCount++;
+             landCount += this.DeckList[i].Quantity;
           }
           else
           {
-             nonLandCount++;
+             nonLandCount += this.DeckList[i].Quantity;
           }
        }
       this.setLandCount(landCount);
       this.setNonLandCount(nonLandCount);
    }
-   boolean verify()
    verify()
     {
-        for(int i = DeckList.size(); i >= 0; i--)
         for(let i = DeckList.size(); i >= 0; i--)
         {
             // Look up DeckList[i] in the database by name
@@ -245,21 +214,28 @@ class Deck
             // otherwise return false
         }
     }
-   void shuffle()
    shuffle()
    {
-      
+       let NewDeckList = this.DeckList;
+       let deckCount = this.Size;
+       for ( c in this.DeckList)
+       {
+           do {
+               let i = Math.random();
+               if (i <= this.Size && deckCount !== 0 && NewDeckList[i].isEmpty()) {                         // checks if the slot is empty or not and only changes it when it its empty.
+                   NewDeckList[i] = c;
+                   deckCount--;
+               }
+           }
+           while(deckCount !== 0)               // continue this process as long as the deck is not filled
+       }
    }
-   double OddsOfCard(string cards[],int successes, int cardsDrawn)
+
    OddsOfCard(cards,successes,cardsDrawn)
     {
-        double odds;
-        int deckSize = DeckList.size();
-        int totalCards; // number of possible cards to hit
-        if (cards.size() == 1)
-        var double odds;
-        var deckSize = DeckList.size();
-        var totalCards; // number of possible cards to hit
+        let odds;
+        let deckSize = this.DeckList.size();
+        let totalCards = 0; // number of possible cards to hit
         if (cards.length() === 1)
         {
             /*
@@ -270,44 +246,47 @@ class Deck
                 X = number of chances to draw
                 (K Choose L)*(N-K Choose L-K)/ (N choose X)
             */
-            int kFact,lFact,nFact,xFact;
-            for (int i = (totalCards-1); i >= 0; i--)
-            var kFact,lFact,nFact,xFact;
-            for (let i = (totalCards-1); i >= 0; i--)
+            for (let i = deckSize; i >= 0; i--)
+            {
+                if (this.DeckList[i].name === cards[1])
+                {
+                    totalCards++;
+                }
+            }
+            let kFact = 1;
+            let lFact = 1;
+            let nFact = 1;
+            let xFact = 1;
+            for (let i = (totalCards-1); i > 1; i--)
                 kFact *= i;
-            for( i = successes - 1 ; i >= 0 ; i--)
-            for( let i = successes - 1 ; i >= 0 ; i--)
-                 lFact *= i;
-            for( i = deckSize - 1; i >= 0; i--)
-            for( let i = deckSize - 1; i >= 0; i--)
+            for( let i = successes - 1 ; i > 1 ; i--)
+                lFact *= i;
+            for( let i = deckSize - 1; i > 1; i--)
                 nFact *= i;
-            for( i = cardsDrawn - 1; i >=0 ; i--)
-            for( let i = cardsDrawn - 1; i >=0 ; i--)
+            for( let i = cardsDrawn - 1; i > 1; i--)
                 xFact *= i;
-            int nMinuskFact = nFact-kFact;
-            int lMinuskFact = lFact-kFact;
-            double top = (kFact/(lFact(kFact-lFact)) * (nMinuskFact / (lMinuskFact)(nMinuskFact - lMinuskFact);
-            double bot = (nFact /(xFact - nFact));
-            double odds = top/bot;
-            var nMinuskFact = nFact-kFact;
-            var lMinuskFact = lFact-kFact;
-            var top = (kFact/(lFact(kFact-lFact)) * (nMinuskFact / (lMinuskFact)(nMinuskFact - lMinuskFact);
-            var bot = (nFact /(xFact - nFact));
-            var odds = top/bot;
+            let nMinuskFact = nFact-kFact;
+            let lMinuskFact = lFact-kFact;
+            let top = (kFact/(lFact(kFact-lFact)) * (nMinuskFact / (lMinuskFact)(nMinuskFact - lMinuskFact)));
+            let bot = (nFact /(xFact - nFact));
+            odds = top/bot;
             return odds;
         }
         else        // need to add up the probabilites for multiple cards
         {
-            
+
         }
-        
+
         return 1.0;
     }
     
 }
-main()
-{
 // Constructor Card(name,manaCost,cmc,type,Oracle,power,toughness,color,colorI,Legal,set)
-     new Card test("Birds of Paradise", "G" ,1, "Creature-Bird", "Flying , T:add one mana of any color", "Green", "Green" , " Legacy Commander Modern ","Alpha");
 
-}
+Bird = createCard("Birds of Paradise", "G" ,1, "Creature-Bird", "Flying , T:add one mana of any color", "Green", "Green" , " Legacy Commander Modern ","Alpha");
+console.log(Bird.name);
+console.log(Bird.ManaCost);
+console.log(Bird.CMC);
+console.log(Bird.getCMC());
+console.log(Bird.Typeline);
+console.log(Bird.getTypeLine());
