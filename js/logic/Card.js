@@ -3,7 +3,7 @@
 
 class Card
 {
-    Constructor (name, manaCost,cmc,type,Oracle,power,toughness,color,colorI,Legal,set,quantity)
+    Constructor (name, manaCost,cmc,type,Oracle,power,toughness,color,colorI,Legal,set,quantity,cost)
     {
       this.Name = name;
       this.ManaCost = manaCost;
@@ -17,6 +17,7 @@ class Card
       this.Legality = Legal;
       this.Set=set;
       this.Quantity = quantity;
+      this.Cost = cost;
 
       return this;
     }
@@ -43,30 +44,7 @@ class Card
         };
         firebase.initializeApp(config);
         </script>
-
-
-
      });
-
-      if( name === this.getName()) // the name exists in our data base
-      {
-          this.Name = name;
-          this.ManaCost = " ";// get mana cost ;
-          this.Typeline = " ";
-          this.OracleText = " " ;
-          this.CMC = 0;
-          this.Power= 0 ;
-          this.Toughness = 0 ;
-          this.Colors= " ";
-          this.ColorIdentity =" " ;
-          this.Legality = " ";
-          this.Set= " " ;
-      }
-      else
-      {
-         //Display error card not found.
-      }
-  }
   */
   getName()
   {
@@ -136,6 +114,9 @@ class Card
   {
     return this.Set;
   }
+  getQuantity() {
+    return this.Quantity;
+  }
 
 }
    /*
@@ -150,19 +131,38 @@ class Card
    */
 class Deck
 {
+    DeckList;
 
-    constructor (name, deckList, ACMC, NumLands, NumNonLands,format)
+    constructor (name, deckList ,format)
     {
         this.Size = 0;
-        for( let i = deckList.length(); i >= 0; i--) {
+        let landCount = 0;
+        let nonLandCount = 0;
+        let DeckCmc = 0 ;
+        for( let i = deckList.length(); i >= 0; i--)
+        {
             this.DeckList[i] = deckList[i];
-            this.Size += deckList[i].Quantity;                  // adds how many copies of the card into the deck size.
+            this.Size += deckList[i].Quantity;                                                                          // adds how many copies of the card into the deck size.
+            this.Cost += (deckList[i].Cost * deckList[i].Quantity);
+            DeckCmc += this.DeckList[i].getCMC() * this.DeckList[i].getQuantity() ;                                     // Calculates the average Cmc in the decklist by adding each cards converted mana cost into a sum and then divides them by the total number of cards in the deck.
+            if(this.DeckList[i].getTypeLine.includes('land'))
+            {
+                landCount += this.DeckList[i].Quantity;
+            }
+            else {
+                nonLandCount += this.DeckList[i].Quantity;
+            }
         }
+        this.setLandCount(landCount);
+        this.setNonLandCount(nonLandCount);
         this.Name = name;
-        this.AverageCMC = ACMC;
-        this.NumberOfLands = NumLands;
-        this.NumberOfNonLands = NumNonLands;
-       this.Format = format;
+        this.AverageCMC = DeckCmc/this.Size;
+        this.Format = format;
+
+    }
+    getSize()
+    {
+        return this.Size;
     }
      setACMC(cmc)
      {
@@ -177,58 +177,37 @@ class Deck
       {
          this.NumberOfNonLands = nonLand;
       }
-     CalcCMC()                                                      // Calculates the average Cmc in the decklist by adding each cards converted mana cost into a sum and then divides them by the total number of cards in the deck.
-     {
-        let DeckCmc = 0;
-        for( let i = this.Size; i > 0; i--)
-        {
-           DeckCmc += this.DeckList[i].getCMC();
-        }
-        DeckCmc /= this.Size;
-        this.setACMC(DeckCmc);
-     }
-   CalcLands()
-   {
-      let landCount = 0;
-      let nonLandCount = 0;
-       for (let i = this.Size; i >= 0 ; i--)
-       {
-          if(this.DeckList[i].getTypeLine.includes('land'))
-          {
-             landCount += this.DeckList[i].Quantity;
-          }
-          else
-          {
-             nonLandCount += this.DeckList[i].Quantity;
-          }
-       }
-      this.setLandCount(landCount);
-      this.setNonLandCount(nonLandCount);
-   }
-   verify()
+    OpeningHand(mulliganCount)
     {
-        for(let i = DeckList.size(); i >= 0; i--)
-        {
-            // Look up DeckList[i] in the database by name
-            // if true move to the next card
-            // otherwise return false
+        Hand;
+        let HANDSIZE = 7;
+
+        do{
+            if(mulliganCount ===0) {
+                this.shuffle();
+                for (let i = 0; i <= HANDSIZE; i++) {
+                    Hand[i] = this.DeckList[i];
+                }
+                return this.Hand;           // returns an array of cards that represents the players hand
+            }
+            else {
+                HANDSIZE--;
+            }
         }
+        while( HANDSIZE > 0)
     }
    shuffle()
    {
        let NewDeckList = this.DeckList;
        let deckCount = this.Size;
-       for ( c in this.DeckList)
-       {
-           do {
+       do {
                let i = Math.random();
                if (i <= this.Size && deckCount !== 0 && NewDeckList[i].isEmpty()) {                         // checks if the slot is empty or not and only changes it when it its empty.
                    NewDeckList[i] = c;
                    deckCount--;
                }
-           }
-           while(deckCount !== 0)               // continue this process as long as the deck is not filled
        }
+           while(deckCount !== 0)               // continue this process as long as the deck is not filled
    }
 
    OddsOfCard(cards,successes,cardsDrawn)
@@ -283,7 +262,7 @@ class Deck
 }
 // Constructor Card(name,manaCost,cmc,type,Oracle,power,toughness,color,colorI,Legal,set)
 
-Bird = createCard("Birds of Paradise", "G" ,1, "Creature-Bird", "Flying , T:add one mana of any color", "Green", "Green" , " Legacy Commander Modern ","Alpha");
+Bird = Card("Birds of Paradise", "G" ,1, "Creature-Bird", "Flying , T:add one mana of any color", "Green", "Green" , " Legacy Commander Modern ","Alpha");
 console.log(Bird.name);
 console.log(Bird.ManaCost);
 console.log(Bird.CMC);
