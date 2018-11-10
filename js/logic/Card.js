@@ -174,3 +174,56 @@ class Deck {
 
 }
 
+
+// Constructor Card (name, manaCost,cmc,type,Oracle,power,toughness,color,colorI,Legal,set,quantity,cost)
+var Birdobj = {
+    name: "Birds of Paradise",
+    manaCost: "G",
+    cmc: 1,
+    typeLine: "Creature-Bird",
+    OracleText: "Flying, T:add one mana of any color",
+    Power: 0,
+    Toughness: 1,
+    color: "Green",
+    colorI: "Green",
+    Legality: "Legacy Commander Modern",
+    set: "Alpha",
+    Quantity: 4,
+    Cost: 7
+};
+var Boltobj = {
+    name: "Lightning Bolt",
+    manaCost: "R",
+    cmc: 2,
+    typeLine: "Instant",
+    OracleText: "Lightning Bolt deals 3 damage to any target",
+    color: "Red",
+    colorI: "Red",
+    Legality: "Legacy Commander Modern",
+    set: "Alpha",
+    Quantity: 4,
+    Cost: 3
+}
+//let Bird = new Card("Birds of Paradise", "G", 1, "Creature-Bird", "Flying , T:add one mana of any color", 0, 1, "Green", "Green", " Legacy Commander Modern ", "Alpha", 4, 7);
+let Bird = new Card(Birdobj);
+let Bolt = new Card(Boltobj);
+let decklist = [Bird, Bolt];
+let boltTheBird = new Deck("Fried chicken", decklist, "Modern");
+console.log(Bird.Name);
+console.log(Bird.ManaCost);
+console.log(Bird.Legality);
+console.log(Bird.CMC);
+console.log(Bird.typeLine);
+console.log(Bird.Cost);
+console.log(Bird.Quantity);
+console.log(Bird.Power);
+console.log(Bird.Toughness);
+console.log(Bolt.Name);
+console.log(Bolt.getPower());
+console.log(Bolt.getToughness());
+console.log(boltTheBird.Name);
+console.log(boltTheBird.Size);
+console.log(boltTheBird.averageCMC);
+console.log(boltTheBird.DeckCost);
+console.log(boltTheBird.nonLandCount);
+console.log(boltTheBird.OddsOfCard([Bird], 1, 1));
