@@ -7,10 +7,10 @@
     <title>Magic: The Gathering</title>
     <link rel="stylesheet" href="../../css/site.min.css" />
     <link rel="stylesheet" href="../../css/index.css" />
-    <link rel="stylesheet" href="../../css/index.css" />
     <!--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">-->
     <script src="../../js/site.min.js"></script>
     <script src="../../js/index.js"></script>
+    <link rel='stylesheet' href='http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css'>
 </head>
 <body>
 
@@ -49,16 +49,14 @@
             <h1>Input Cards</h1>
             <div style="height: 3px; background-color: black"></div>
             <div style="float:left; width: 100%; height: 10%">
-                <div style="position: relative; float:left; padding-left: 15px; padding-right: 25px; padding-top: 30px; color: #1ECD97"><strong>Deck:</strong> </div>
+                <div style="position: relative; float:left; padding-left: 15px; padding-right: 25px; padding-top: 30px; color: rgb(80,163,154)"><strong>Deck:</strong> </div>
                 <div style="position: relative; float: left; width: 65%">
                     <ul>
                         <li>
                             <a target="_blank">
                                 <input list="screens.screenid-datalist" type="text" id="screens.screenid" placeholder="e.g. Main Deck">
                                 <datalist id="screens.screenid-datalist">
-                                    <!--default - must remove-->
-                                    <option value="Login"></option>
-                                    <option value="ScreenCreator"></option>
+                                    <!-- Deck list -->
                                 </datalist>
                                 <label id="val-screens.screenid" class="Label_Error" style="visibility: hidden;">*</label>
                             </a>
@@ -67,16 +65,45 @@
                 </div>
             </div>
             <!--input boxes-->
-            <div style="float:left; width: 100%; height: 30%;">
-
+            <div style="float:left; width: 100%; height: 30%; padding-top: 30px">
+                <div style="text-align: center; align-content: center; align-items: center; padding-bottom: 15px">
+                    <div style="color: rgb(80,163,154); font-size: 15px; font-weight: bold; text-align: center;  border-bottom: solid 1.5px rgb(80,163,154); display: inline; padding-bottom: 5px;">
+                        Add Magic Card to Deck
+                    </div>
+                </div>
+                <div style="float:left; align-content: center; text-align: center; width: 100%">
+                    <div style="padding-top: 20px; color: rgb(80,163,154); font-size: 18px; font-weight: 500; float: left; padding-left: 20px"> Card Name:</div>
+                    <input style="width: 50%; display:inline-block; margin-left: 5px; padding-top: 10px" type="text" placeholder="e.g. Necromaster Dragon" onkeypress="return isNumberKey(event)" />
+                </div>
+                <div style="text-align: center;  -webkit-justify-content: center; align-items: center">
+                    <div style="float:left; align-content: center; text-align: center; width: 100%; margin-top: -20px;">
+                        <div style="padding-top: 20px; color: rgb(80,163,154); font-size: 18px; font-weight: 500; float: left; padding-left: 20px"> Quantity:</div>
+                        <input style="width: 25%; display:inline-block; margin-left: -55px; padding-top: 10px" type="number" min="1" max="500" onkeypress="return isNumberKey(event)" />
+                    </div>
+                </div>
             </div>
-            <!--or-->
-            <!--zip upload-->
 
-            <div style="align-items: center; text-align: center">
+            <div style="align-items: center; text-align: center;">
                 <div id="progress-button" class="progress-button">
                     <!-- button with text -->
                     <button onclick="UploadCardInfo()"><span>Upload</span></button>
+                </div>
+            </div>
+            <div style="padding-top: 50px;float:left; display:inline; width: 100%; padding-left: 45px; padding-bottom: 40px">
+                <div style="height: 1.5px; background-color: rgb(199, 199, 199); width: 35%; float: left"> </div>
+                <div style="font-size: 15px; color:rgb(199, 199, 199); width: 15%; float: left; text-align: center; margin-top: -12px"> or </div>
+                <div style="height: 1.5px; background-color: rgb(199, 199, 199); width: 35%; float: left"> </div>
+            </div>
+
+            <div style="height: 20%; padding-top: 50px;">
+                <div class="wrapper">
+                    <div class="file-upload">
+                        <input id="fileupload" type="file" onchange="checkExt()"/>
+                        <i class="fa fa-upload"></i>
+                    </div>
+                </div>
+                <div class="uploadTxtLabel">
+                    Upload all Magic Cards from .txt file
                 </div>
             </div>
         </div>
@@ -114,10 +141,31 @@
 </section>
 
 </body>
+
 <script src="https://www.gstatic.com/firebasejs/5.5.6/firebase.js"></script>
 <!--<script src="../js/database/firebase_auth.js"></script>-->
 <script src="../../js/database/firebase_auth.js"></script>
-<script>
+<script type="text/javascript">
     window.onload = verifyUserCredentialsForIndex();
+
+    // stale data
+    var mycars = new Array();
+    mycars[0]='Main Deck';
+    mycars[1]='Backup Deck';
+
+    var options = '';
+
+    for(let cancel = 0; cancel < mycars.length; cancel++) options += '<option value="'+mycars[cancel]+'" />';
+    document.getElementById('screens.screenid-datalist').innerHTML = options;
+    obtainInfoFromDB("Necromaster Dragon")
+
+    function checkExt() {
+        if(document.getElementById('fileupload').value.lastIndexOf(".txt") === 1) {
+            alert("Please upload only .txt extention file");
+            return false;
+        } else {
+            alert("Correct file type")
+        }
+    }
 </script>
 </html>

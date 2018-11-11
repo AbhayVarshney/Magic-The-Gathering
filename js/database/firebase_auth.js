@@ -65,3 +65,19 @@ logout = () => {
         console.log(error)
     });
 };
+
+obtainInfoFromDB = (cardName) => {
+    firebase.auth().onAuthStateChanged(user => {
+        if (user) {
+            let newUserRef = firebase.database().ref('magic-thegathering/DefaultCards/9099');
+            newUserRef.on("value", function(snapshot) {
+                snapshot.forEach(function(data) {
+                    console.log(data.key);
+                    console.log("Data:", data.val())
+                });
+            }, function (errorObject) {
+                console.log("The read failed: " + errorObject.code);
+            });
+        }
+    });
+};
