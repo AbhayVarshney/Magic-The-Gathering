@@ -51,7 +51,7 @@
             <div style="height: 3px; background-color: black"></div>
             <div style="float:left; width: 100%; height: 10%">
                 <div style="position: relative; float:left; padding-left: 15px; padding-right: 25px; padding-top: 30px; color: rgb(80,163,154)"><strong>Deck:</strong> </div>
-                <div style="position: relative; float: left; width: 65%">
+                <div style="position: relative; float: left; width: 70%">
                     <ul>
                         <li>
                             <a target="_blank">
@@ -74,12 +74,12 @@
                 </div>
                 <div style="float:left; align-content: center; text-align: center; width: 100%">
                     <div style="padding-top: 20px; color: rgb(80,163,154); font-size: 18px; font-weight: 500; float: left; padding-left: 20px"> Card Name:</div>
-                    <input style="width: 50%; display:inline-block; margin-left: 5px; padding-top: 10px" type="text" placeholder="e.g. Necromaster Dragon" onkeypress="return isNumberKey(event)" />
+                    <input style="width: 55%; display:inline-block; margin-left: 5px; padding-top: 10px" type="text" placeholder="e.g. Necromaster Dragon" onkeypress="return isNumberKey(event)" />
                 </div>
                 <div style="text-align: center;  -webkit-justify-content: center; align-items: center">
                     <div style="float:left; align-content: center; text-align: center; width: 100%; margin-top: -20px;">
                         <div style="padding-top: 20px; color: rgb(80,163,154); font-size: 18px; font-weight: 500; float: left; padding-left: 20px"> Quantity:</div>
-                        <input style="width: 25%; display:inline-block; margin-left: -55px; padding-top: 10px" type="number" min="1" max="500" placeholder="e.g. 1" conkeypress="return isNumberKey(event)" />
+                        <input style="width: 25%; display:inline-block; margin-left: -85px; padding-top: 10px" type="number" min="1" max="500" placeholder="e.g. 1" conkeypress="return isNumberKey(event)" />
                     </div>
                 </div>
             </div>
@@ -109,7 +109,7 @@
             </div>
         </div>
         <div class="panel" id="decksCardBox" style="display: block;">
-            <h1>Decks</h1>
+            <h1>View Deck</h1>
             <div style="height: 3px; background-color: black"></div>
             <div style="width: 100%; height: 10%">
                 <div style="position: relative; float:left; padding-left: 15px; padding-right: 25px; padding-top: 30px; color: rgb(80,163,154)"><strong>Deck:</strong> </div>
@@ -164,8 +164,58 @@
             </div>
         </div>
         <div class="panel" id="outputCardBox" style="display: block;">
-            <h1>Calculations</h1>
+            <h1>Statistics</h1>
             <div style="height: 3px; background-color: black"></div>
+            <!--<div style="margin: 0 auto; background-color: red; width: 100%; height: 0%">-->
+            <!--</div>-->
+            <div style="margin-left: 60px; width: 100%; height: 35%">
+                <div style="position: relative; float:left; padding-left: 80px; padding-right: 25px; padding-top: 30px; color: rgb(80,163,154); font-size: 18px; font-weight:bold">Deck Name:</div>
+                <div id="Statistics-DeckName" style="position: relative; float:left; padding-right: 25px; padding-top: 30px; color: rgb(80,163,154); font-size: 18px; width: 50%"><strong>Deck main</strong> </div>
+                <div style="position: relative; float:left; padding-left: 65px; padding-right: 25px; padding-top: 10px; color: rgb(80,163,154); font-size: 18px; font-weight:bold">Average CMC: </div>
+                <div id="Statistics-AvgCMC" style="position: relative; float:left; padding-right: 25px; padding-top: 10px; color: rgb(80,163,154); font-size: 18px; width: 50%"><strong>\</strong> </div>
+                <div style="position: relative; float:left; padding-left: 55px; padding-right: 25px; padding-top: 10px; color: rgb(80,163,154); font-size: 18px; font-weight:bold">Number of lands: </div>
+                <div id="Statistics-NumLands" style="position: relative; float:left; padding-right: 25px; padding-top: 10px; color: rgb(80,163,154); font-size: 18px; width: 50%"><strong>\</strong> </div>
+                <div style="position: relative; float:left; padding-left: 25px; padding-right: 25px; padding-top: 10px; color: rgb(80,163,154); font-size: 18px; font-weight:bold">Number of no lands: </div>
+                <div id="Statistics-NumNoLands" style="position: relative; float:left; padding-right: 25px; padding-top: 10px; color: rgb(80,163,154); font-size: 18px; width: 50%"><strong>\</strong> </div>
+                <div style="position: relative; float:left; padding-right: 25px; padding-top: 10px; color: rgb(80,163,154); font-size: 18px; font-weight:bold">Number of lands in opening hand:</div>
+                <div id="Statistics-NumLandsOpeningHand" style="position: relative; float:left; padding-right: 25px; padding-top: 10px; color: rgb(80,163,154); font-size: 18px; width: 30%"><strong>\</strong> </div>
+                <div style="position: relative; float:left; margin-left: -35px; padding-right: 25px; padding-top: 10px; color: rgb(80,163,154); font-size: 18px; font-weight:bold">Number of nonlands in opening hand:</div>
+                <div id="Statistics-NumNoLandsOpeningHand" style="position: relative; float:left; padding-right: 25px; padding-top: 10px; color: rgb(80,163,154); font-size: 18px; width: 20%"><strong>\</strong> </div>
+            </div>
+            <div style="padding-top: 30px; float:left; display:inline; width: 100%; padding-left: 55px; padding-bottom: 40px">
+                <div style="height: 1.5px; background-color: rgb(199, 199, 199); width: 27%; float: left"> </div>
+                <div style="font-size: 15px; color:rgb(199, 199, 199); width: 35%; float: left; text-align: center; margin-top: -12px"> Odds of a Card </div>
+                <div style="height: 1.5px; background-color: rgb(199, 199, 199); width: 27%; float: left"> </div>
+            </div>
+            <div style="position:relative; float: left; margin-top: -20px; width: 100%; height: 35%;">
+                <div style="position: relative; float:left; padding-left: 15px; padding-right: 25px; color: rgb(80,163,154); font-size: 18px"><strong>Card:</strong> </div>
+                <div style="position: relative; float: left; width: 65%; margin-top: -10px">
+                    <select name = "dropdown">
+                        <option value = "Computer Architecture" selected>Necromaster Dragon</option>
+                        <option value = "Java">Card Name</option>
+                        <option value = "Discrete Mathematics">Card Name</option>
+                    </select>
+                </div>
+                <div style="text-align: center;  -webkit-justify-content: center; align-items: center">
+                    <div style="float:left; align-content: center; text-align: center; width: 100%; margin-top: -20px;">
+                        <div style="padding-top: 20px; color: rgb(80,163,154); font-size: 18px; font-weight: 500; float: left; padding-left: 20px; font-size: 18px"> Quantity:</div>
+                        <input style="width: 25%; display:inline-block; margin-left: -85px; padding-top: 10px" type="number" min="1" max="500" placeholder="e.g. 5" conkeypress="return isNumberKey(event)" />
+                    </div>
+                </div>
+                <div style="text-align: center;  -webkit-justify-content: center; align-items: center">
+                    <div style="float:left; align-content: center; text-align: center; width: 100%; margin-top: -20px;">
+                        <div style="padding-top: 20px; color: rgb(80,163,154); font-size: 18px; font-weight: 500; float: left; padding-left: 20px; font-size: 18px"> Chances to draw:</div>
+                        <input style="width: 25%; display:inline-block; margin-left: -85px; padding-top: 10px" type="number" min="1" max="500" placeholder="e.g. 30" conkeypress="return isNumberKey(event)" />
+                    </div>
+                </div>
+
+                <div style="align-items: center; text-align: center;">
+                    <div class="progress-button">
+                        <!-- button with text -->
+                        <button onclick="UploadCardInfo()"><span>Evaluate</span></button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>

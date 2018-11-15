@@ -16,17 +16,17 @@
 
 #inputCardBox {
     margin: -375px 0 0 -45%;
-    width: 22%;
+    width: 25%;
 }
 
 #decksCardBox {
-    margin: -375px 0 0 -20%;
-    width: 22%;
+    margin: -375px 0 0 -17%;
+    width: 25%;
 }
 
 #outputCardBox {
-    margin: -375px 0 0 5%;
-    width: 40%;
+    margin: -375px 0 0 11%;
+    width: 35%;
 }
 
 .panel li .svg-wrap svg {
