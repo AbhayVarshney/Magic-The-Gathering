@@ -65,11 +65,12 @@ class Deck {
         let landCount = 0;
         let nonLandCount = 0;
         let DeckCmc = 0;
+        let deckCost =0;
         deckList.forEach((element) => {
             let i = 0;
             this.DeckList[++i] = element;
             this.Size += element.Quantity;                                                                          // adds how many copies of the card into the deck size.
-            this.DeckCost += (element.Cost * element.Quantity);
+            deckCost += element.Cost * element.Quantity;
             DeckCmc += element.CMC * element.Quantity;                                     // Calculates the average Cmc in the decklist by adding each cards converted mana cost into a sum and then divides them by the total number of cards in the deck.
             if (element.typeLine.includes('land')) {
                 landCount += element.Quantity;
@@ -83,6 +84,7 @@ class Deck {
         this.Name = name;
         this.averageCMC = DeckCmc / this.Size;
         this.Format = format;
+        this.DeckCost = deckCost;
     }
 
     OpeningHand(mulliganCount) {
@@ -125,51 +127,83 @@ class Deck {
 
     OddsOfCard(cards, successes, cardsDrawn) {
         let odds;
-        let deckSize = this.Size;
+        //let deckSize = this.Size;
         // number of possible cards to hit
         // Checks to see if we only have one card to look for
-        if (cards.length === 1) {
+
             /*
                 N choose K = ((N!)/(K!(N-K!))
-                Given K = number of sucesses possilbe in the pool
-                L = Number of sucesses wanted from the pool
+                Given K = number of successes possible in the pool
+                L = Number of successes wanted from the pool
                 N = size of the pool
                 X = number of chances to draw
-                (K Choose L)*(N-K Choose L-K)/ (N choose X)
+                (K Choose L)*(N-K Choose X-L)/ (N choose X)
+                ((K!)/(L!(K-L)!))*((n-k)!/(l-k)!((n-k)-(x-l))!) / (n!)/(x!(n-x)!)
+                second = (n-k)!/(l-k)!((N-K)-(X-L))!
+                (n-k)!/(l-k)!((N-K-X+L))!
             */
 
+            let k = cards.Quantity;
+            let l = successes;
+            let n = this.Size;
+            let x = cardsDrawn;
+            // K and L are relatively small and can be computed normally
             let kFact = 1;
             let lFact = 1;
-            let nFact = 1;
-            let xFact = 1;
-            for (let i = cards[0].Quantity; i > 1; i--)
-                kFact *= i;
-            for (let i = successes; i > 1; i--)
+            let lMinusKFact = 1;
+            // N-K and X-L Factorial are going to be large so they must be computed more carefully
+            // X fact and N factorial need to be treated specially because N is expected to be at least 60.
+            for (let i = k; i > 0; i--) {
+                kFact = kFact * i;
+            }
+            for (let i = l; i > 0; i--) {
                 lFact *= i;
-            for (let i = deckSize; i > 1; i--)
-                nFact *= i;
-            for (let i = cardsDrawn; i > 1; i--)
-                xFact *= i;
-            let nMinuskFact = nFact - kFact;
-            let lMinuskFact = lFact - kFact;
-            let First = (kFact / lFact * (kFact - lFact));
-            let Second = (nMinuskFact / ((nMinuskFact - lMinuskFact) * (lMinuskFact)));
-            let Third = (nFact / (xFact - nFact));
-            odds = (First * Second) / Third;
+            }
+            for (let i = (l - k)+1; i > 0; i--) {
+                lMinusKFact *= i;
+            }
+            let first = kFact / (lFact * (lMinusKFact));
+            let a = 1;
+            let j = 1;
 
-            /*
-            let top = (kFact / (lFact *(kFact - lFact)) * (nMinuskFact / (lMinuskFact)*(nMinuskFact - lMinuskFact)));
-            let bot = (nFact / (xFact - nFact));
-            odds = top / bot;
-            */
+            if ((x - l) > (n - k - x + l)) {
+                j = (x - l);
+                for (let i = ((n - k - x + l) - (x-l)); i > 0; i--) {
+                    a = (a * i) / j;
+                    j--;
+                }
+                if (j !== 0) {
+                    for (j; j > 0; j--) {
+                        a /= j;
+                    }
+                }
+            }
+            else // n-l-x+l is the smaller of the ratios
+            {
+                j = (n - k - x + l);
+                for (let i = ((x - l) - (n-k-x+l)); i > 0; i--) {
+                    a = (a * i) / j;
+                    j--;
+                }
+                if (j !== 0) {
+                    for (j; j > 0; j--) {
+                        a /= j;
+                    }
+                }
+            }
+            let second = a;
+            let third = 1;
+            let c = x;
+            for (let i = ((n-(n - x))+1) ; i > 0; i--) {
+                if (c > 0) {
+                    third *= i / c;
+                    c--;
+                }
+                else
+                    third *= i;
+            }
+            odds = (first * second) / third;
             return odds;
-        }
-        else        // need to add up the probabilites for multiple cards
-        {
-
-        }
-
-        return 1.0;
     }
 
 }
@@ -203,12 +237,28 @@ var Boltobj = {
     set: "Alpha",
     Quantity: 4,
     Cost: 3
-}
+};
+var ForestObj ={
+    name : "Forest",
+    manaCost : " ",
+    cmc : 0,
+    typeLine: "Basic Land- Forest",
+    OracleText: "T : add green mana",
+    color: "Colorless",
+    colorI : "Green",
+    Legality : " Legacy Commander Modern Standard",
+    set : "Alpha",
+    Quantity : 12,
+    Cost : .01
+
+};
 //let Bird = new Card("Birds of Paradise", "G", 1, "Creature-Bird", "Flying , T:add one mana of any color", 0, 1, "Green", "Green", " Legacy Commander Modern ", "Alpha", 4, 7);
 let Bird = new Card(Birdobj);
 let Bolt = new Card(Boltobj);
-let decklist = [Bird, Bolt];
+let Forest = new Card(ForestObj);
+let decklist = [Bird, Bolt,Forest];
 let boltTheBird = new Deck("Fried chicken", decklist, "Modern");
+/*
 console.log(Bird.Name);
 console.log(Bird.ManaCost);
 console.log(Bird.Legality);
@@ -221,9 +271,9 @@ console.log(Bird.Toughness);
 console.log(Bolt.Name);
 console.log(Bolt.getPower());
 console.log(Bolt.getToughness());
+*/
 console.log(boltTheBird.Name);
 console.log(boltTheBird.Size);
 console.log(boltTheBird.averageCMC);
 console.log(boltTheBird.DeckCost);
-console.log(boltTheBird.nonLandCount);
-console.log(boltTheBird.OddsOfCard([Bird], 1, 1));
+console.log(boltTheBird.OpeningHand(0));
