@@ -77,7 +77,7 @@
                     <input style="width: 55%; display:inline-block; margin-left: 5px; padding-top: 10px" type="text" placeholder="e.g. Necromaster Dragon" onkeypress="return isNumberKey(event)" />
                 </div>
                 <div style="text-align: center;  -webkit-justify-content: center; align-items: center">
-                    <div style="float:left; align-content: center; text-align: center; width: 100%; margin-top: -20px;">
+                    <div style="float:left; align-content: center; text-align: center; width: 100%;">
                         <div style="padding-top: 20px; color: rgb(80,163,154); font-size: 18px; font-weight: 500; float: left; padding-left: 20px"> Quantity:</div>
                         <input style="width: 25%; display:inline-block; margin-left: -85px; padding-top: 10px" type="number" min="1" max="500" placeholder="e.g. 1" conkeypress="return isNumberKey(event)" />
                     </div>
@@ -96,7 +96,7 @@
                 <div style="height: 1.5px; background-color: rgb(199, 199, 199); width: 35%; float: left"> </div>
             </div>
 
-            <div style="height: 20%; padding-top: 50px;">
+            <div style="height: 20%; padding-top: 50px; margin-left: -5px">
                 <div class="wrapper">
                     <div class="file-upload">
                         <input id="fileupload" type="file" onchange="checkExt()"/>
@@ -123,7 +123,7 @@
             </div>
             <div style="position:relative; height: 54%; margin-top: 15px">
                 <ul class="cardsList">
-                    <li class="magicCard">List Item</li>
+                    <li class="magicCard" onclick="alert('hello')">List Item</li>
                     <li class="magicCard">List Item</li>
                     <li class="magicCard">List Item</li>
                     <li class="magicCard">List Item</li>
@@ -187,29 +187,31 @@
                 <div style="font-size: 15px; color:rgb(199, 199, 199); width: 35%; float: left; text-align: center; margin-top: -12px"> Odds of a Card </div>
                 <div style="height: 1.5px; background-color: rgb(199, 199, 199); width: 27%; float: left"> </div>
             </div>
-            <div style="position:relative; float: left; margin-top: -20px; width: 100%; height: 35%;">
-                <div style="position: relative; float:left; padding-left: 15px; padding-right: 25px; color: rgb(80,163,154); font-size: 18px"><strong>Card:</strong> </div>
-                <div style="position: relative; float: left; width: 65%; margin-top: -10px">
-                    <select name = "dropdown">
-                        <option value = "Computer Architecture" selected>Necromaster Dragon</option>
-                        <option value = "Java">Card Name</option>
-                        <option value = "Discrete Mathematics">Card Name</option>
-                    </select>
-                </div>
-                <div style="text-align: center;  -webkit-justify-content: center; align-items: center">
-                    <div style="float:left; align-content: center; text-align: center; width: 100%; margin-top: -20px;">
-                        <div style="padding-top: 20px; color: rgb(80,163,154); font-size: 18px; font-weight: 500; float: left; padding-left: 20px; font-size: 18px"> Quantity:</div>
-                        <input style="width: 25%; display:inline-block; margin-left: -85px; padding-top: 10px" type="number" min="1" max="500" placeholder="e.g. 5" conkeypress="return isNumberKey(event)" />
+            <div style="position:relative; float: left; margin-top: -20px; width: 100%; height: 35%; padding-left: 60px">
+                <div style="float: left; text-align: center; -webkit-justify-content: center; align-items: center; width: 85%; height: 21%">
+                    <div style="position: relative; display:inline-block; padding-left: 15px; padding-right: 25px; color: rgb(80,163,154); font-size: 18px"><strong>Card:</strong> </div>
+                    <div style="position: relative; display:inline-block; width: 45%; margin-top: -10px">
+                        <select name = "dropdown">
+                            <option value = "Computer Architecture" selected>Necromaster Dragon</option>
+                            <option value = "Java">Card Name</option>
+                            <option value = "Discrete Mathematics">Card Name</option>
+                        </select>
                     </div>
                 </div>
-                <div style="text-align: center;  -webkit-justify-content: center; align-items: center">
+                <div style="float: left; text-align: center; -webkit-justify-content: center; align-items: center; width: 85%; height: 21%">
                     <div style="float:left; align-content: center; text-align: center; width: 100%; margin-top: -20px;">
-                        <div style="padding-top: 20px; color: rgb(80,163,154); font-size: 18px; font-weight: 500; float: left; padding-left: 20px; font-size: 18px"> Chances to draw:</div>
-                        <input style="width: 25%; display:inline-block; margin-left: -85px; padding-top: 10px" type="number" min="1" max="500" placeholder="e.g. 30" conkeypress="return isNumberKey(event)" />
+                        <div style="padding-top: 20px; color: rgb(80,163,154); font-weight: 500; display:inline-block; font-size: 18px; margin-left: 10px"> Quantity:</div>
+                        <input style="width: 25%; float: right; margin-right: 70px; padding-top: 10px;" type="number" min="1" max="500" conkeypress="return isNumberKey(event)" placeholder="e.g. 2" />
+                    </div>
+                </div>
+                <div style="float: left; text-align: center; -webkit-justify-content: center; align-items: center; width: 85%; height: 20%">
+                    <div style="float:left; align-content: center; text-align: center; width: 100%; margin-top: -20px;">
+                        <div style="padding-top: 20px; color: rgb(80,163,154); font-weight: 500; display:inline-block; font-size: 18px; margin-left: 10px"> Chances to draw:</div>
+                        <input style="width: 25%; float: right; margin-right: 70px; padding-top: 10px;" type="number" min="1" max="100" placeholder="e.g. 30" conkeypress="return isNumberKey(event)" />
                     </div>
                 </div>
 
-                <div style="align-items: center; text-align: center;">
+                <div style="align-items: center; text-align: center; margin-left: -10px; width: 95%; margin-top: -20px">
                     <div class="progress-button">
                         <!-- button with text -->
                         <button onclick="UploadCardInfo()"><span>Evaluate</span></button>
@@ -245,7 +247,6 @@
     };
 
 //    window.onload = verifyUserCredentialsForIndex();
-
     function loadDeckInput() {
         // stale data
         var mycars = new Array();
