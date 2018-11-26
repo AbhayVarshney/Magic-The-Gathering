@@ -16,17 +16,17 @@
 
 #inputCardBox {
     margin: -375px 0 0 -45%;
-    width: 22%;
+    width: 25%;
 }
 
 #decksCardBox {
-    margin: -375px 0 0 -20%;
-    width: 22%;
+    margin: -375px 0 0 -17%;
+    width: 25%;
 }
 
 #outputCardBox {
-    margin: -375px 0 0 5%;
-    width: 40%;
+    margin: -375px 0 0 11%;
+    width: 35%;
 }
 
 .panel li .svg-wrap svg {
@@ -194,4 +194,32 @@ html {
 
 .fa {
     font-size: 50px;
+}
+
+.cardsList {
+    position: absolute;
+    top: 20px;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    overflow: scroll;
+    margin: 0;
+    padding: 0;
+    border: 2px solid #ccc;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+    -webkit-overflow-scrolling: touch;
+}
+
+.magicCard {
+    padding: 10px 20px;
+    border-bottom: 1px solid #ccc;
+    color: rgb(80,163,154)
+}
+
+.magicCard:last-child {
+    border-bottom: none;
+}
+.magicCard:nth-child(even) {
+    background: #f8f8f8;
 }
