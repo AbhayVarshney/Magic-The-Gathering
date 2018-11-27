@@ -1,4 +1,3 @@
-import Card.js
 /*
    @Objective Create a Deck class that has the following variables and member functions
    Double AverageCMC
