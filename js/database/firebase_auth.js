@@ -89,25 +89,56 @@ UploadCardInfoToDB = () => {
     console.log("deckName:", deckName); //WORKS
     console.log("cardName:", cardName); //WORKS
     console.log("quantity:", quantity); //WORKS
-
     var myToast = new Toasty({
         progressBar: true,
     });
-    // myToast.error("message here");
-    myToast.success("Successfully added " + cardName + " to " + deckName);
 
     // Firebase Write
     if (deckName.length > 0) {
-        firebase.auth().onAuthStateChanged((user) => {
-            if (user) {
-                // Object that we will send to Firebase
-                let CardStructure = {
-                    CardName: cardName,
-                    Quantity: 3
-                };
+        return new Promise(() => {
+            console.log("Verifying card...")
+            return VerifyLegalMagicCard(cardName).then((isValidMagicCard) => {
+                console.log("Checking validity of " + JSON.stringify(isValidMagicCard));
+                return isValidMagicCard;
+            });
+        }).then((isValid) => {
+            console.log("Writing to firebase...")
+            if (isValid){
+                return firebase.auth().onAuthStateChanged((user) => {
+                    if (user) {
+                        console.log("Successful verification of card: " + cardName)
+                        // Object that we will send to Firebase
+                        let CardStructure = {
+                            CardName: cardName,
+                            Quantity: 3
+                        };
 
-                firebase.database().ref().child('/users/' + user.uid + '/' + deckName.replace(/\s/g, '') + '/' + cardName).set(CardStructure);
+                        firebase.database().ref().child('/users/' + user.uid + '/' + deckName.replace(/\s/g, '') + '/' + cardName).set(CardStructure);
+                        // myToast.error("message here");
+                        myToast.success("Successfully added " + cardName + " to " + deckName);
+                        console.log("Successfully written to firebase.")
+                    } else{
+                        myToast.error(cardName + " is not a legal magic card.");
+                    }
+                });
             }
-        });
+        })
     }
 };
+
+VerifyLegalMagicCard = (cardName) => {
+        return firebase.app().database().ref("DefaultCards").orderByChild("name")
+            .equalTo(cardName).once("value", snapshot => {
+                const userData = snapshot.val();
+                if (userData) {
+                    console.log("Valid card.")
+                    return true;
+                } else {
+                    return false;
+                }
+            });
+}
+
+GetCardProperties = (cardName) => {
+
+}
