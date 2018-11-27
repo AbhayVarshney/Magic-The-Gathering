@@ -81,3 +81,33 @@ obtainInfoFromDB = (cardName) => {
         }
     });
 };
+
+UploadCardInfoToDB = () => {
+    var deckName = document.getElementById('input.DeckName').value
+        cardName = document.getElementById('input.CardName').value,
+        quantity = document.getElementById('input.Quantity').value;
+    console.log("deckName:", deckName); //WORKS
+    console.log("cardName:", cardName); //WORKS
+    console.log("quantity:", quantity); //WORKS
+
+    var myToast = new Toasty({
+        progressBar: true,
+    });
+    // myToast.error("message here");
+    myToast.success("Successfully added " + cardName + " to " + deckName);
+
+    // Firebase Write
+    if (deckName.length > 0) {
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                // Object that we will send to Firebase
+                let CardStructure = {
+                    CardName: cardName,
+                    Quantity: 3
+                };
+
+                firebase.database().ref().child('/users/' + user.uid + '/' + deckName.replace(/\s/g, '') + '/' + cardName).set(CardStructure);
+            }
+        });
+    }
+};
