@@ -75,7 +75,7 @@
                     <div style="padding-top: 20px; color: rgb(80,163,154); font-size: 18px; font-weight: 500; float: left; padding-left: 20px"> Card Name:</div>
                     <input id="input.CardName" style="width: 55%; display:inline-block; margin-left: 5px; padding-top: 10px" type="text" placeholder="e.g. Necromaster Dragon" />
                 </div>
-                <div style="text-align: center;  -webkit-justify-content: center; align-items: center">
+                <div style="text-align: center;  -webkit-justify-content: center; align-items: center;">
                     <div style="float:left; align-content: center; text-align: center; width: 100%;">
                         <div style="padding-top: 20px; color: rgb(80,163,154); font-size: 18px; font-weight: 500; float: left; padding-left: 20px"> Quantity:</div>
                         <input id="input.Quantity" style="width: 25%; display:inline-block; margin-left: -85px; padding-top: 10px" type="number" min="1" max="500" placeholder="e.g. 1" onkeypress="return isNumberKey(event)" />
@@ -113,45 +113,15 @@
             <div style="width: 100%; height: 10%">
                 <div style="position: relative; float:left; padding-left: 15px; padding-right: 25px; padding-top: 30px; color: rgb(80,163,154)"><strong>Deck:</strong> </div>
                 <div style="position: relative; float: left; width: 65%; padding-top: 20px">
-                    <select name = "dropdown">
-                        <option value = "Computer Architecture" selected>Deck Main</option>
-                        <option value = "Java">Deck BackUp</option>
+                    <select id="ddSelectDeck" name = "dropdown" onchange="loadCardList()">
+                        <option value = "MainDeck">Main Deck</option>
+                        <option value = "DeckBackup">BackUp Deck</option>
                         <option value = "Discrete Mathematics">Discrete Mathematics</option>
                     </select>
                 </div>
             </div>
             <div style="position:relative; height: 54%; margin-top: 15px">
-                <ul class="cardsList">
-                    <li class="magicCard" onclick="alert('hello')">List Item</li>
-                    <li class="magicCard">List Item</li>
-                    <li class="magicCard">List Item</li>
-                    <li class="magicCard">List Item</li>
-                    <li class="magicCard">List Item</li>
-                    <li class="magicCard">List Item</li>
-                    <li class="magicCard">List Item</li>
-                    <li class="magicCard">List Item</li>
-                    <li class="magicCard">List Item</li>
-                    <li class="magicCard">List Item</li>
-                    <li class="magicCard">List Item</li>
-                    <li class="magicCard">List Item</li>
-                    <li class="magicCard">List Item</li>
-                    <li class="magicCard">List Item</li>
-                    <li class="magicCard">List Item</li>
-                    <li class="magicCard">List Item</li>
-                    <li class="magicCard">List Item</li>
-                    <li class="magicCard">List Item</li>
-                    <li class="magicCard">List Item</li>
-                    <li class="magicCard">List Item</li>
-                    <li class="magicCard">List Item</li>
-                    <li class="magicCard">List Item</li>
-                    <li class="magicCard">List Item</li>
-                    <li class="magicCard">List Item</li>
-                    <li class="magicCard">List Item</li>
-                    <li class="magicCard">List Item</li>
-                    <li class="magicCard">List Item</li>
-                    <li class="magicCard">List Item</li>
-                    <li class="magicCard">List Item</li>
-                    <li class="magicCard">List Item</li>
+                <ul id="cardList" class="cardsList">
                 </ul>
             </div>
 
@@ -165,28 +135,22 @@
         <div class="panel" id="outputCardBox" style="display: block;">
             <h1>Statistics</h1>
             <div style="height: 3px; background-color: black"></div>
-            <!--<div style="margin: 0 auto; background-color: red; width: 100%; height: 0%">-->
-            <!--</div>-->
             <div style="margin-left: 60px; width: 100%; height: 35%">
                 <div style="position: relative; float:left; padding-left: 80px; padding-right: 25px; padding-top: 30px; color: rgb(80,163,154); font-size: 18px; font-weight:bold">Deck Name:</div>
                 <div id="Statistics-DeckName" style="position: relative; float:left; padding-right: 25px; padding-top: 30px; color: rgb(80,163,154); font-size: 18px; width: 50%"><strong>Deck main</strong> </div>
-                <div style="position: relative; float:left; padding-left: 65px; padding-right: 25px; padding-top: 10px; color: rgb(80,163,154); font-size: 18px; font-weight:bold">Average CMC: </div>
-                <div id="Statistics-AvgCMC" style="position: relative; float:left; padding-right: 25px; padding-top: 10px; color: rgb(80,163,154); font-size: 18px; width: 50%"><strong>\</strong> </div>
-                <div style="position: relative; float:left; padding-left: 55px; padding-right: 25px; padding-top: 10px; color: rgb(80,163,154); font-size: 18px; font-weight:bold">Number of lands: </div>
-                <div id="Statistics-NumLands" style="position: relative; float:left; padding-right: 25px; padding-top: 10px; color: rgb(80,163,154); font-size: 18px; width: 50%"><strong>\</strong> </div>
-                <div style="position: relative; float:left; padding-left: 25px; padding-right: 25px; padding-top: 10px; color: rgb(80,163,154); font-size: 18px; font-weight:bold">Number of no lands: </div>
-                <div id="Statistics-NumNoLands" style="position: relative; float:left; padding-right: 25px; padding-top: 10px; color: rgb(80,163,154); font-size: 18px; width: 50%"><strong>\</strong> </div>
-                <div style="position: relative; float:left; padding-right: 25px; padding-top: 10px; color: rgb(80,163,154); font-size: 18px; font-weight:bold">Number of lands in opening hand:</div>
-                <div id="Statistics-NumLandsOpeningHand" style="position: relative; float:left; padding-right: 25px; padding-top: 10px; color: rgb(80,163,154); font-size: 18px; width: 30%"><strong>\</strong> </div>
-                <div style="position: relative; float:left; margin-left: -35px; padding-right: 25px; padding-top: 10px; color: rgb(80,163,154); font-size: 18px; font-weight:bold">Number of nonlands in opening hand:</div>
-                <div id="Statistics-NumNoLandsOpeningHand" style="position: relative; float:left; padding-right: 25px; padding-top: 10px; color: rgb(80,163,154); font-size: 18px; width: 20%"><strong>\</strong> </div>
+                <div style="position: relative; float:left; padding-left: 65px; padding-right: 25px; padding-top: 25px; color: rgb(80,163,154); font-size: 18px; font-weight:bold">Average CMC: </div>
+                <div id="Statistics-AvgCMC" style="position: relative; float:left; padding-right: 25px; padding-top: 25px; color: rgb(80,163,154); font-size: 18px; width: 50%"><strong>\</strong> </div>
+                <div style="position: relative; float:left; padding-left: 55px; padding-right: 25px; padding-top: 25px; color: rgb(80,163,154); font-size: 18px; font-weight:bold">Number of lands: </div>
+                <div id="Statistics-NumLands" style="position: relative; float:left; padding-right: 25px; padding-top: 25px; color: rgb(80,163,154); font-size: 18px; width: 50%"><strong>\</strong> </div>
+                <div style="position: relative; float:left; padding-left: 25px; padding-right: 25px; padding-top: 25px; color: rgb(80,163,154); font-size: 18px; font-weight:bold">Number of no lands: </div>
+                <div id="Statistics-NumNoLands" style="position: relative; float:left; padding-right: 25px; padding-top: 25px; color: rgb(80,163,154); font-size: 18px; width: 50%"><strong>\</strong> </div>
             </div>
             <div style="padding-top: 30px; float:left; display:inline; width: 100%; padding-left: 55px; padding-bottom: 40px">
                 <div style="height: 1.5px; background-color: rgb(199, 199, 199); width: 27%; float: left"> </div>
                 <div style="font-size: 15px; color:rgb(199, 199, 199); width: 35%; float: left; text-align: center; margin-top: -12px"> Odds of a Card </div>
                 <div style="height: 1.5px; background-color: rgb(199, 199, 199); width: 27%; float: left"> </div>
             </div>
-            <div style="position:relative; float: left; margin-top: -20px; width: 100%; height: 35%; padding-left: 60px">
+            <div style="position:relative; float: left; margin-top: -10px; width: 100%; height: 35%; padding-left: 60px">
                 <div style="float: left; text-align: center; -webkit-justify-content: center; align-items: center; width: 85%; height: 21%">
                     <div style="position: relative; display:inline-block; padding-left: 15px; padding-right: 25px; color: rgb(80,163,154); font-size: 18px"><strong>Card:</strong> </div>
                     <div style="position: relative; display:inline-block; width: 45%; margin-top: -10px">
@@ -242,20 +206,19 @@
 <script type="text/javascript">
     window.onload = () => {
         loadDeckInput();
+        loadCardList();
         verifyUserCredentialsForIndex();
     };
 
-//    window.onload = verifyUserCredentialsForIndex();
     function loadDeckInput() {
         // stale data
-        var mycars = new Array();
-        mycars[0]='Main Deck';
-        mycars[1]='Backup Deck';
+        var decks = new Array();
+        decks[0]='Main Deck';
+        decks[1]='Backup Deck';
 
         var options = '';
-
-        for(let cancel = 0; cancel < mycars.length; cancel++)
-            options += '<option value="'+mycars[cancel]+'" />';
+        for(let cancel = 0; cancel < decks.length; cancel++)
+            options += '<option value="'+decks[cancel]+'" />';
         document.getElementById('screens.screenid-datalist').innerHTML = options;
     }
 
@@ -270,11 +233,44 @@
     }
 
     function isNumberKey(evt) {
-        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        let charCode = (evt.which) ? evt.which : evt.keyCode;
         // Added to allow decimal, period, or delete
         if (charCode == 110 || charCode == 190 || charCode == 46) return true;
         if (charCode > 31 && (charCode < 48 || charCode > 57)) return false;
         return true;
+    }
+
+    function loadCardList() {
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                let deckWebElem = document.getElementById("ddSelectDeck");
+                const refPath = "users/" + user.uid + "/" + deckWebElem.options[deckWebElem.selectedIndex].text.replace(/\s/g, '');
+                firebase.app().database().ref(refPath).orderByChild("CardName").on("value", function(snapshot) {
+                    let cards = [];
+                    snapshot.forEach(function(childSnapshot) {
+                        console.log(childSnapshot.val().CardName);
+                        for(let i = 0; i < childSnapshot.val().Quantity; i++) {
+                            cards.push(childSnapshot.val().CardName)
+                        }
+                    });
+
+                    let list = document.getElementById('cardList');
+                    // clear all children of list
+                    while (list.firstChild) {
+                        list.removeChild(list.firstChild);
+                    }
+
+                    // append children from firebase
+                    for(let cancel = 0; cancel < cards.length; cancel++) {
+                        let li = document.createElement("li");
+                        li.setAttribute("id", "cardlist-" + cards[cancel]);
+                        li.setAttribute("class", "magicCard");
+                        li.appendChild(document.createTextNode(cards[cancel]));
+                        list.appendChild(li)
+                    }
+                });
+            }
+        });
     }
 </script>
 </html>
