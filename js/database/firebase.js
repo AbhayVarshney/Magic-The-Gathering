@@ -38,14 +38,6 @@ verifyUserCredentialsForLanding = () => {
     });
 };
 
-// // if user is already logged in, go to the index page
-// isSignedIn = () => {
-//     console.log("checking if user is logged in");
-//     if(verifyUserCredentials()) {
-//         // window.location = '../html/dashboard/index.html'
-//     }
-// };
-
 // Logout the user from Firebase
 logout = () => {
     firebase.auth().signOut().then(() => {
