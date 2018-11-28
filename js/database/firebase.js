@@ -138,7 +138,7 @@ function loadCardList() {
     });
 }
 
-GetCardProperties = (cardName) => {
+getCardProperties = (cardName) => {
     Card newCard;
     newCard.name = cardName;
     firebase.app().database().ref("DefaultCards").orderByChild("name").equalTo(cardName).once("value", snapshot => {

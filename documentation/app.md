@@ -16,3 +16,4 @@ such as the number of lands or the average converted mana cost.
 ***UploadCardInfoToDB:*** Adds a card to a user's deck.<br />
 ***getUserDecks:*** Retrieves all of a user's deck names from the database.<br />
 ***loadCardList:*** Loads the cards of a selected deck from the database.<br />
+***getCardProperties:*** Constructs a card with statistics from the database given the name of the card.
