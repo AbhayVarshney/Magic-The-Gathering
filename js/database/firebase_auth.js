@@ -112,6 +112,20 @@ UploadCardInfoToDB = () => {
     } else myToast.error("All inputs must be of length greater than 0 in the Input Cards section");
 };
 
+getUserDecks = () => {
+    firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+            var scoresRef = firebase.database().ref("users/" + user.uid);
+            scoresRef.orderByValue().on("value", function(snapshot) {
+                let decks = [];
+                snapshot.forEach(function(data) {
+                    decks.push(data.key)
+                });
+            });
+        }
+    });
+}
+
 // GetCardProperties = (cardName) => {
 //
 // }
