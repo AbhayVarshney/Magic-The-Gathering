@@ -1,5 +1,5 @@
-// Initialize Firebase
-var config = {
+// Initialize FireBase with configuration key
+let config = {
     apiKey: "AIzaSyCT97itbIvnvZfAV_IV-Z2NFSTJp90v_7g",
     authDomain: "magic-thegathering.firebaseapp.com",
     databaseURL: "https://magic-thegathering.firebaseio.com",
@@ -9,9 +9,14 @@ var config = {
 };
 firebase.initializeApp(config);
 
+/**
+ * googleSignIn()
+ * For landing.html, when user clicks google sign in button, firebase should authenticate user's google account
+ * @return null
+ */
 googleSignIn = () => {
     base_provider = new firebase.auth.GoogleAuthProvider();
-    firebase.auth().signInWithPopup(base_provider).then(function(result) {
+    firebase.auth().signInWithPopup(base_provider).then(function() {
         // This gives you Google access token
         // var token = result.credential.accessToken;
         window.location = '../html/dashboard/index.html';
@@ -21,7 +26,12 @@ googleSignIn = () => {
     })
 };
 
-//Handle Account Status - returns whether user is a user or not
+/**
+ * verifyUserCredentialsForIndex()
+ * Handle Account Status - returns whether user is a user or not (FOR INDEX.HTML ONLY)
+ * Navigates to landing page if browser cookies already contains firebase token
+ * @return null
+ */
 verifyUserCredentialsForIndex = () => {
     firebase.auth().onAuthStateChanged(user => {
         if (!user)  //If not currently signed user, user will be redirected to login screen
@@ -30,6 +40,12 @@ verifyUserCredentialsForIndex = () => {
     });
 };
 
+/**
+ * verifyUserCredentialsForIndex()
+ * Handle Account Status - returns whether user is a user or not (FOR LANDING.HTML ONLY)
+ * Navigates to index page if user is not logged in
+ * @return null
+ */
 verifyUserCredentialsForLanding = () => {
     firebase.auth().onAuthStateChanged(user => {
         if (user) //If not currently signed user, user will be redirected to login screen
@@ -38,8 +54,12 @@ verifyUserCredentialsForLanding = () => {
     });
 };
 
-// Logout the user from Firebase
-logout = () => {
+/**
+ * logoutUser()
+ * When user clicks logout button, user will be navigated to landing html
+ * @return null
+ */
+logoutUser = () => {
     firebase.auth().signOut().then(() => {
         // Sign-out successful.
         return firebase.auth().onAuthStateChanged(user => {
@@ -58,30 +78,52 @@ logout = () => {
     });
 };
 
-UploadCardInfoToDB = () => {
-    // const maxCards = 53;
+/**
+ * uploadCardInfoToDB()
+ * When user clicks 'Upload' button, cardName/quantity/deckname should be written to FireBase
+ * Includes toast to keep user updated with what's going on
+ * @return null
+ */
+uploadCardInfoToDB = () => {
+    const MAX_CARDS = 53;
     let deckName = document.getElementById('input.DeckName').value;
     let cardName = document.getElementById('input.CardName').value;
     let quantity = document.getElementById('input.Quantity').value;
     let myToast = new Toasty({ progressBar: true });
-    myToast.info("Checking if " + deckName + "is a legal Magic Card...");
+    myToast.info("Checking if " + deckName + " is a legal Magic Card...");
 
-    // Firebase Write
+    // Ensure that the deck and card names are valid in length
     if (deckName.length > 0 && cardName.length > 0) {
+        // Ensure that the magic card name that the user inputted is valid
         firebase.app().database().ref("DefaultCards").orderByChild("name").equalTo(cardName).once("value", snapshot => {
             if (snapshot.val()) {
+                // Obtain the current user object from FireBase
                 firebase.auth().onAuthStateChanged((user) => {
                     if (user) {
-                        // Object that we will send to Firebase
-                        let childRef = '/users/' + user.uid + '/' + deckName + '/' + cardName.replace(/\s/g, '');
-                        firebase.database().ref().child(childRef).set({
-                            CardName: cardName,
-                            Quantity: parseInt(quantity)
-                        });
+                        // Obtains total quantity of cards in FireBase - MUST be less than MAX_CARDS
+                        firebase.app().database().ref("users/" + user.uid + "/" + deckName).orderByChild("CardName").once("value", (snapshot) => {
+                            let numCardsInDeck = 0;
+                            snapshot.forEach(function(childSnapshot) {
+                                // Only count all cards except the card that the user is trying to add
+                                if(childSnapshot.val().CardName !== cardName)
+                                    numCardsInDeck += childSnapshot.val().Quantity
+                            }) ;
 
-                        // Handle Toast message for use to notify if operation is successful
-                        if(quantity == 0) myToast.success("Successfully removed " + cardName + " from " + deckName);
-                        else myToast.success("Successfully added " + cardName + " to " + deckName);
+                            if(quantity == 0 || (numCardsInDeck + parseInt(quantity)) <= MAX_CARDS) {
+                                // FireBase will write Object to database
+                                let childRef = '/users/' + user.uid + '/' + deckName + '/' + cardName.replace(/\s/g, '');
+                                firebase.database().ref().child(childRef).set({
+                                    CardName: cardName,
+                                    Quantity: parseInt(quantity)
+                                });
+
+                                // Handle Toast message for use to notify if operation is successful
+                                if(quantity == 0) myToast.success("Successfully removed " + cardName + " from " + deckName);
+                                else myToast.success("Successfully added " + cardName + " to " + deckName);
+                            } else {
+                                myToast.error("There are too many cards in your deck. Please remove cards within " + deckName + " in order to add " + cardName);
+                            }
+                        });
                     }
                 });
             } else myToast.error(cardName + " is not a legal magic card.");
@@ -89,11 +131,18 @@ UploadCardInfoToDB = () => {
     } else myToast.error("All inputs must be of length greater than 0 in the Input Cards section");
 };
 
+/**
+ * getUserDecks()
+ * Verifies the user, gets user object from Firebase, and then gets list of all the decks for the user
+ * @return null
+ */
 getUserDecks = () => {
+    // Obtain the current user object from FireBase
     firebase.auth().onAuthStateChanged((user) => {
         if (user) {
-            var scoresRef = firebase.database().ref("users/" + user.uid);
-            scoresRef.orderByValue().on("value", function(snapshot) {
+            // Verifies if card exists in All Magic Card Database
+            var firebaseRef = firebase.database().ref("users/" + user.uid);
+            firebaseRef.orderByValue().on("value", function(snapshot) {
                 let decks = [];
                 snapshot.forEach(function(data) {
                     decks.push(data.key)
@@ -108,10 +157,18 @@ getUserDecks = () => {
     });
 };
 
+/**
+ * loadCardList()
+ * Verifies the user, gets user object from FireBase, gets all the cards of the user within a specific deck from
+ * FireBase, and then populates the cards section with those details
+ * @return null
+ */
 function loadCardList() {
+    // Obtain the current user object from FireBase
     firebase.auth().onAuthStateChanged((user) => {
         let deckName = document.getElementById('input.ChooseDeckName').value;
         if (user && deckName.length > 0) {
+            // Get a list of all the card names using deck name from FireBase
             const allCardsPath = "users/" + user.uid + "/" + deckName;
             firebase.app().database().ref(allCardsPath).orderByChild("CardName").on("value", function(snapshot) {
                 let userMagicCards = [];
@@ -125,7 +182,7 @@ function loadCardList() {
                 while (list.firstChild)
                     list.removeChild(list.firstChild);
 
-                // append children from firebase
+                // Append children from FireBase to HTML DOM
                 for(let cancel = 0; cancel < userMagicCards.length; cancel++) {
                     let li = document.createElement("li");
                     li.setAttribute("id", "cardlist-" + userMagicCards[cancel]);
@@ -137,6 +194,7 @@ function loadCardList() {
         }
     });
 }
+
 // GetCardProperties = (cardName) => {
 //
 // }

@@ -12,17 +12,6 @@
     <script src="../../js/site.min.js"></script>
     <link rel='stylesheet' href='http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css'>
     <link rel='stylesheet' href='../../css/toasty.min.css'>
-    <script>
-        window.onload = function () {
-            console.log("addding decks");
-            var select = document.getElementById("mySelect");
-            for(var i = 2011; i >= 1900; --i) {
-                var option = document.createElement('option');
-                option.text = option.value = i;
-                select.add(option, 0);
-            }
-        };
-    </script>
 </head>
 <body>
 
@@ -31,8 +20,8 @@
         <div class="nav-wrapper container">
             <ul class="right hide-on-med-and-down">
                 <li><a href="#RunHistory">Previous Runs</a></li>
-                <li><a href="https://www.codeproject.com/Articles/Pero-Matic#Article" rel="nofollow">Simulations</a></li>
-                <li><a href="#logout" onclick="logout()">Logout</a></li>
+                <li><a href="#Simulations">Simulations</a></li>
+                <li><a href="#logout" onclick="logoutUser()">Logout</a></li>
             </ul>
             <a href="#" data-activates="mobile-menu" class="button-collapse waves-effect waves-light circle">
                 <i class="material-icons">menu</i>
@@ -97,7 +86,7 @@
             <div style="align-items: center; text-align: center;">
                 <div id="progress-button" class="progress-button">
                     <!-- button with text -->
-                    <button onclick="UploadCardInfoToDB()"><span>Upload</span></button>
+                    <button onclick="uploadCardInfoToDB()"><span>Upload</span></button>
                 </div>
             </div>
             <div style="padding-top: 50px;float:left; display:inline; width: 100%; padding-left: 45px; padding-bottom: 40px">
