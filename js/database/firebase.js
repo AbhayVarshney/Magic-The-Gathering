@@ -122,12 +122,10 @@ function loadCardList() {
         if (user && deckName.length > 0) {
             const allCardsPath = "users/" + user.uid + "/" + deckName;
             firebase.app().database().ref(allCardsPath).orderByChild("CardName").on("value", function(snapshot) {
-                let cards = [];
+                let userMagicCards = [];
                 snapshot.forEach(function(childSnapshot) {
-                    console.log(childSnapshot.val().CardName);
-                    for(let i = 0; i < childSnapshot.val().Quantity; i++) {
-                        cards.push(childSnapshot.val().CardName)
-                    }
+                    for(let i = 0; i < childSnapshot.val().Quantity; i++)
+                        userMagicCards.push(childSnapshot.val().CardName)
                 });
 
                 let list = document.getElementById('cardList');
@@ -137,11 +135,11 @@ function loadCardList() {
                 }
 
                 // append children from firebase
-                for(let cancel = 0; cancel < cards.length; cancel++) {
+                for(let cancel = 0; cancel < userMagicCards.length; cancel++) {
                     let li = document.createElement("li");
-                    li.setAttribute("id", "cardlist-" + cards[cancel]);
+                    li.setAttribute("id", "cardlist-" + userMagicCards[cancel]);
                     li.setAttribute("class", "magicCard");
-                    li.appendChild(document.createTextNode(cards[cancel]));
+                    li.appendChild(document.createTextNode(userMagicCards[cancel]));
                     list.appendChild(li)
                 }
             });
