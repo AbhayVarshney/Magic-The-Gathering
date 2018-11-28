@@ -130,9 +130,8 @@ function loadCardList() {
 
                 let list = document.getElementById('cardList');
                 // clear all children of list
-                while (list.firstChild) {
+                while (list.firstChild)
                     list.removeChild(list.firstChild);
-                }
 
                 // append children from firebase
                 for(let cancel = 0; cancel < userMagicCards.length; cancel++) {
