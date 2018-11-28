@@ -15,7 +15,6 @@ class Card {
         this.Colors = card.Colors;
         this.ColorIdentity = card.ColorI;
         this.Legality = card.Legality;
-        this.Set = card.set;
         this.Quantity = card.Quantity;
         this.Cost = card.Cost;
     }

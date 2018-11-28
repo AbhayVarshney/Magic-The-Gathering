@@ -198,6 +198,44 @@ function loadCardList() {
 // GetCardProperties = (cardName) => {
 //
 // }
+// getCardProperties = (cardName) => {
+//     Card newCard;
+//     newCard.name = cardName;
+//     firebase.app().database().ref("DefaultCards").orderByChild("name").equalTo(cardName).once("value", snapshot => {
+//         newCard.ManaCost = firebase.database().ref("DefaultCards/" + snapshot.val() + "/mana_cost");
+//         newCard.CMC = firebase.database().ref("DefaultCards/" + snapshot.val() + "/cmc");
+//         newCard.typeLine = firebase.database().ref("DefaultCards/" + snapshot.val() + "/type_line");
+//         newCard.OracleText = firebase.database().ref("DefaultCards/" + snapshot.val() + "/oracle_text");
+//         newcard.Power = firebase.database().ref("DefaultCards/" + snapshot.val() + "/power");
+//         newCard.Toughness = firebase.database().ref("DefaultCards/" + snapshot.val() + "/toughness");
+//         newCard.Colors = firebase.database().ref("DefaultCards/" + snapshot.val() + "/colors");
+//         newCard.ColorIdentity = firebase.database().ref("DefaultCards/" + snapshot.val() + "/color_identity");
+//         let legalities = [];
+//         legalities.push(firebase.database().ref("DefaultCards/" + snapshot.val() + "/legality_standard");)
+//         legalities.push(firebase.database().ref("DefaultCards/" + snapshot.val() + "/legality_future");)
+//         legalities.push(firebase.database().ref("DefaultCards/" + snapshot.val() + "/legality_frontier");)
+//         legalities.push(firebase.database().ref("DefaultCards/" + snapshot.val() + "/legality_modern");)
+//         legalities.push(firebase.database().ref("DefaultCards/" + snapshot.val() + "/legality_legacy");)
+//         legalities.push(firebase.database().ref("DefaultCards/" + snapshot.val() + "/legality_pauper");)
+//         legalities.push(firebase.database().ref("DefaultCards/" + snapshot.val() + "/legality_vintage");)
+//         legalities.push(firebase.database().ref("DefaultCards/" + snapshot.val() + "/legality_penny");)
+//         legalities.push(firebase.database().ref("DefaultCards/" + snapshot.val() + "/legality_commander");)
+//         legalities.push(firebase.database().ref("DefaultCards/" + snapshot.val() + "/legality_1v1");)
+//         legalities.push(firebase.database().ref("DefaultCards/" + snapshot.val() + "/legality_duel");)
+//         legalities.push(firebase.database().ref("DefaultCards/" + snapshot.val() + "/legality_brawl");)
+//         newCard.Legality = legalities;
+//     }
+//
+//
+//
+//
+//     scoresRef.orderByValue().on("value", function(snapshot) {
+//         let decks = [];
+//         snapshot.forEach(function(data) {
+//             decks.push(data.key)
+//         });
+//
+// }
 
 // gets list of all card names from database:
 /*
