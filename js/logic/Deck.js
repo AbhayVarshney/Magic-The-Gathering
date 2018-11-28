@@ -1,18 +1,17 @@
 /*
-   @Objective Create a Deck class that has the following variables and member functions
+   @Objective Create a Deck class sthat has the following variables and member functions
    Double AverageCMC
-   void Shuffle() Shuffles the deck
-   void CalcCmc() Finds the average CMC of the deck.
-   void Calclands()
-   void CalcNonLands()
-   void Verify() Makes sure that every card in the list is a valid card that we can recognize
-   void OddsOfCard Utilizes Hypergeometric distribution to find the likely hood of drawing specific cards.
+   CalcCmc() Finds the average CMC of the deck.
+    Calclands
+   CalcNonLands
+   Verify Makes sure that every card in the list is a valid card that we can recognize
+   OddsOfCard() Utilizes Hypergeometric distribution to find the likely hood of drawing specific cards.
 */
-
-
+//<script src = 'Card.js"> </script>
+   // import Card() from Card.js;
 class Deck {
     constructor(name, deckList, format) {
-        this.DeckList = new Array(60);
+        this.DeckList = new Array(100);
         this.Size = 0;
         let landCount = 0;
         let nonLandCount = 0;
@@ -21,9 +20,9 @@ class Deck {
         deckList.forEach((element) => {
             let i = 0;
             this.DeckList[++i] = element;
-            this.Size += element.Quantity;                                                                          // adds how many copies of the card into the deck size.
+            this.Size += element.Quantity;                                                                               // adds how many copies of the card into the deck size.
             deckCost += element.Cost * element.Quantity;
-            DeckCmc += element.CMC * element.Quantity;                                     // Calculates the average Cmc in the decklist by adding each cards converted mana cost into a sum and then divides them by the total number of cards in the deck.
+            DeckCmc += element.CMC * element.Quantity;                                                                   // Calculates the average Cmc in the decklist by adding each cards converted mana cost into a sum and then divides them by the total number of cards in the deck.
             if (element.typeLine.includes('land')) {
                 landCount += element.Quantity;
             }
@@ -38,10 +37,9 @@ class Deck {
         this.Format = format;
         this.DeckCost = deckCost;
     }
-    
+
     OddsOfCard(cards, successes, cardsDrawn) {
         let odds;
-        //let deckSize = this.Size;
         // number of possible cards to hit
         // Checks to see if we only have one card to look for
 
@@ -121,3 +119,5 @@ class Deck {
     }
 
 }
+
+
