@@ -1,5 +1,7 @@
-#Documentation:
-**Landing:** Login screen. Includes options to log in through Google or Facebook.
+#Documentation:<br />
+
+Magic-thegathering/html/
+     **landing.html:** Login screen. Includes options to log in through Google or Facebook.
 
 **Index:** Main screen, with three sections:<br />
 ***Input Cards:*** Allows the user to input cards into a deck. The user inputs the name of the deck,
