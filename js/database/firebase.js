@@ -72,7 +72,7 @@ UploadCardInfoToDB = () => {
     let cardName = document.getElementById('input.CardName').value;
     let quantity = document.getElementById('input.Quantity').value;
     let myToast = new Toasty({ progressBar: true });
-    myToast.info("Checking if legal Magic Card");
+    myToast.info("Checking if " + deckName + "is a legal Magic Card...");
 
     // Firebase Write
     if (deckName.length > 0 && cardName.length > 0) {
@@ -81,7 +81,7 @@ UploadCardInfoToDB = () => {
                 firebase.auth().onAuthStateChanged((user) => {
                     if (user) {
                         // Object that we will send to Firebase
-                        let childRef = '/users/' + user.uid + '/' + deckName.replace(/\s/g, '') + '/' + cardName.replace(/\s/g, '');
+                        let childRef = '/users/' + user.uid + '/' + deckName + '/' + cardName.replace(/\s/g, '');
                         firebase.database().ref().child(childRef).set({
                             CardName: cardName,
                             Quantity: parseInt(quantity)
@@ -106,11 +106,48 @@ getUserDecks = () => {
                 snapshot.forEach(function(data) {
                     decks.push(data.key)
                 });
+
+                let options = '';
+                for(let cancel = 0; cancel < decks.length; cancel++)
+                    options += '<option value="'+decks[cancel]+'" />';
+                document.getElementById('screens.screenid-datalist').innerHTML = options;
+            });
+        }
+    });
+};
+
+function loadCardList() {
+    firebase.auth().onAuthStateChanged((user) => {
+        let deckName = document.getElementById('input.ChooseDeckName').value;
+        if (user && deckName.length > 0) {
+            const allCardsPath = "users/" + user.uid + "/" + deckName;
+            firebase.app().database().ref(allCardsPath).orderByChild("CardName").on("value", function(snapshot) {
+                let cards = [];
+                snapshot.forEach(function(childSnapshot) {
+                    console.log(childSnapshot.val().CardName);
+                    for(let i = 0; i < childSnapshot.val().Quantity; i++) {
+                        cards.push(childSnapshot.val().CardName)
+                    }
+                });
+
+                let list = document.getElementById('cardList');
+                // clear all children of list
+                while (list.firstChild) {
+                    list.removeChild(list.firstChild);
+                }
+
+                // append children from firebase
+                for(let cancel = 0; cancel < cards.length; cancel++) {
+                    let li = document.createElement("li");
+                    li.setAttribute("id", "cardlist-" + cards[cancel]);
+                    li.setAttribute("class", "magicCard");
+                    li.appendChild(document.createTextNode(cards[cancel]));
+                    list.appendChild(li)
+                }
             });
         }
     });
 }
-
 // GetCardProperties = (cardName) => {
 //
 // }

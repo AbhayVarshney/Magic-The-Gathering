@@ -8,7 +8,7 @@ the name of the card, and the number of that card to add to the deck.<br />
 ***Calculations:*** Allows the user to view statistics about the selected deck,
 such as the number of lands or the average converted mana cost.
 
-**firebase_auth.js:** Main code for functionality. Starts by initializing Firebase then has several functions.<br />
+**firebase.js:** Main code for functionality. Starts by initializing Firebase then has several functions.<br />
 ***googleSignIn:*** For signing into web app via Google.<br />
 ***verifyUserCredentialsForIndex:*** Returns user to login screen if not logged in on web app.<br />
 ***verifyUserCredentialsForLanding:*** Resets login screen if login fails.
