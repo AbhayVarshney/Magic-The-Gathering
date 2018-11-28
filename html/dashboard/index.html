@@ -5,6 +5,8 @@
     <meta charset="utf-8" />
     <meta name="description" content="Magic: The Gathering Application" />
     <title>Magic: The Gathering</title>
+    <script type = "Card.js"></script>
+    <script type = "Deck.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.5.6/firebase.js"></script>
     <script src="../../js/database/firebase_auth.js"></script>
     <link rel="stylesheet" href="../../css/site.min.css" />
@@ -128,7 +130,7 @@
             <div style="align-items: center; text-align: center;">
                 <div class="progress-button">
                     <!-- button with text -->
-                    <button onclick="UploadCardInfo()"><span>Calculate</span></button>
+                    <button onclick="UpdateCalc()"><span>Calculate</span></button>
                 </div>
             </div>
         </div>
@@ -142,7 +144,7 @@
                 <div id="Statistics-AvgCMC" style="position: relative; float:left; padding-right: 25px; padding-top: 25px; color: rgb(80,163,154); font-size: 18px; width: 50%"><strong>\</strong> </div>
                 <div style="position: relative; float:left; padding-left: 55px; padding-right: 25px; padding-top: 25px; color: rgb(80,163,154); font-size: 18px; font-weight:bold">Number of lands: </div>
                 <div id="Statistics-NumLands" style="position: relative; float:left; padding-right: 25px; padding-top: 25px; color: rgb(80,163,154); font-size: 18px; width: 50%"><strong>\</strong> </div>
-                <div style="position: relative; float:left; padding-left: 25px; padding-right: 25px; padding-top: 25px; color: rgb(80,163,154); font-size: 18px; font-weight:bold">Number of no lands: </div>
+                <div style="position: relative; float:left; padding-left: 25px; padding-right: 25px; padding-top: 25px; color: rgb(80,163,154); font-size: 18px; font-weight:bold">Number of non lands: </div>
                 <div id="Statistics-NumNoLands" style="position: relative; float:left; padding-right: 25px; padding-top: 25px; color: rgb(80,163,154); font-size: 18px; width: 50%"><strong>\</strong> </div>
             </div>
             <div style="padding-top: 30px; float:left; display:inline; width: 100%; padding-left: 55px; padding-bottom: 40px">
@@ -210,9 +212,71 @@
         verifyUserCredentialsForIndex();
     };
 
+    function UpdateCalc()
+    {
+        var Birdobj = {
+            name: "Birds of Paradise",
+            manaCost: "G",
+            cmc: 1,
+            typeLine: "Creature-Bird",
+            OracleText: "Flying, T:add one mana of any color",
+            Power: 0,
+            Toughness: 1,
+            color: "Green",
+            colorI: "Green",
+            Legality: "Legacy Commander Modern",
+            set: "Alpha",
+            Quantity: 4,
+            Cost: 7
+        };
+        var Boltobj = {
+            name: "Lightning Bolt",
+            manaCost: "R",
+            cmc: 2,
+            typeLine: "Instant",
+            OracleText: "Lightning Bolt deals 3 damage to any target",
+            color: "Red",
+            colorI: "Red",
+            Legality: "Legacy Commander Modern",
+            set: "Alpha",
+            Quantity: 4,
+            Cost: 3
+        };
+        var ForestObj = {
+            name: "Forest",
+            manaCost: " ",
+            cmc: 0,
+            typeLine: "Basic Land- Forest",
+            OracleText: "T : add green mana",
+            color: "Colorless",
+            colorI: "Green",
+            Legality: " Legacy Commander Modern Standard",
+            set: "Alpha",
+            Quantity: 12,
+            Cost: .01
+
+        };
+//let Bird = new Card("Birds of Paradise", "G", 1, "Creature-Bird", "Flying , T:add one mana of any color", 0, 1, "Green", "Green", " Legacy Commander Modern ", "Alpha", 4, 7);
+        let Bird = new Card(Birdobj);
+        let Bolt = new Card(Boltobj);
+        let Forest = new Card(ForestObj);
+        let decklist = [Bird, Bolt, Forest];
+        let boltTheBird = new Deck("Fried chicken", decklist, "Modern");
+
+        console.log(boltTheBird.Name);
+        console.log(boltTheBird.Size);
+        console.log(boltTheBird.averageCMC);
+        console.log(boltTheBird.DeckCost);
+        document.getElementById("Statistics-Name").innerHTML = boltTheBird.Name;
+        document.getElementById("Statistics-AverageCMC").innerHTML = boltTheBird.averageCMC;
+        document.getElementById("Statistics-NumLands").innerHTML = boltTheBird.landCount;
+        document.getElementById("Statistics-NumNoLands").innerHTML = boltTheBird.nonLandCount;
+
+    }
+
     function loadDeckInput() {
         // stale data
-        var decks = new Array();
+        var decks = [];
         decks[0]='Main Deck';
         decks[1]='Backup Deck';
 
