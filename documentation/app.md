@@ -1,4 +1,4 @@
-##Documentation:
+#Documentation:
 **Landing:** Login screen. Includes options to log in through Google or Facebook.
 
 **Index:** Main screen, with three sections:<br />
