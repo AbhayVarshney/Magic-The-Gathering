@@ -66,28 +66,13 @@ logout = () => {
     });
 };
 
-obtainInfoFromDB = (cardName) => {
-    firebase.auth().onAuthStateChanged(user => {
-        if (user) {
-            let newUserRef = firebase.database().ref('magic-thegathering/DefaultCards/9099');
-            newUserRef.on("value", function(snapshot) {
-                snapshot.forEach(function(data) {
-                    console.log(data.key);
-                    console.log("Data:", data.val())
-                });
-            }, function (errorObject) {
-                console.log("The read failed: " + errorObject.code);
-            });
-        }
-    });
-};
-
 UploadCardInfoToDB = () => {
-    const maxCards = 53;
+    // const maxCards = 53;
     let deckName = document.getElementById('input.DeckName').value;
     let cardName = document.getElementById('input.CardName').value;
     let quantity = document.getElementById('input.Quantity').value;
     let myToast = new Toasty({ progressBar: true });
+    myToast.info("Checking if legal Magic Card");
 
     // Firebase Write
     if (deckName.length > 0 && cardName.length > 0) {
