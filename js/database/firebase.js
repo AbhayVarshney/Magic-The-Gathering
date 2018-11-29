@@ -35,7 +35,7 @@ googleSignIn = () => {
 verifyUserCredentialsForIndex = () => {
     firebase.auth().onAuthStateChanged(user => {
         if (!user)  //If not currently signed user, user will be redirected to login screen
-            window.location = '../../html/landing.html';
+           // window.location = '../../html/landing.html';
         else console.log(user);
     });
 };
