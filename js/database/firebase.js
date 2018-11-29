@@ -218,21 +218,25 @@ getCardProperties = () => {
                             cardObject.Legality = getLegalities(childSnapshot);
                             cardObject.Cost = 0;
                         });
-                        allCards.push(new Card(cardObject));
-                    });
 
-                    // Add options to select list
-                    if(cardObject.quantity > 0)
-                        cardNames += '<option value="'+cardObject.name+'" />';
+                        console.log("cmc:", cardObject.cmc);
+                        console.log(cardObject);
+                        allCards.push(new Card(cardObject));
+
+                        // Add options to select list
+                        if(cardObject.quantity > 0)
+                            cardNames += '<option value="'+cardObject.name+'" />';
+
+                        // Update the Statistics section of the UI with deck calculations
+                        let boltTheBird = new Deck(deckName, allCards, "Modern");
+                        document.getElementById("Statistics-DeckName").innerHTML = boltTheBird.Name;//"Bob from Accounting";
+                        document.getElementById("Statistics-AvgCMC").innerHTML = boltTheBird.averageCMC;
+                        document.getElementById("Statistics-NumLands").innerHTML = boltTheBird.landCount;
+                        document.getElementById("Statistics-NumNoLands").innerHTML = boltTheBird.nonLandCount;
+                        document.getElementById('screens.screenid-cardlist').innerHTML = cardNames;
+                    });
                 });
 
-                // Update the Statistics section of the UI with deck calculations
-                let boltTheBird = new Deck(deckName, allCards, "Modern");
-                document.getElementById("Statistics-DeckName").innerHTML = boltTheBird.Name;//"Bob from Accounting";
-                document.getElementById("Statistics-AvgCMC").innerHTML = boltTheBird.averageCMC;
-                document.getElementById("Statistics-NumLands").innerHTML = boltTheBird.landCount;
-                document.getElementById("Statistics-NumNoLands").innerHTML = boltTheBird.nonLandCount;
-                document.getElementById('screens.screenid-cardlist').innerHTML = cardNames;
 
             })
         }
