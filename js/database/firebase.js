@@ -195,6 +195,12 @@ function loadCardList() {
     });
 }
 
+/**
+ * getCardProperties()
+ * Verifies the user, gets user object from FireBase, gets all the cards of the user within a specific deck from
+ * FireBase, and then constructs Card objects for each and adds them to an array
+ * @return null
+ */
 getCardProperties = () => {
     firebase.auth().onAuthStateChanged((user) => {
         if (user) {
@@ -228,6 +234,11 @@ getCardProperties = () => {
     })
 };
 
+/**
+ * getLegalities(childSnapshot)
+ * Checks the legalities of a given card. Returns a string of all formats the card is legal in, with spaces between.
+ * @return string
+ */
 getLegalities = (childSnapshot) => {
     let legality = "";
     if (childSnapshot.val().legality_standard === "legal")
