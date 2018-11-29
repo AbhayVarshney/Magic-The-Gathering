@@ -11,18 +11,18 @@
    // import Card() from Card.js;
 class Deck {
     constructor(name, deckList, format) {
-        this.DeckList = new Array(100);
+        this.DeckList = [];
         this.Size = 0;
-        let landCount = 0;
-        let nonLandCount = 0;
-        let DeckCmc = 0;
-        let deckCost = 0;
+        let landCount = 0, nonLandCount = 0, DeckCmc = 0, deckCost = 0;
         deckList.forEach((element) => {
-            let i = 0;
-            this.DeckList[++i] = element;
-            this.Size += element.Quantity;                                                                               // adds how many copies of the card into the deck size.
+            // let i = 0;
+            this.DeckList.push(element);
+            // this.DeckList[++i] = element;
+            this.Size += element.Quantity;  // adds how many copies of the card into the deck size.
             deckCost += element.Cost * element.Quantity;
-            DeckCmc += element.CMC * element.Quantity;                                                                   // Calculates the average Cmc in the decklist by adding each cards converted mana cost into a sum and then divides them by the total number of cards in the deck.
+            // Calculates the average Cmc in the decklist by adding each cards converted mana cost into a sum
+            // and then divides them by the total number of cards in the deck.
+            DeckCmc += element.CMC * element.Quantity;
             if (element.typeLine.includes("land") || element.typeLine.includes("Land")) {
                 landCount += element.Quantity;
             }

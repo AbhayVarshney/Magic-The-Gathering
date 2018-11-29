@@ -35,7 +35,7 @@ googleSignIn = () => {
 verifyUserCredentialsForIndex = () => {
     firebase.auth().onAuthStateChanged(user => {
         if (!user)  //If not currently signed user, user will be redirected to login screen
-           window.location = '../../html/landing.html';
+            window.location = '../../html/landing.html';
         else console.log(user);
     });
 };
@@ -209,25 +209,33 @@ getCardProperties = () => {
                 snapshot.forEach((userCard) => {
                     let cardObject = {
                         name: userCard.val().CardName,
-                        quantity: userCard.val().Quantity
+                        quantity: parseInt(userCard.val().Quantity)
                     };
                     firebase.app().database().ref("DefaultCards").orderByChild("name").equalTo(cardObject.name).once("value", function (snapshot) {
                         snapshot.forEach(function (childSnapshot) {
                             cardObject.manaCost = childSnapshot.val().mana_cost;
-                            cardObject.cmc = childSnapshot.val().cmc;
+                            cardObject.cmc = parseInt(childSnapshot.val().cmc);
                             cardObject.typeLine = childSnapshot.val().type_line;
                             cardObject.OracleText = childSnapshot.val().oracle_text;
-                            cardObject.Power = childSnapshot.val().power;
-                            cardObject.Toughness = childSnapshot.val().toughness;
+                            cardObject.Power = parseInt(childSnapshot.val().power);
+                            cardObject.Toughness = parseInt(childSnapshot.val().toughness);
                             cardObject.Colors = childSnapshot.val().colors;
                             cardObject.ColorI = childSnapshot.val().color_identity;
                             cardObject.Legality = getLegalities(childSnapshot);
                             cardObject.Cost = 0;
                         });
-                        allCards.push(cardObject);
-                        console.log("List of all cards in your deck: " + JSON.stringify(allCards));
+                        allCards.push(new Card(cardObject));
+                        // console.log("List of all cards in your deck: " + JSON.stringify(allCards));
                     });
-                })
+                });
+
+                // Update the Statistics section of the UI with deck calculations
+                let boltTheBird = new Deck(deckName, allCards, "Modern");
+                document.getElementById("Statistics-DeckName").innerHTML = boltTheBird.Name;//"Bob from Accounting";
+                document.getElementById("Statistics-AvgCMC").innerHTML = boltTheBird.averageCMC;
+                document.getElementById("Statistics-NumLands").innerHTML = boltTheBird.landCount;
+                document.getElementById("Statistics-NumNoLands").innerHTML = boltTheBird.nonLandCount;
+
             })
         }
     })
