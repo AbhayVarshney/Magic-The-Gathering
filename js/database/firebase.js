@@ -195,12 +195,12 @@ getCardProperties = () => {
     firebase.auth().onAuthStateChanged((user) => {
         if (user) {
             let deckName = document.getElementById('input.ChooseDeckName').value;
-            // let firebaseUserDeckRef = ;
+            let myToast = new Toasty({ progressBar: true });
+            myToast.info("Beginning calculations for " + deckName + "...");
             firebase.app().database().ref("users/" + user.uid + "/" + deckName).orderByChild("CardName").once("value", (snapshot) => {
                 let allCards = [];
                 let cardNames = '';
                 snapshot.forEach((userCard) => {
-                    console.log("card name: " + userCard.val().CardName);
                     let cardObject = {
                         name: userCard.val().CardName,
                         Quantity: parseInt(userCard.val().Quantity)
@@ -221,7 +221,7 @@ getCardProperties = () => {
                         allCards.push(new Card(cardObject));
 
                         // Add options to select list
-                        if(cardObject.quantity > 0)
+                        if(cardObject.Quantity > 0)
                             cardNames += '<option value="'+cardObject.name+'" />';
 
                         // Update the Statistics section of the UI with deck calculations
@@ -233,8 +233,6 @@ getCardProperties = () => {
                         document.getElementById('screens.screenid-cardlist').innerHTML = cardNames;
                     });
                 });
-
-
             })
         }
     })
