@@ -9,31 +9,37 @@
 */
 //<script src = 'Card.js"> </script>
    // import Card() from Card.js;
+/*
+*/
+
 class Deck {
     constructor(name, deckList, format) {
-        this.DeckList = [];
-        this.Size = 0;
-        let landCount = 0, nonLandCount = 0, DeckCmc = 0, deckCost = 0;
+       // this.DeckList = new Array(100);
+        console.log(deckList);
+        let land = 0, nonLand = 0, DeckCmc = 0, deckCost = 0, size =0;
         deckList.forEach((element) => {
-            // let i = 0;
-            this.DeckList.push(element);
-            // this.DeckList[++i] = element;
-            this.Size += element.Quantity;  // adds how many copies of the card into the deck size.
-            deckCost += element.Cost * element.Quantity;
+            //let i = 0;
+            //this.DeckList.push(element);
+            //this.DeckList[++i] = element;
+
+            size += element.Quantity;  // adds how many copies of the card into the deck size.
+
+            // deckCost += element.Cost * element.Quantity;
             // Calculates the average Cmc in the decklist by adding each cards converted mana cost into a sum
             // and then divides them by the total number of cards in the deck.
-            DeckCmc += element.CMC * element.Quantity;
+            DeckCmc += (element.CMC * element.Quantity);
             if (element.typeLine.includes("land") || element.typeLine.includes("Land")) {
-                landCount += element.Quantity;
+                land += element.Quantity;
             }
             else {
-                nonLandCount += element.Quantity;
+                nonLand += element.Quantity;
             }
         });
-        this.landCount = landCount;
-        this.nonLandCount = nonLandCount;
+        this.Size = size;
+        this.landCount = land;
+        this.nonLandCount = nonLand;
         this.Name = name;
-        this.averageCMC = DeckCmc / this.Size;
+        this.averageCMC = DeckCmc / size;
         this.Format = format;
         this.DeckCost = deckCost;
     }
@@ -119,5 +125,3 @@ class Deck {
     }
 
 }
-
-

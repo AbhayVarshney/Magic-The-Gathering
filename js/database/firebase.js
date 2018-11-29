@@ -208,13 +208,14 @@ getCardProperties = () => {
                 let allCards = [];
                 snapshot.forEach((userCard) => {
                     let cardObject = {
-                        name: userCard.val().CardName,
-                        quantity: parseInt(userCard.val().Quantity)
+                        Name: userCard.val().CardName,
+                        Quantity: parseInt(userCard.val().Quantity)
                     };
-                    firebase.app().database().ref("DefaultCards").orderByChild("name").equalTo(cardObject.name).once("value", function (snapshot) {
+                    firebase.app().database().ref("DefaultCards").orderByChild("name").equalTo(cardObject.Name).once("value", function (snapshot) {
                         snapshot.forEach(function (childSnapshot) {
-                            cardObject.manaCost = childSnapshot.val().mana_cost;
-                            cardObject.cmc = parseInt(childSnapshot.val().cmc);
+                            cardObject.Name = childSnapshot.val().name;
+                            cardObject.ManaCost = childSnapshot.val().mana_cost;
+                            cardObject.CMC = parseInt(childSnapshot.val().cmc);
                             cardObject.typeLine = childSnapshot.val().type_line;
                             cardObject.OracleText = childSnapshot.val().oracle_text;
                             cardObject.Power = parseInt(childSnapshot.val().power);
@@ -230,11 +231,12 @@ getCardProperties = () => {
                 });
 
                 // Update the Statistics section of the UI with deck calculations
-                let boltTheBird = new Deck(deckName, allCards, "Modern");
-                document.getElementById("Statistics-DeckName").innerHTML = boltTheBird.Name;//"Bob from Accounting";
-                document.getElementById("Statistics-AvgCMC").innerHTML = boltTheBird.averageCMC;
-                document.getElementById("Statistics-NumLands").innerHTML = boltTheBird.landCount;
-                document.getElementById("Statistics-NumNoLands").innerHTML = boltTheBird.nonLandCount;
+                let userDeck = new Deck(deckName, allCards, "Modern");
+                console.log(userDeck.DeckList);
+                document.getElementById("Statistics-DeckName").innerHTML = userDeck.Name;  //"Bob from Accounting";
+                document.getElementById("Statistics-AvgCMC").innerHTML = userDeck.averageCMC;
+                document.getElementById("Statistics-NumLands").innerHTML = userDeck.landCount;
+                document.getElementById("Statistics-NumNoLands").innerHTML = userDeck.nonLandCount;
 
             })
         }

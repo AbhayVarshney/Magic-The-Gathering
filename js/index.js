@@ -12,9 +12,9 @@ window.onload = () => {
          number of land cards and number of non land cards
          Then allowing the user to take advantage of Odds of cards
 */
-function loadDecksToSelect() {
+function loadDecksToSelect()
+{
         // let deck = ;
-
     var Birdobj = {
         name: "Birds of Paradise",
         manaCost: "G",
@@ -61,13 +61,13 @@ function loadDecksToSelect() {
     let Bird = new Card(Birdobj);
     let Bolt = new Card(Boltobj);
     let Forest = new Card(ForestObj);
-    let decklist = [Bird, Bolt, Forest];
+    let decklist = [Bird, Bolt,Forest];
     let boltTheBird = new Deck("Fried chicken", decklist, "Modern");
 
-    document.getElementById("Statistics-DeckName").innerHTML = boltTheBird.Name;//"Bob from Accounting";
-    document.getElementById("Statistics-AvgCMC").innerHTML = boltTheBird.averageCMC;
-    document.getElementById("Statistics-NumLands").innerHTML = boltTheBird.landCount;
-    document.getElementById("Statistics-NumNoLands").innerHTML = boltTheBird.nonLandCount;
+        document.getElementById("Statistics-DeckName").innerHTML = boltTheBird.Name;  //"Bob from Accounting";
+        document.getElementById("Statistics-AvgCMC").innerHTML = boltTheBird.averageCMC;
+        document.getElementById("Statistics-NumLands").innerHTML = boltTheBird.landCount;
+        document.getElementById("Statistics-NumNoLands").innerHTML = boltTheBird.nonLandCount;
 }
 
 /*
