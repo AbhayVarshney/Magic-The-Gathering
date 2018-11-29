@@ -121,15 +121,6 @@ uploadCardInfoToDB = () => {
     } else myToast.error("All inputs must be of length greater than 0 in the Input Cards section");
 };
 
-
-// Obtains total quantity of cards in FireBase - MUST be less than MAX_CARDS
-// firebase.app().database().ref("users/" + user.uid + "/" + deckName).orderByChild("CardName").once("value", (snapshot) => {
-//     let numCardsInDeck = 0;
-//     snapshot.forEach(function(childSnapshot) {
-//         // Only count all cards except the card that the user is trying to add
-//         if(childSnapshot.val().CardName !== cardName)
-//             numCardsInDeck += childSnapshot.val().Quantity
-//     }) ;
 /**
  * getUserDecks()
  * Verifies the user, gets user object from Firebase, and then gets list of all the decks for the user
