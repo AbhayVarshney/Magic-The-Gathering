@@ -5,10 +5,8 @@
     <meta charset="utf-8" />
     <meta name="description" content="Magic: The Gathering Application" />
     <title>Magic: The Gathering</title>
-    <script type = "Card.js"></script>
-    <script type = "Deck.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.5.6/firebase.js"></script>
-    <script src="../../js/database/firebase_auth.js"></script>
+    <script src="../../js/database/firebase.js"></script>
     <link rel="stylesheet" href="../../css/site.min.css" />
     <link rel="stylesheet" href="../../css/index.css" />
     <script src="../../js/site.min.js"></script>
@@ -22,8 +20,8 @@
         <div class="nav-wrapper container">
             <ul class="right hide-on-med-and-down">
                 <li><a href="#RunHistory">Previous Runs</a></li>
-                <li><a href="https://www.codeproject.com/Articles/Pero-Matic#Article" rel="nofollow">Simulations</a></li>
-                <li><a href="#logout" onclick="logout()">Logout</a></li>
+                <li><a href="#Simulations">Simulations</a></li>
+                <li><a href="#logout" onclick="logoutUser()">Logout</a></li>
             </ul>
             <a href="#" data-activates="mobile-menu" class="button-collapse waves-effect waves-light circle">
                 <i class="material-icons">menu</i>
@@ -88,7 +86,7 @@
             <div style="align-items: center; text-align: center;">
                 <div id="progress-button" class="progress-button">
                     <!-- button with text -->
-                    <button onclick="UploadCardInfoToDB()"><span>Upload</span></button>
+                    <button onclick="uploadCardInfoToDB()"><span>Upload</span></button>
                 </div>
             </div>
             <div style="padding-top: 50px;float:left; display:inline; width: 100%; padding-left: 45px; padding-bottom: 40px">
@@ -114,12 +112,18 @@
             <div style="height: 3px; background-color: black"></div>
             <div style="width: 100%; height: 10%">
                 <div style="position: relative; float:left; padding-left: 15px; padding-right: 25px; padding-top: 30px; color: rgb(80,163,154)"><strong>Deck:</strong> </div>
-                <div style="position: relative; float: left; width: 65%; padding-top: 20px">
-                    <select id="ddSelectDeck" name = "dropdown" onchange="loadCardList()">
-                        <option value = "MainDeck">Main Deck</option>
-                        <option value = "DeckBackup">BackUp Deck</option>
-                        <option value = "Discrete Mathematics">Discrete Mathematics</option>
-                    </select>
+                <div style="position: relative; float: left; width: 65%;">
+                    <ul>
+                        <li>
+                            <a target="_blank">
+                                <input list="screens.screenid-datalist" type="text" id="input.ChooseDeckName" placeholder="e.g. Main Deck" onchange="loadCardList()">
+                                <datalist id="screens.screenid-decklist">
+                                    <!-- Deck list -->
+                                </datalist>
+                                <label id="val-screens.deckid" class="Label_Error" style="visibility: hidden;">*</label>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </div>
             <div style="position:relative; height: 54%; margin-top: 15px">
@@ -130,7 +134,7 @@
             <div style="align-items: center; text-align: center;">
                 <div class="progress-button">
                     <!-- button with text -->
-                    <button onclick="UpdateCalc()"><span>Calculate</span></button>
+                    <button onclick="getCardProperties()"><span>Calculate</span></button>
                 </div>
             </div>
         </div>
@@ -144,7 +148,7 @@
                 <div id="Statistics-AvgCMC" style="position: relative; float:left; padding-right: 25px; padding-top: 25px; color: rgb(80,163,154); font-size: 18px; width: 50%"><strong>\</strong> </div>
                 <div style="position: relative; float:left; padding-left: 55px; padding-right: 25px; padding-top: 25px; color: rgb(80,163,154); font-size: 18px; font-weight:bold">Number of lands: </div>
                 <div id="Statistics-NumLands" style="position: relative; float:left; padding-right: 25px; padding-top: 25px; color: rgb(80,163,154); font-size: 18px; width: 50%"><strong>\</strong> </div>
-                <div style="position: relative; float:left; padding-left: 25px; padding-right: 25px; padding-top: 25px; color: rgb(80,163,154); font-size: 18px; font-weight:bold">Number of non lands: </div>
+                <div style="position: relative; float:left; padding-left: 25px; padding-right: 25px; padding-top: 25px; color: rgb(80,163,154); font-size: 18px; font-weight:bold">Number of no lands: </div>
                 <div id="Statistics-NumNoLands" style="position: relative; float:left; padding-right: 25px; padding-top: 25px; color: rgb(80,163,154); font-size: 18px; width: 50%"><strong>\</strong> </div>
             </div>
             <div style="padding-top: 30px; float:left; display:inline; width: 100%; padding-left: 55px; padding-bottom: 40px">
@@ -179,7 +183,7 @@
                 <div style="align-items: center; text-align: center; margin-left: -10px; width: 95%; margin-top: -20px">
                     <div class="progress-button">
                         <!-- button with text -->
-                        <button onclick="UploadCardInfo()"><span>Evaluate</span></button>
+                        <button onclick="loadOddsofCards()"><span>Evaluate</span></button>
                     </div>
                 </div>
             </div>
@@ -201,140 +205,12 @@
         </div>
     </div>
 </section>
-
 </body>
 
 <script src="../../js/libraries/toasty.min.js"></script>
-<script type="text/javascript">
-    window.onload = () => {
-        loadDeckInput();
-        loadCardList();
-        verifyUserCredentialsForIndex();
-    };
-
-    function UpdateCalc()
-    {
-        var Birdobj = {
-            name: "Birds of Paradise",
-            manaCost: "G",
-            cmc: 1,
-            typeLine: "Creature-Bird",
-            OracleText: "Flying, T:add one mana of any color",
-            Power: 0,
-            Toughness: 1,
-            color: "Green",
-            colorI: "Green",
-            Legality: "Legacy Commander Modern",
-            set: "Alpha",
-            Quantity: 4,
-            Cost: 7
-        };
-        var Boltobj = {
-            name: "Lightning Bolt",
-            manaCost: "R",
-            cmc: 2,
-            typeLine: "Instant",
-            OracleText: "Lightning Bolt deals 3 damage to any target",
-            color: "Red",
-            colorI: "Red",
-            Legality: "Legacy Commander Modern",
-            set: "Alpha",
-            Quantity: 4,
-            Cost: 3
-        };
-        var ForestObj = {
-            name: "Forest",
-            manaCost: " ",
-            cmc: 0,
-            typeLine: "Basic Land- Forest",
-            OracleText: "T : add green mana",
-            color: "Colorless",
-            colorI: "Green",
-            Legality: " Legacy Commander Modern Standard",
-            set: "Alpha",
-            Quantity: 12,
-            Cost: .01
-
-        };
-//let Bird = new Card("Birds of Paradise", "G", 1, "Creature-Bird", "Flying , T:add one mana of any color", 0, 1, "Green", "Green", " Legacy Commander Modern ", "Alpha", 4, 7);
-        let Bird = new Card(Birdobj);
-        let Bolt = new Card(Boltobj);
-        let Forest = new Card(ForestObj);
-        let decklist = [Bird, Bolt, Forest];
-        let boltTheBird = new Deck("Fried chicken", decklist, "Modern");
-
-        console.log(boltTheBird.Name);
-        console.log(boltTheBird.Size);
-        console.log(boltTheBird.averageCMC);
-        console.log(boltTheBird.DeckCost);
-        document.getElementById("Statistics-Name").innerHTML = boltTheBird.Name;
-        document.getElementById("Statistics-AverageCMC").innerHTML = boltTheBird.averageCMC;
-        document.getElementById("Statistics-NumLands").innerHTML = boltTheBird.landCount;
-        document.getElementById("Statistics-NumNoLands").innerHTML = boltTheBird.nonLandCount;
-
-    }
-
-    function loadDeckInput() {
-        // stale data
-        var decks = [];
-        decks[0]='Main Deck';
-        decks[1]='Backup Deck';
-
-        var options = '';
-        for(let cancel = 0; cancel < decks.length; cancel++)
-            options += '<option value="'+decks[cancel]+'" />';
-        document.getElementById('screens.screenid-datalist').innerHTML = options;
-    }
-
-    //        obtainInfoFromDB("Necromaster Dragon");
-    function checkExt() {
-        if(document.getElementById('fileupload').value.lastIndexOf(".txt") === 1) {
-            alert("Please upload only .txt extention file");
-            return false;
-        } else {
-            alert("Correct file type")
-        }
-    }
-
-    function isNumberKey(evt) {
-        let charCode = (evt.which) ? evt.which : evt.keyCode;
-        // Added to allow decimal, period, or delete
-        if (charCode == 110 || charCode == 190 || charCode == 46) return true;
-        if (charCode > 31 && (charCode < 48 || charCode > 57)) return false;
-        return true;
-    }
-
-    function loadCardList() {
-        firebase.auth().onAuthStateChanged((user) => {
-            if (user) {
-                let deckWebElem = document.getElementById("ddSelectDeck");
-                const refPath = "users/" + user.uid + "/" + deckWebElem.options[deckWebElem.selectedIndex].text.replace(/\s/g, '');
-                firebase.app().database().ref(refPath).orderByChild("CardName").on("value", function(snapshot) {
-                    let cards = [];
-                    snapshot.forEach(function(childSnapshot) {
-                        console.log(childSnapshot.val().CardName);
-                        for(let i = 0; i < childSnapshot.val().Quantity; i++) {
-                            cards.push(childSnapshot.val().CardName)
-                        }
-                    });
-
-                    let list = document.getElementById('cardList');
-                    // clear all children of list
-                    while (list.firstChild) {
-                        list.removeChild(list.firstChild);
-                    }
-
-                    // append children from firebase
-                    for(let cancel = 0; cancel < cards.length; cancel++) {
-                        let li = document.createElement("li");
-                        li.setAttribute("id", "cardlist-" + cards[cancel]);
-                        li.setAttribute("class", "magicCard");
-                        li.appendChild(document.createTextNode(cards[cancel]));
-                        list.appendChild(li)
-                    }
-                });
-            }
-        });
-    }
-</script>
+<script type="text/javascript" src="../../js/index.js"></script>
+<script type ="text/javascript " src ="../../js/logic/Card.js"></script>
+<script type ="text/javascript " src ="../../js/logic/Deck.js"></script>
 </html>
+
+
