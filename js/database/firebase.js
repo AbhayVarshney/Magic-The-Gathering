@@ -35,7 +35,7 @@ googleSignIn = () => {
 verifyUserCredentialsForIndex = () => {
     firebase.auth().onAuthStateChanged(user => {
         if (!user)  //If not currently signed user, user will be redirected to login screen
-            window.location = '../../html/landing.html';
+           window.location = '../../html/landing.html';
         else console.log(user);
     });
 };
@@ -194,47 +194,78 @@ function loadCardList() {
     });
 }
 
-// GetCardProperties = (cardName) => {
-//
-// }
-// getCardProperties = (cardName) => {
-//     Card newCard;
-//     newCard.name = cardName;
-//     firebase.app().database().ref("DefaultCards").orderByChild("name").equalTo(cardName).once("value", snapshot => {
-//         newCard.ManaCost = firebase.database().ref("DefaultCards/" + snapshot.val() + "/mana_cost");
-//         newCard.CMC = firebase.database().ref("DefaultCards/" + snapshot.val() + "/cmc");
-//         newCard.typeLine = firebase.database().ref("DefaultCards/" + snapshot.val() + "/type_line");
-//         newCard.OracleText = firebase.database().ref("DefaultCards/" + snapshot.val() + "/oracle_text");
-//         newcard.Power = firebase.database().ref("DefaultCards/" + snapshot.val() + "/power");
-//         newCard.Toughness = firebase.database().ref("DefaultCards/" + snapshot.val() + "/toughness");
-//         newCard.Colors = firebase.database().ref("DefaultCards/" + snapshot.val() + "/colors");
-//         newCard.ColorIdentity = firebase.database().ref("DefaultCards/" + snapshot.val() + "/color_identity");
-//         let legalities = [];
-//         legalities.push(firebase.database().ref("DefaultCards/" + snapshot.val() + "/legality_standard");)
-//         legalities.push(firebase.database().ref("DefaultCards/" + snapshot.val() + "/legality_future");)
-//         legalities.push(firebase.database().ref("DefaultCards/" + snapshot.val() + "/legality_frontier");)
-//         legalities.push(firebase.database().ref("DefaultCards/" + snapshot.val() + "/legality_modern");)
-//         legalities.push(firebase.database().ref("DefaultCards/" + snapshot.val() + "/legality_legacy");)
-//         legalities.push(firebase.database().ref("DefaultCards/" + snapshot.val() + "/legality_pauper");)
-//         legalities.push(firebase.database().ref("DefaultCards/" + snapshot.val() + "/legality_vintage");)
-//         legalities.push(firebase.database().ref("DefaultCards/" + snapshot.val() + "/legality_penny");)
-//         legalities.push(firebase.database().ref("DefaultCards/" + snapshot.val() + "/legality_commander");)
-//         legalities.push(firebase.database().ref("DefaultCards/" + snapshot.val() + "/legality_1v1");)
-//         legalities.push(firebase.database().ref("DefaultCards/" + snapshot.val() + "/legality_duel");)
-//         legalities.push(firebase.database().ref("DefaultCards/" + snapshot.val() + "/legality_brawl");)
-//         newCard.Legality = legalities;
-//     }
-//
-//
-//
-//
-//     scoresRef.orderByValue().on("value", function(snapshot) {
-//         let decks = [];
-//         snapshot.forEach(function(data) {
-//             decks.push(data.key)
-//         });
-//
-// }
+/**
+ * getCardProperties()
+ * Verifies the user, gets user object from FireBase, gets all the cards of the user within a specific deck from
+ * FireBase, and then constructs Card objects for each and adds them to an array
+ * @return null
+ */
+getCardProperties = () => {
+    firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+            let deckName = document.getElementById('input.ChooseDeckName').value;
+            firebase.app().database().ref("users/" + user.uid + "/" + deckName).orderByChild("CardName").once("value", (snapshot) => {
+                let allCards = [];
+                snapshot.forEach((userCard) => {
+                    let cardObject = {
+                        name: userCard.val().CardName,
+                        quantity: userCard.val().Quantity
+                    };
+                    firebase.app().database().ref("DefaultCards").orderByChild("name").equalTo(cardObject.name).once("value", function (snapshot) {
+                        snapshot.forEach(function (childSnapshot) {
+                            cardObject.manaCost = childSnapshot.val().mana_cost;
+                            cardObject.cmc = childSnapshot.val().cmc;
+                            cardObject.typeLine = childSnapshot.val().type_line;
+                            cardObject.OracleText = childSnapshot.val().oracle_text;
+                            cardObject.Power = childSnapshot.val().power;
+                            cardObject.Toughness = childSnapshot.val().toughness;
+                            cardObject.Colors = childSnapshot.val().colors;
+                            cardObject.ColorI = childSnapshot.val().color_identity;
+                            cardObject.Legality = getLegalities(childSnapshot);
+                            cardObject.Cost = 0;
+                        });
+                        allCards.push(cardObject);
+                        console.log("List of all cards in your deck: " + JSON.stringify(allCards));
+                    });
+                })
+            })
+        }
+    })
+};
+
+/**
+ * getLegalities(childSnapshot)
+ * Checks the legalities of a given card. Returns a string of all formats the card is legal in, with spaces between.
+ * @return string
+ */
+getLegalities = (childSnapshot) => {
+    let legality = "";
+    if (childSnapshot.val().legality_standard === "legal")
+        legality += "standard ";
+    if (childSnapshot.val().legality_future === "legal")
+        legality += "future ";
+    if (childSnapshot.val().legality_frontier === "legal")
+        legality += "frontier ";
+    if (childSnapshot.val().legality_modern === "legal")
+        legality += "modern ";
+    if (childSnapshot.val().legality_legacy === "legal")
+        legality += "legacy ";
+    if (childSnapshot.val().legality_pauper === "legal")
+        legality += "pauper ";
+    if (childSnapshot.val().legality_vintage === "legal")
+        legality += "vintage ";
+    if (childSnapshot.val().legality_penny === "legal")
+        legality += "penny ";
+    if (childSnapshot.val().legality_commander === "legal")
+        legality += "commander ";
+    if (childSnapshot.val().legality_1v1 === "legal")
+        legality += "1v1 ";
+    if (childSnapshot.val().legality_duel === "legal")
+        legality += "duel ";
+    if (childSnapshot.val().legality_brawl === "legal")
+        legality += "brawl ";
+    return legality.trim();
+};
 
 // gets list of all card names from database:
 /*

@@ -2,7 +2,7 @@
 */
 
 class Card {
-    // constructor(name, manaCost, cmc, type, Oracle, power, toughness, color, colorI, Legal, set, quantity, cost) {
+    // constructor(name, manaCost, cmc, type, Oracle, power, toughness, color, colorI, Legal, quantity, cost) {
     constructor(card) {
 
         this.Name = card.name;

@@ -23,7 +23,7 @@ class Deck {
             this.Size += element.Quantity;                                                                               // adds how many copies of the card into the deck size.
             deckCost += element.Cost * element.Quantity;
             DeckCmc += element.CMC * element.Quantity;                                                                   // Calculates the average Cmc in the decklist by adding each cards converted mana cost into a sum and then divides them by the total number of cards in the deck.
-            if (element.typeLine.includes('land')) {
+            if (element.typeLine.includes("land") || element.typeLine.includes("Land")) {
                 landCount += element.Quantity;
             }
             else {
