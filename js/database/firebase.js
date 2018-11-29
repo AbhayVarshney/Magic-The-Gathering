@@ -203,7 +203,7 @@ getCardProperties = () => {
                     console.log("card name: " + userCard.val().CardName);
                     let cardObject = {
                         name: userCard.val().CardName,
-                        quantity: parseInt(userCard.val().Quantity)
+                        Quantity: parseInt(userCard.val().Quantity)
                     };
                     firebase.app().database().ref("DefaultCards").orderByChild("name").equalTo(cardObject.name).once("value", function (snapshot) {
                         snapshot.forEach(function (childSnapshot) {
@@ -218,9 +218,6 @@ getCardProperties = () => {
                             cardObject.Legality = getLegalities(childSnapshot);
                             cardObject.Cost = 0;
                         });
-
-                        console.log("cmc:", cardObject.cmc);
-                        console.log(cardObject);
                         allCards.push(new Card(cardObject));
 
                         // Add options to select list
