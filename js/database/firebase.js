@@ -85,12 +85,12 @@ logoutUser = () => {
  * @return null
  */
 uploadCardInfoToDB = () => {
-    const MAX_CARDS = 53;
+    const MAX_CARDS = 4;
     let deckName = document.getElementById('input.DeckName').value;
     let cardName = document.getElementById('input.CardName').value;
     let quantity = document.getElementById('input.Quantity').value;
     let myToast = new Toasty({ progressBar: true });
-    myToast.info("Checking if " + deckName + " is a legal Magic Card...");
+    myToast.info("Checking if " + cardName + " is a legal Magic Card and can be added to " + deckName + "...");
 
     // Ensure that the deck and card names are valid in length
     if (deckName.length > 0 && cardName.length > 0) {
@@ -100,30 +100,20 @@ uploadCardInfoToDB = () => {
                 // Obtain the current user object from FireBase
                 firebase.auth().onAuthStateChanged((user) => {
                     if (user) {
-                        // Obtains total quantity of cards in FireBase - MUST be less than MAX_CARDS
-                        firebase.app().database().ref("users/" + user.uid + "/" + deckName).orderByChild("CardName").once("value", (snapshot) => {
-                            let numCardsInDeck = 0;
-                            snapshot.forEach(function(childSnapshot) {
-                                // Only count all cards except the card that the user is trying to add
-                                if(childSnapshot.val().CardName !== cardName)
-                                    numCardsInDeck += childSnapshot.val().Quantity
-                            }) ;
+                        if(parseInt(quantity) <= MAX_CARDS) {
+                            // FireBase will write Object to database
+                            let childRef = '/users/' + user.uid + '/' + deckName + '/' + cardName.replace(/\s/g, '');
+                            firebase.database().ref().child(childRef).set({
+                                CardName: cardName,
+                                Quantity: parseInt(quantity)
+                            });
 
-                            if(quantity == 0 || (numCardsInDeck + parseInt(quantity)) <= MAX_CARDS) {
-                                // FireBase will write Object to database
-                                let childRef = '/users/' + user.uid + '/' + deckName + '/' + cardName.replace(/\s/g, '');
-                                firebase.database().ref().child(childRef).set({
-                                    CardName: cardName,
-                                    Quantity: parseInt(quantity)
-                                });
-
-                                // Handle Toast message for use to notify if operation is successful
-                                if(quantity == 0) myToast.success("Successfully removed " + cardName + " from " + deckName);
-                                else myToast.success("Successfully added " + cardName + " to " + deckName);
-                            } else {
-                                myToast.error("There are too many cards in your deck. Please remove cards within " + deckName + " in order to add " + cardName);
-                            }
-                        });
+                            // Handle Toast message for use to notify if operation is successful
+                            if(parseInt(quantity) === 0) myToast.success("Successfully removed " + cardName + " from " + deckName);
+                            else myToast.success("Successfully added " + cardName + " to " + deckName);
+                        } else {
+                            myToast.error("Too many cards that you are trying to add");
+                        }
                     }
                 });
             } else myToast.error(cardName + " is not a legal magic card.");
@@ -131,6 +121,15 @@ uploadCardInfoToDB = () => {
     } else myToast.error("All inputs must be of length greater than 0 in the Input Cards section");
 };
 
+
+// Obtains total quantity of cards in FireBase - MUST be less than MAX_CARDS
+// firebase.app().database().ref("users/" + user.uid + "/" + deckName).orderByChild("CardName").once("value", (snapshot) => {
+//     let numCardsInDeck = 0;
+//     snapshot.forEach(function(childSnapshot) {
+//         // Only count all cards except the card that the user is trying to add
+//         if(childSnapshot.val().CardName !== cardName)
+//             numCardsInDeck += childSnapshot.val().Quantity
+//     }) ;
 /**
  * getUserDecks()
  * Verifies the user, gets user object from Firebase, and then gets list of all the decks for the user
@@ -166,7 +165,7 @@ getUserDecks = () => {
 function loadCardList() {
     // Obtain the current user object from FireBase
     firebase.auth().onAuthStateChanged((user) => {
-        let deckName = document.getElementById('input.ChooseDeckName').value;
+        let deckName = document.getElementById('input.ChooseDeckName').value.trim();
         if (user && deckName.length > 0) {
             // Get a list of all the card names using deck name from FireBase
             const allCardsPath = "users/" + user.uid + "/" + deckName;
