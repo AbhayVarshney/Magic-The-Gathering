@@ -141,7 +141,7 @@ getUserDecks = () => {
         if (user) {
             // Verifies if card exists in All Magic Card Database
             var firebaseRef = firebase.database().ref("users/" + user.uid);
-            firebaseRef.orderByValue().on("value", function(snapshot) {
+            firebaseRef.orderByValue().on("value", (snapshot) => {
                 let decks = [];
                 snapshot.forEach(function(data) {
                     decks.push(data.key)
@@ -204,9 +204,12 @@ getCardProperties = () => {
     firebase.auth().onAuthStateChanged((user) => {
         if (user) {
             let deckName = document.getElementById('input.ChooseDeckName').value;
+            // let firebaseUserDeckRef = ;
             firebase.app().database().ref("users/" + user.uid + "/" + deckName).orderByChild("CardName").once("value", (snapshot) => {
                 let allCards = [];
+                let cardNames = '';
                 snapshot.forEach((userCard) => {
+                    console.log("card name: " + userCard.val().CardName);
                     let cardObject = {
                         name: userCard.val().CardName,
                         quantity: parseInt(userCard.val().Quantity)
@@ -225,8 +228,11 @@ getCardProperties = () => {
                             cardObject.Cost = 0;
                         });
                         allCards.push(new Card(cardObject));
-                        // console.log("List of all cards in your deck: " + JSON.stringify(allCards));
                     });
+
+                    // Add options to select list
+                    if(cardObject.quantity > 0)
+                        cardNames += '<option value="'+cardObject.name+'" />';
                 });
 
                 // Update the Statistics section of the UI with deck calculations
@@ -235,6 +241,7 @@ getCardProperties = () => {
                 document.getElementById("Statistics-AvgCMC").innerHTML = boltTheBird.averageCMC;
                 document.getElementById("Statistics-NumLands").innerHTML = boltTheBird.landCount;
                 document.getElementById("Statistics-NumNoLands").innerHTML = boltTheBird.nonLandCount;
+                document.getElementById('screens.screenid-cardlist').innerHTML = cardNames;
 
             })
         }
@@ -248,30 +255,18 @@ getCardProperties = () => {
  */
 getLegalities = (childSnapshot) => {
     let legality = "";
-    if (childSnapshot.val().legality_standard === "legal")
-        legality += "standard ";
-    if (childSnapshot.val().legality_future === "legal")
-        legality += "future ";
-    if (childSnapshot.val().legality_frontier === "legal")
-        legality += "frontier ";
-    if (childSnapshot.val().legality_modern === "legal")
-        legality += "modern ";
-    if (childSnapshot.val().legality_legacy === "legal")
-        legality += "legacy ";
-    if (childSnapshot.val().legality_pauper === "legal")
-        legality += "pauper ";
-    if (childSnapshot.val().legality_vintage === "legal")
-        legality += "vintage ";
-    if (childSnapshot.val().legality_penny === "legal")
-        legality += "penny ";
-    if (childSnapshot.val().legality_commander === "legal")
-        legality += "commander ";
-    if (childSnapshot.val().legality_1v1 === "legal")
-        legality += "1v1 ";
-    if (childSnapshot.val().legality_duel === "legal")
-        legality += "duel ";
-    if (childSnapshot.val().legality_brawl === "legal")
-        legality += "brawl ";
+    if (childSnapshot.val().legality_standard === "legal") legality += "standard ";
+    if (childSnapshot.val().legality_future === "legal") legality += "future ";
+    if (childSnapshot.val().legality_frontier === "legal") legality += "frontier ";
+    if (childSnapshot.val().legality_modern === "legal") legality += "modern ";
+    if (childSnapshot.val().legality_legacy === "legal") legality += "legacy ";
+    if (childSnapshot.val().legality_pauper === "legal") legality += "pauper ";
+    if (childSnapshot.val().legality_vintage === "legal") legality += "vintage ";
+    if (childSnapshot.val().legality_penny === "legal") legality += "penny ";
+    if (childSnapshot.val().legality_commander === "legal") legality += "commander ";
+    if (childSnapshot.val().legality_1v1 === "legal") legality += "1v1 ";
+    if (childSnapshot.val().legality_duel === "legal") legality += "duel ";
+    if (childSnapshot.val().legality_brawl === "legal") legality += "brawl ";
     return legality.trim();
 };
 

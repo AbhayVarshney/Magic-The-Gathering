@@ -1,5 +1,6 @@
 // Run these functions to fill out HTML element data one page load
 window.onload = () => {
+    // getLegalCards();
     getUserDecks();
     loadCardList();
     verifyUserCredentialsForIndex();
