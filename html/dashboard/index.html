@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en-us">
 <head>
-    <meta charset="utf-8"/>
-    <meta name="description" content="Magic: The Gathering Application"/>
+    <meta charset="utf-8" />
+    <meta name="description" content="Magic: The Gathering Application" />
     <title>Magic: The Gathering</title>
     <script src="https://www.gstatic.com/firebasejs/5.5.6/firebase.js"></script>
     <script src="../../js/database/firebase.js"></script>
-    <link rel="stylesheet" href="../../css/site.min.css"/>
-    <link rel="stylesheet" href="../../css/index.css"/>
+    <link rel="stylesheet" href="../../css/site.min.css" />
+    <link rel="stylesheet" href="../../css/index.css" />
     <script src="../../js/site.min.js"></script>
     <link rel='stylesheet' href='http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css'>
     <link rel='stylesheet' href='../../css/toasty.min.css'>
@@ -29,8 +29,7 @@
                 <h5 class="turing"><span>Turing Inc.</span><span class="typed-cursor">|</span></h5>
                 <ul>
                     <li><a href="#RunHistory">Previous Runs</a></li>
-                    <li><a href="https://www.codeproject.com/Articles/Pero-Matic#Article" rel="nofollow">Simulations</a>
-                    </li>
+                    <li><a href="https://www.codeproject.com/Articles/Pero-Matic#Article" rel="nofollow">Simulations</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
             </div>
@@ -49,19 +48,16 @@
             <h1>Input Cards</h1>
             <div style="height: 3px; background-color: black"></div>
             <div style="float:left; width: 100%; height: 10%">
-                <div style="position: relative; float:left; padding-left: 15px; padding-right: 25px; padding-top: 30px; color: rgb(80,163,154)">
-                    <strong>Deck:</strong></div>
+                <div style="position: relative; float:left; padding-left: 15px; padding-right: 25px; padding-top: 30px; color: rgb(80,163,154)"><strong>Deck:</strong> </div>
                 <div style="position: relative; float: left; width: 70%">
                     <ul>
                         <li>
                             <a target="_blank">
-                                <input list="screens.screenid-datalist" type="text" id="input.DeckName"
-                                       placeholder="e.g. Main Deck">
+                                <input list="screens.screenid-datalist" type="text" id="input.DeckName" placeholder="e.g. Main Deck">
                                 <datalist id="screens.screenid-datalist">
                                     <!-- Deck list -->
                                 </datalist>
-                                <label id="val-screens.screenid" class="Label_Error"
-                                       style="visibility: hidden;">*</label>
+                                <label id="val-screens.screenid" class="Label_Error" style="visibility: hidden;">*</label>
                             </a>
                         </li>
                     </ul>
@@ -75,22 +71,13 @@
                     </div>
                 </div>
                 <div style="float:left; align-content: center; text-align: center; width: 100%">
-                    <div style="padding-top: 20px; color: rgb(80,163,154); font-size: 18px; font-weight: 500; float: left; padding-left: 20px">
-                        Card Name:
-                    </div>
-                    <input id="input.CardName"
-                           style="width: 55%; display:inline-block; margin-left: 5px; padding-top: 10px" type="text"
-                           placeholder="e.g. Necromaster Dragon"/>
+                    <div style="padding-top: 20px; color: rgb(80,163,154); font-size: 18px; font-weight: 500; float: left; padding-left: 20px"> Card Name:</div>
+                    <input id="input.CardName" style="width: 55%; display:inline-block; margin-left: 5px; padding-top: 10px" type="text" placeholder="e.g. Necromaster Dragon" />
                 </div>
                 <div style="text-align: center;  -webkit-justify-content: center; align-items: center;">
                     <div style="float:left; align-content: center; text-align: center; width: 100%;">
-                        <div style="padding-top: 20px; color: rgb(80,163,154); font-size: 18px; font-weight: 500; float: left; padding-left: 20px">
-                            Quantity:
-                        </div>
-                        <input id="input.Quantity"
-                               style="width: 25%; display:inline-block; margin-left: -85px; padding-top: 10px"
-                               type="number" min="1" max="500" placeholder="e.g. 1"
-                               onkeypress="return isNumberKey(event)"/>
+                        <div style="padding-top: 20px; color: rgb(80,163,154); font-size: 18px; font-weight: 500; float: left; padding-left: 20px"> Quantity:</div>
+                        <input id="input.Quantity" style="width: 25%; display:inline-block; margin-left: -85px; padding-top: 10px" type="number" min="1" max="500" placeholder="e.g. 1" onkeypress="return isNumberKey(event)" />
                     </div>
                 </div>
             </div>
@@ -102,11 +89,9 @@
                 </div>
             </div>
             <div style="padding-top: 50px;float:left; display:inline; width: 100%; padding-left: 45px; padding-bottom: 40px">
-                <div style="height: 1.5px; background-color: rgb(199, 199, 199); width: 35%; float: left"></div>
-                <div style="font-size: 15px; color:rgb(199, 199, 199); width: 15%; float: left; text-align: center; margin-top: -12px">
-                    or
-                </div>
-                <div style="height: 1.5px; background-color: rgb(199, 199, 199); width: 35%; float: left"></div>
+                <div style="height: 1.5px; background-color: rgb(199, 199, 199); width: 35%; float: left"> </div>
+                <div style="font-size: 15px; color:rgb(199, 199, 199); width: 15%; float: left; text-align: center; margin-top: -12px"> or </div>
+                <div style="height: 1.5px; background-color: rgb(199, 199, 199); width: 35%; float: left"> </div>
             </div>
 
             <div style="height: 20%; padding-top: 50px; margin-left: -5px">
@@ -125,14 +110,12 @@
             <h1>View Deck</h1>
             <div style="height: 3px; background-color: black"></div>
             <div style="width: 100%; height: 10%">
-                <div style="position: relative; float:left; padding-left: 15px; padding-right: 25px; padding-top: 30px; color: rgb(80,163,154)">
-                    <strong>Deck:</strong></div>
+                <div style="position: relative; float:left; padding-left: 15px; padding-right: 25px; padding-top: 30px; color: rgb(80,163,154)"><strong>Deck:</strong> </div>
                 <div style="position: relative; float: left; width: 65%;">
                     <ul>
                         <li>
                             <a target="_blank">
-                                <input list="screens.screenid-datalist" type="text" id="input.ChooseDeckName"
-                                       placeholder="e.g. Main Deck" onchange="loadCardList()">
+                                <input list="screens.screenid-datalist" type="text" id="input.ChooseDeckName" placeholder="e.g. Main Deck" onchange="loadCardList()">
                                 <datalist id="screens.screenid-decklist">
                                     <!-- Deck list -->
                                 </datalist>
@@ -158,51 +141,30 @@
             <h1>Statistics</h1>
             <div style="height: 3px; background-color: black"></div>
             <div style="margin-left: 60px; width: 100%; height: 35%">
-                <div style="position: relative; float:left; padding-left: 80px; padding-right: 25px; padding-top: 30px; color: rgb(80,163,154); font-size: 18px; font-weight:bold">
-                    Deck Name:
-                </div>
-                <div id="Statistics-DeckName"
-                     style="position: relative; float:left; padding-right: 25px; padding-top: 30px; color: rgb(80,163,154); font-size: 18px; width: 50%">
-                    <strong>-</strong></div>
-                <div style="position: relative; float:left; padding-left: 65px; padding-right: 25px; padding-top: 25px; color: rgb(80,163,154); font-size: 18px; font-weight:bold">
-                    Average CMC:
-                </div>
-                <div id="Statistics-AvgCMC"
-                     style="position: relative; float:left; padding-right: 25px; padding-top: 25px; color: rgb(80,163,154); font-size: 18px; width: 50%">
-                    <strong>-</strong></div>
-                <div style="position: relative; float:left; padding-left: 55px; padding-right: 25px; padding-top: 25px; color: rgb(80,163,154); font-size: 18px; font-weight:bold">
-                    Number of lands:
-                </div>
-                <div id="Statistics-NumLands"
-                     style="position: relative; float:left; padding-right: 25px; padding-top: 25px; color: rgb(80,163,154); font-size: 18px; width: 50%">
-                    <strong>-</strong></div>
-                <div style="position: relative; float:left; padding-left: 25px; padding-right: 25px; padding-top: 25px; color: rgb(80,163,154); font-size: 18px; font-weight:bold">
-                    Number of non lands:
-                </div>
-                <div id="Statistics-NumNoLands"
-                     style="position: relative; float:left; padding-right: 25px; padding-top: 25px; color: rgb(80,163,154); font-size: 18px; width: 50%">
-                    <strong>-</strong></div>
+                <div style="position: relative; float:left; padding-left: 80px; padding-right: 25px; padding-top: 30px; color: rgb(80,163,154); font-size: 18px; font-weight:bold">Deck Name:</div>
+                <div id="Statistics-DeckName" style="position: relative; float:left; padding-right: 25px; padding-top: 30px; color: rgb(80,163,154); font-size: 18px; width: 50%"><strong>-</strong> </div>
+                <div style="position: relative; float:left; padding-left: 65px; padding-right: 25px; padding-top: 25px; color: rgb(80,163,154); font-size: 18px; font-weight:bold">Average CMC: </div>
+                <div id="Statistics-AvgCMC" style="position: relative; float:left; padding-right: 25px; padding-top: 25px; color: rgb(80,163,154); font-size: 18px; width: 50%"><strong>-</strong> </div>
+                <div style="position: relative; float:left; padding-left: 55px; padding-right: 25px; padding-top: 25px; color: rgb(80,163,154); font-size: 18px; font-weight:bold">Number of lands: </div>
+                <div id="Statistics-NumLands" style="position: relative; float:left; padding-right: 25px; padding-top: 25px; color: rgb(80,163,154); font-size: 18px; width: 50%"><strong>-</strong> </div>
+                <div style="position: relative; float:left; padding-left: 25px; padding-right: 25px; padding-top: 25px; color: rgb(80,163,154); font-size: 18px; font-weight:bold">Number of non lands: </div>
+                <div id="Statistics-NumNoLands" style="position: relative; float:left; padding-right: 25px; padding-top: 25px; color: rgb(80,163,154); font-size: 18px; width: 50%"><strong>-</strong> </div>
             </div>
             <div style="padding-top: 30px; float:left; display:inline; width: 100%; padding-left: 55px; padding-bottom: 40px">
-                <div style="height: 1.5px; background-color: rgb(199, 199, 199); width: 27%; float: left"></div>
-                <div style="font-size: 15px; color:rgb(199, 199, 199); width: 35%; float: left; text-align: center; margin-top: -12px">
-                    Odds of a Card
-                </div>
-                <div style="height: 1.5px; background-color: rgb(199, 199, 199); width: 27%; float: left"></div>
+                <div style="height: 1.5px; background-color: rgb(199, 199, 199); width: 27%; float: left"> </div>
+                <div style="font-size: 15px; color:rgb(199, 199, 199); width: 35%; float: left; text-align: center; margin-top: -12px"> Odds of a Card </div>
+                <div style="height: 1.5px; background-color: rgb(199, 199, 199); width: 27%; float: left"> </div>
             </div>
             <div style="position:relative; float: left; margin-top: -10px; width: 100%; height: 35%; padding-left: 60px">
 
                 <div style="float: left; text-align: center; -webkit-justify-content: center; align-items: center; width: 85%; height: 21%">
                     <div style="float:left; align-content: center; text-align: center; width: 100%; margin-top: -20px;">
-                        <div style="padding-top: 20px; color: rgb(80,163,154); font-weight: 500; display:inline-block; font-size: 18px; margin-left: 40px; margin-top:1px">
-                            Card Wanted:
-                        </div>
+                        <div style="padding-top: 20px; color: rgb(80,163,154); font-weight: 500; display:inline-block; font-size: 18px; margin-left: 40px; margin-top:1px"> Card:</div>
                         <div style="position: relative; float: right; height: 70px; width: 40%; margin-right: 40px; margin-top: -10px">
                             <ul style="height: 50px">
                                 <li style="height: 50px">
                                     <a target="_blank">
-                                        <input list="screens.screenid-cardlist" type="text" id="OddsCard"
-                                               placeholder="e.g. Astral Arena" onchange="loadCardList()">
+                                        <input list="screens.screenid-cardlist" type="text" id="OddsCard" placeholder="e.g. Astral Arena" onchange="loadCardList()">
                                         <datalist id="screens.screenid-cardlist">
                                             <!-- Deck list -->
                                         </datalist>
@@ -215,42 +177,29 @@
                 </div>
                 <div style="float: left; text-align: center; -webkit-justify-content: center; align-items: center; width: 85%; height: 21%">
                     <div style="float:left; align-content: center; text-align: center; width: 100%; margin-top: -20px;">
-                        <div style="padding-top: 20px; color: rgb(80,163,154); font-weight: 500; display:inline-block; font-size: 18px; margin-left: 10px">
-                            Number of Copies Wanted:
-                        </div>
-                        <input id="OddsQuantity"
-                               style="width: 25%; float: right; margin-right: 70px; padding-top: 10px;" type="number"
-                               min="1" max="500" conkeypress="return isNumberKey(event)" placeholder="e.g. 2"/>
+                        <div style="padding-top: 20px; color: rgb(80,163,154); font-weight: 500; display:inline-block; font-size: 18px; margin-left: 10px"> Copies Wanted:</div>
+                        <input id = "OddsQuantity"style="width: 25%; float: right; margin-right: 70px; padding-top: 10px;" type="number" min="1" max="500" conkeypress="return isNumberKey(event)" placeholder="e.g. 2" />
                     </div>
                 </div>
                 <div style="float: left; text-align: center; -webkit-justify-content: center; align-items: center; width: 85%; height: 20%">
                     <div style="float:left; align-content: center; text-align: center; width: 100%; margin-top: -20px;">
-                        <div style="padding-top: 20px; color: rgb(80,163,154); font-weight: 500; display:inline-block; font-size: 18px; margin-left: 10px">
-                            Number of Cards Drawn:
-                        </div>
-                        <input id="OddsChances" style="width: 25%; float: right; margin-right: 70px; padding-top: 10px;"
-                               type="number" min="1" max="100" placeholder="e.g. 30"
-                               conkeypress="return isNumberKey(event)"/>
+                        <div style="padding-top: 20px; color: rgb(80,163,154); font-weight: 500; display:inline-block; font-size: 18px; margin-left: 10px"> Chances to draw:</div>
+                        <input id = "OddsChances"style="width: 25%; float: right; margin-right: 70px; padding-top: 10px;" type="number" min="1" max="100" placeholder="e.g. 30" conkeypress="return isNumberKey(event)" />
                     </div>
                 </div>
 
-                <div style="align-items: center; text-align: center; margin-left: -10px; width: 95%; margin-top: -10px">
+                <div style="align-items: center; text-align: center; margin-left: -10px; width: 95%; margin-top: -20px">
                     <div class="progress-button">
                         <!-- button with text -->
                         <button onclick="getOddsOfCard()"><span>Evaluate</span></button>
                     </div>
-                    <div style="float: left; text-align: center; -webkit-justify-content: center; align-items: center; width: 85%; height: 20%">
-                        <div style="float:left; align-content: center; text-align: center; width: 100%; margin-top: -20px;">
-                            <div id="OddsOutput"
-                                 style="padding-top: 20px; color: rgb(80,163,154); font-weight: 500; display:inline-block; font-size: 18px; margin-left: 10px">
-                                Your Chance to Draw:
-                            </div>
-                            <div style="width: 25%; float: right; margin-right: 70px; padding-top: 10px;>
-                        </div>
+                </div>
+                <div style="float: left; text-align: center; -webkit-justify-content: center; align-items: center; width: 85%; height: 20%">
+                    <div style="float:left; align-content: center; text-align: center; width: 100%; margin-top: -20px;">
+                        <div style="padding-top: 20px; color: rgb(80,163,154); font-weight: 500; display:inline-block; font-size: 18px; margin-left: 10px"> Your Chance to Draw:</div>
+                        <div  id = "OddsOutput" style="width: 25%; float: right; margin-right: 70px; padding-top: 10px"></div>
                     </div>
                 </div>
-
-
 
             </div>
         </div>
@@ -259,14 +208,8 @@
 
 </body>
 
-<script src=" ..
-                            /../js/libraries/toasty.min.js"></script>
-                            <
-                            script;
-                            type = "text/javascript";
-                            src = "../../js/index.js" ></script>
-                            <script type="text/javascript " src="../../js/logic/Card.js"></script>
-                            <script type="text/javascript " src="../../js/logic/Deck.js"></script>
+<script src="../../js/libraries/toasty.min.js"></script>
+<script type="text/javascript" src="../../js/index.js"></script>
+<script type ="text/javascript " src ="../../js/logic/Card.js"></script>
+<script type ="text/javascript " src ="../../js/logic/Deck.js"></script>
 </html>
-
-

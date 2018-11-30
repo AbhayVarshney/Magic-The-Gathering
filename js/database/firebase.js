@@ -1,11 +1,11 @@
 // Initialize FireBase with configuration key
 let config = {
-    apiKey: "AIzaSyCT97itbIvnvZfAV_IV-Z2NFSTJp90v_7g",
-    authDomain: "magic-thegathering.firebaseapp.com",
-    databaseURL: "https://magic-thegathering.firebaseio.com",
-    projectId: "magic-thegathering",
-    storageBucket: "magic-thegathering.appspot.com",
-    messagingSenderId: "315374534915"
+    apiKey: "AIzaSyBQCaktR62ShZa069ZNze9T7ukYksjad9A",
+    authDomain: "magic-thegathering2.firebaseapp.com",
+    databaseURL: "https://magic-thegathering2.firebaseio.com",
+    projectId: "magic-thegathering2",
+    storageBucket: "magic-thegathering2.appspot.com",
+    messagingSenderId: "665839466259"
 };
 firebase.initializeApp(config);
 
@@ -242,54 +242,39 @@ getCardProperties = () => {
         Returns the probability of drawing the specified card in the users deck.
         keeps the user updated using Toasty
  */
-
 function getOddsOfCard() {
     let cardName = document.getElementById("OddsCard").value;
     let userDeck;
-    let chances = document.getElementById("OddsChances").value;
-    let copies = document.getElementById("OddsQuantity").value;
+    let chances = parseInt(document.getElementById("OddsChances").value);
+    let copies = parseInt(document.getElementById("OddsQuantity").value);
     firebase.auth().onAuthStateChanged((user) => {
         if (user) {
             let deckName = document.getElementById('input.ChooseDeckName').value;
             let myToast = new Toasty({progressBar: true});
-            myToast.info("Beginning Probability calculations for " + deckName + " and the Card "+ cardName + "...");
+            myToast.info("Beginning Probability calculations for " + deckName + " and the Card " + cardName + "...");
             firebase.app().database().ref("users/" + user.uid + "/" + deckName).orderByChild("CardName").once("value", (snapshot) => {
                 let allCards = [];
-                let cardNames = '';
-                let i = 0;
+                let quantity =0;
                 snapshot.forEach((userCard) => {
                     let cardObject = {
                         name: userCard.val().CardName,
-                        Quantity: parseInt(userCard.val().Quantity)
+                        Quantity: parseInt(userCard.val().Quantity),
+                        typeLine : " "
                     };
-                    firebase.app().database().ref("DefaultCards").orderByChild("name").equalTo(cardObject.name).once("value", function (snapshot) {
-                        snapshot.forEach(function (childSnapshot) {
-                            cardObject.manaCost = childSnapshot.val().mana_cost;
-                            cardObject.cmc = parseInt(childSnapshot.val().cmc);
-                            cardObject.typeLine = childSnapshot.val().type_line;
-                            cardObject.OracleText = childSnapshot.val().oracle_text;
-                            cardObject.Power = parseInt(childSnapshot.val().power);
-                            cardObject.Toughness = parseInt(childSnapshot.val().toughness);
-                            cardObject.Colors = childSnapshot.val().colors;
-                            cardObject.ColorI = childSnapshot.val().color_identity;
-                            cardObject.Legality = getLegalities(childSnapshot);
-                            cardObject.Cost = 0;
-                        });
-                        allCards.push(new Card(cardObject));
-                        let quantity;
-                        for (let i = 0; i < allCards.length; i++) {
-                            if (allCards[i].Name === cardName) {
-                                quantity = allCards[i].Quantity;
-                            }
+                    allCards.push(new Card(cardObject));
+                    for (let i = 0; i < allCards.length; i++) {
+                        if (allCards[i].Name === cardName) {
+                            quantity = allCards[i].Quantity;
                         }
-                        userDeck = new Deck(deckName, allCards, "Modern");
-                        let odds = userDeck.OddsOfCard(quantity, chances, copies);
-                        document.getElementById("OddsOutput").innerHTML = odds;
-                    });
+                    }
                 });
+                userDeck = new Deck(deckName, allCards, "Modern");
+                console.log( "-> "+ chances );
+                console.log("-> " + copies );
+                let odds = userDeck.compute(userDeck.Size, quantity, chances, copies);
+                document.getElementById("OddsOutput").innerHTML = odds;
             });
         }
-
     });
 }
 
@@ -315,11 +300,3 @@ getLegalities = (childSnapshot) => {
     if (childSnapshot.val().legality_brawl === "legal") legality += "brawl ";
     return legality.trim();
 };
-
-// gets list of all card names from database:
-/*
-firebase.app().database().ref("DefaultCards").orderByChild("name").once("value", function(snapshot) {
-    snapshot.forEach(function(childSnapshot) {
-        console.log(childSnapshot.val().name);
-    }) });
- */
