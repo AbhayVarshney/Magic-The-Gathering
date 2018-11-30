@@ -16,11 +16,11 @@ firebase.initializeApp(config);
  */
 googleSignIn = () => {
     base_provider = new firebase.auth.GoogleAuthProvider();
-    firebase.auth().signInWithPopup(base_provider).then(function() {
+    firebase.auth().signInWithPopup(base_provider).then(function () {
         // This gives you Google access token
         // var token = result.credential.accessToken;
         window.location = '../html/dashboard/index.html';
-    }).catch(function(err) {
+    }).catch(function (err) {
         console.log(err);
         console.log("Failed to connect with Google account");
     })
@@ -72,7 +72,7 @@ logoutUser = () => {
                 window.location = '../landing.html'
             }
         });
-    }, function(error) {
+    }, function (error) {
         // An error happened.
         console.log(error)
     });
@@ -89,7 +89,7 @@ uploadCardInfoToDB = () => {
     let deckName = document.getElementById('input.DeckName').value;
     let cardName = document.getElementById('input.CardName').value;
     let quantity = document.getElementById('input.Quantity').value;
-    let myToast = new Toasty({ progressBar: true });
+    let myToast = new Toasty({progressBar: true});
     myToast.info("Checking if " + cardName + " is a legal Magic Card and can be added to " + deckName + "...");
 
     // Ensure that the deck and card names are valid in length
@@ -100,7 +100,7 @@ uploadCardInfoToDB = () => {
                 // Obtain the current user object from FireBase
                 firebase.auth().onAuthStateChanged((user) => {
                     if (user) {
-                        if(parseInt(quantity) <= MAX_CARDS) {
+                        if (parseInt(quantity) <= MAX_CARDS) {
                             // FireBase will write Object to database
                             let childRef = '/users/' + user.uid + '/' + deckName + '/' + cardName.replace(/\s/g, '');
                             firebase.database().ref().child(childRef).set({
@@ -109,7 +109,7 @@ uploadCardInfoToDB = () => {
                             });
 
                             // Handle Toast message for use to notify if operation is successful
-                            if(parseInt(quantity) === 0) myToast.success("Successfully removed " + cardName + " from " + deckName);
+                            if (parseInt(quantity) === 0) myToast.success("Successfully removed " + cardName + " from " + deckName);
                             else myToast.success("Successfully added " + cardName + " to " + deckName);
                         } else {
                             myToast.error("Too many cards that you are trying to add");
@@ -134,13 +134,13 @@ getUserDecks = () => {
             var firebaseRef = firebase.database().ref("users/" + user.uid);
             firebaseRef.orderByValue().on("value", (snapshot) => {
                 let decks = [];
-                snapshot.forEach(function(data) {
+                snapshot.forEach(function (data) {
                     decks.push(data.key)
                 });
 
                 let options = '';
-                for(let cancel = 0; cancel < decks.length; cancel++)
-                    options += '<option value="'+decks[cancel]+'" />';
+                for (let cancel = 0; cancel < decks.length; cancel++)
+                    options += '<option value="' + decks[cancel] + '" />';
                 document.getElementById('screens.screenid-datalist').innerHTML = options;
             });
         }
@@ -160,10 +160,10 @@ function loadCardList() {
         if (user && deckName.length > 0) {
             // Get a list of all the card names using deck name from FireBase
             const allCardsPath = "users/" + user.uid + "/" + deckName;
-            firebase.app().database().ref(allCardsPath).orderByChild("CardName").on("value", function(snapshot) {
+            firebase.app().database().ref(allCardsPath).orderByChild("CardName").on("value", function (snapshot) {
                 let userMagicCards = [];
-                snapshot.forEach(function(childSnapshot) {
-                    for(let i = 0; i < childSnapshot.val().Quantity; i++)
+                snapshot.forEach(function (childSnapshot) {
+                    for (let i = 0; i < childSnapshot.val().Quantity; i++)
                         userMagicCards.push(childSnapshot.val().CardName)
                 });
 
@@ -173,7 +173,7 @@ function loadCardList() {
                     list.removeChild(list.firstChild);
 
                 // Append children from FireBase to HTML DOM
-                for(let cancel = 0; cancel < userMagicCards.length; cancel++) {
+                for (let cancel = 0; cancel < userMagicCards.length; cancel++) {
                     let li = document.createElement("li");
                     li.setAttribute("id", "cardlist-" + userMagicCards[cancel]);
                     li.setAttribute("class", "magicCard");
@@ -195,8 +195,8 @@ getCardProperties = () => {
     firebase.auth().onAuthStateChanged((user) => {
         if (user) {
             let deckName = document.getElementById('input.ChooseDeckName').value;
-            let myToast = new Toasty({ progressBar: true });
-            myToast.info("Beginning calculations for " + deckName + "...");
+            //     let myToast = new Toasty({progressBar: true});
+            //   myToast.info("Beginning calculations for " + deckName + "...");
             firebase.app().database().ref("users/" + user.uid + "/" + deckName).orderByChild("CardName").once("value", (snapshot) => {
                 let allCards = [];
                 let cardNames = '';
@@ -221,15 +221,15 @@ getCardProperties = () => {
                         allCards.push(new Card(cardObject));
 
                         // Add options to select list
-                        if(cardObject.Quantity > 0)
-                            cardNames += '<option value="'+cardObject.name+'" />';
+                        if (cardObject.Quantity > 0)
+                            cardNames += '<option value="' + cardObject.name + '" />';
 
                         // Update the Statistics section of the UI with deck calculations
-                        let boltTheBird = new Deck(deckName, allCards, "Modern");
-                        document.getElementById("Statistics-DeckName").innerHTML = boltTheBird.Name;//"Bob from Accounting";
-                        document.getElementById("Statistics-AvgCMC").innerHTML = boltTheBird.averageCMC;
-                        document.getElementById("Statistics-NumLands").innerHTML = boltTheBird.landCount;
-                        document.getElementById("Statistics-NumNoLands").innerHTML = boltTheBird.nonLandCount;
+                        let userDeck = new Deck(deckName, allCards, "Modern");
+                        document.getElementById("Statistics-DeckName").innerHTML = userDeck.Name;
+                        document.getElementById("Statistics-AvgCMC").innerHTML = userDeck.averageCMC;
+                        document.getElementById("Statistics-NumLands").innerHTML = userDeck.landCount;
+                        document.getElementById("Statistics-NumNoLands").innerHTML = userDeck.nonLandCount;
                         document.getElementById('screens.screenid-cardlist').innerHTML = cardNames;
                     });
                 });
@@ -237,6 +237,47 @@ getCardProperties = () => {
         }
     })
 };
+
+/*
+        Returns the probability of drawing the specified card in the users deck.
+        keeps the user updated using Toasty
+ */
+function getOddsOfCard() {
+    let cardName = document.getElementById("OddsCard").value;
+    let userDeck;
+    let chances = parseInt(document.getElementById("OddsChances").value);
+    let copies = parseInt(document.getElementById("OddsQuantity").value);
+    firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+            let deckName = document.getElementById('input.ChooseDeckName').value;
+            let myToast = new Toasty({progressBar: true});
+            myToast.info("Beginning Probability calculations for " + deckName + " and the Card " + cardName + "...");
+            firebase.app().database().ref("users/" + user.uid + "/" + deckName).orderByChild("CardName").once("value", (snapshot) => {
+                let allCards = [];
+                let quantity =0;
+                snapshot.forEach((userCard) => {
+                    let cardObject = {
+                        name: userCard.val().CardName,
+                        Quantity: parseInt(userCard.val().Quantity),
+                        typeLine : " "
+                    };
+                    allCards.push(new Card(cardObject));
+                    for (let i = 0; i < allCards.length; i++) {
+                        if (allCards[i].Name === cardName) {
+                            quantity = allCards[i].Quantity;
+                        }
+                    }
+                });
+                userDeck = new Deck(deckName, allCards, "Modern");
+                console.log( "-> "+ chances );
+                console.log("-> " + copies );
+                let odds = userDeck.compute(userDeck.Size, quantity, chances, copies);
+                document.getElementById("OddsOutput").innerHTML = odds;
+            });
+        }
+    });
+}
+
 
 /**
  * getLegalities(childSnapshot)
@@ -259,11 +300,3 @@ getLegalities = (childSnapshot) => {
     if (childSnapshot.val().legality_brawl === "legal") legality += "brawl ";
     return legality.trim();
 };
-
-// gets list of all card names from database:
-/*
-firebase.app().database().ref("DefaultCards").orderByChild("name").once("value", function(snapshot) {
-    snapshot.forEach(function(childSnapshot) {
-        console.log(childSnapshot.val().name);
-    }) });
- */
