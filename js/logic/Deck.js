@@ -47,7 +47,7 @@ class Deck {
         // relative size?
         var smallerSet, largerSet;
 
-        // best to have sampled<successesAvailable
+        // best to have sampled < successesAvailable
         if (successesAvailable < sampled) {
             // The set of successes is smaller
             smallerSet = successesAvailable;
@@ -57,8 +57,6 @@ class Deck {
             smallerSet = sampled;
             largerSet = successesAvailable;
         }
-        // This is an intermediate value I don't really understand, which is used in
-        // the middle of the cumulative CDF calculation.
         var h = 1;
         // This is the probability of having observed everything we looked at so
         // far. Except sometimes it goes above 1 and we have to fix it?
