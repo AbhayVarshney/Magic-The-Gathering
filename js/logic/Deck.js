@@ -242,6 +242,6 @@ class Deck {
             }
         }
         Prob = Math.round(Prob * 100000) / 100000;
-        return Prob * 100;
+        return (Prob * 100).toString() + "%";
     }
 }

@@ -195,8 +195,8 @@ getCardProperties = () => {
     firebase.auth().onAuthStateChanged((user) => {
         if (user) {
             let deckName = document.getElementById('input.ChooseDeckName').value;
-            //     let myToast = new Toasty({progressBar: true});
-            //   myToast.info("Beginning calculations for " + deckName + "...");
+            let myToast = new Toasty({progressBar: true});
+            myToast.info("Beginning calculations for " + deckName + "...");
             firebase.app().database().ref("users/" + user.uid + "/" + deckName).orderByChild("CardName").once("value", (snapshot) => {
                 let allCards = [];
                 let cardNames = '';
@@ -247,11 +247,10 @@ function getOddsOfCard() {
     let userDeck;
     let chances = parseInt(document.getElementById("OddsChances").value);
     let copies = parseInt(document.getElementById("OddsQuantity").value);
+    let myToast = new Toasty({progressBar: true});
     firebase.auth().onAuthStateChanged((user) => {
         if (user) {
             let deckName = document.getElementById('input.ChooseDeckName').value;
-            let myToast = new Toasty({progressBar: true});
-            myToast.info("Beginning Probability calculations for " + deckName + " and the Card " + cardName + "...");
             firebase.app().database().ref("users/" + user.uid + "/" + deckName).orderByChild("CardName").once("value", (snapshot) => {
                 let allCards = [];
                 let quantity =0;
@@ -273,6 +272,7 @@ function getOddsOfCard() {
                 console.log("-> " + copies );
                 let odds = userDeck.compute(userDeck.Size, quantity, chances, copies);
                 document.getElementById("OddsOutput").innerHTML = odds;
+                myToast.success("Completed Probability calculations for " + deckName + " and the Card " + cardName);
             });
         }
     });
