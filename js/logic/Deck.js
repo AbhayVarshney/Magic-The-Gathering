@@ -1,31 +1,20 @@
 /*
-   @Objective Create a Deck class sthat has the following variables and member functions
-   Double AverageCMC
+   @Objective Create a Deck class that has the following variables and member functions
    CalcCmc() Finds the average CMC of the deck.
-    Calclands
+   Calclands
    CalcNonLands
-   Verify Makes sure that every card in the list is a valid card that we can recognize
    OddsOfCard() Utilizes Hypergeometric distribution to find the likely hood of drawing specific cards.
-*/
-//<script src = 'Card.js"> </script>
-   // import Card() from Card.js;
-/*
+
 */
 
 class Deck {
     constructor(name, deckList, format) {
-       // this.DeckList = new Array(100);
-        let land = 0, nonLand = 0, DeckCmc = 0, deckCost = 0, size =0;
+        let land = 0, nonLand = 0, DeckCmc = 0, size = 0;
         deckList.forEach((element) => {
-            //let i = 0;
-            //this.DeckList.push(element);
-            //this.DeckList[++i] = element;
-            size += element.Quantity;  // adds how many copies of the card into the deck size.
-            // deckCost += element.Cost * element.Quantity;
+            size += element.Quantity;
             // Calculates the average Cmc in the decklist by adding each cards converted mana cost into a sum
             // and then divides them by the total number of cards in the deck.
-
-            DeckCmc = (DeckCmc +  (element.CMC * element.Quantity));
+            DeckCmc = (DeckCmc + (element.CMC * element.Quantity));
             if (element.typeLine.includes("land") || element.typeLine.includes("Land")) {
                 land += element.Quantity;
             }
@@ -39,86 +28,97 @@ class Deck {
         this.Name = name;
         this.averageCMC = DeckCmc / size;
         this.Format = format;
-        // this.DeckCost = deckCost;
     }
 
-    OddsOfCard(cards, successes, cardsDrawn) {
-        let odds;
+    OddsOfCard(quantity, successes, cardsDrawn) {
         // number of possible cards to hit
         // Checks to see if we only have one card to look for
 
         /*
             N choose K = ((N!)/(K!(N-K!))
-            Given K = number of successes possible in the pool
+            Given
+            K = number of successes possible in the pool
             L = Number of successes wanted from the pool
             N = size of the pool
             X = number of chances to draw
             (K Choose L)*(N-K Choose X-L)/ (N choose X)
             ((K!)/(L!(K-L)!))*((n-k)!/(l-k)!((n-k)-(x-l))!) / (n!)/(x!(n-x)!)
+            first = (K!)/(L!)(K-L)
             second = (n-k)!/(l-k)!((N-K)-(X-L))!
             (n-k)!/(l-k)!((N-K-X+L))!
+            third = (N!)/(X!(N-X)!)
         */
-
-        let k = cards.Quantity;
-        let l = successes;
-        let n = this.Size;
-        let x = cardsDrawn;
+        let copiesAvail = quantity;
+        let successesWanted = successes;
+        let deckSize = this.Size;
+        let cardsToDraw = cardsDrawn;
         // K and L are relatively small and can be computed normally
         let kFact = 1;
         let lFact = 1;
         let lMinusKFact = 1;
-        // N-K and X-L Factorial are going to be large so they must be computed more carefully
-        // X fact and N factorial need to be treated specially because N is expected to be at least 60.
-        for (let i = k; i > 0; i--) {
+        for (let i = copiesAvail; i > 0; i--) {
             kFact = kFact * i;
         }
-        for (let i = l; i > 0; i--) {
+
+        for (let i = successesWanted; i > 0; i--) {
             lFact *= i;
         }
-        for (let i = (l - k) + 1; i > 0; i--) {
+
+        for (let i = (successesWanted - copiesAvail); i > 0; i--) {
             lMinusKFact *= i;
         }
-        let first = kFact / (lFact * (lMinusKFact));
-        let a = 1;
-        let j = 1;
+        let first = kFact / lMinusKFact;
+        first = first / lFact;
+        let secondProduct = 1;
+        let secondScaling = 1;
 
-        if ((x - l) > (n - k - x + l)) {
-            j = (x - l);
-            for (let i = ((n - k - x + l) - (x - l)); i > 0; i--) {
-                a = (a * i) / j;
-                j--;
+        // N-K and X-L Factorial are going to be large so they must be computed more carefully
+        // X fact and N factorial need to be treated specially because N is expected to be at least 60.
+        let ratio1 = cardsToDraw - successesWanted;
+        let ratio2 = (deckSize - copiesAvail - cardsToDraw) + successesWanted;
+        if (ratio1 < ratio2)                                                                                           // comparing to see if N-K is greater than (n - k - x + l)
+        {
+            secondScaling = ratio1;                                                                                     // divide by the larger quantity to keep the number small
+            for (let i = (ratio1 - ratio2); i > 0; i--) {
+                secondProduct = (secondProduct * i) / secondScaling;
+                secondScaling--;
             }
-            if (j !== 0) {
-                for (j; j > 0; j--) {
-                    a /= j;
+            if (secondScaling !== 0)                                                                                    // finishes any remaining divisions
+            {
+                for (secondScaling; secondScaling > 0; secondScaling--) {
+                    secondProduct /= secondScaling;
                 }
             }
         }
         else // n-l-x+l is the smaller of the ratios
         {
-            j = (n - k - x + l);
-            for (let i = ((x - l) - (n - k - x + l)); i > 0; i--) {
-                a = (a * i) / j;
-                j--;
+            secondScaling = ratio2;                                                                                      //(deckSize - copiesAvail - cardsToDraw + successesWanted);
+            for (let i = (ratio2 - ratio1); i > 0; i--) {
+                secondProduct = (secondProduct * i) / secondScaling;
+                secondScaling--;
             }
-            if (j !== 0) {
-                for (j; j > 0; j--) {
-                    a /= j;
+            if (secondScaling !== 0) {
+                for (secondScaling; secondScaling > 0; secondScaling--) {
+                    secondProduct /= secondScaling;
                 }
             }
         }
-        let second = a;
+        let second = secondProduct;
+
         let third = 1;
-        let c = x;
-        for (let i = ((n - (n - x)) + 1); i > 0; i--) {
-            if (c > 0) {
-                third *= i / c;
-                c--;
+        let thirdScaling = cardsToDraw;
+        for (let i = deckSize - cardsToDraw; i < deckSize; i++)           // i = n! can be reduced to (n - (n-x))
+        {
+            if (thirdScaling > 0) {
+                third *= i / thirdScaling;                                              // also divides by x! intill x! is diminished by (n!)/(x-n)!
+                thirdScaling--;
             }
             else
                 third *= i;
         }
-        odds = (first * second) / third;
+        first = first / third;
+        second = second / third;
+        let odds = first * second;
         return odds;
     }
 

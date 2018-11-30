@@ -36,7 +36,6 @@ class Card {
 
     isLegal(format)// Takes a given format and sees if the card is legal in that format.
     {
-        //let limit = this.Legality.length;
         for (let i = 0; i < 1000; i++) {
             if (this.Legality.includes(format))
                 return true;
