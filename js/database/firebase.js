@@ -1,11 +1,11 @@
 // Initialize FireBase with configuration key
 let config = {
-    apiKey: "AIzaSyCT97itbIvnvZfAV_IV-Z2NFSTJp90v_7g",
-    authDomain: "magic-thegathering.firebaseapp.com",
-    databaseURL: "https://magic-thegathering.firebaseio.com",
-    projectId: "magic-thegathering",
-    storageBucket: "magic-thegathering.appspot.com",
-    messagingSenderId: "315374534915"
+    apiKey: "AIzaSyBQCaktR62ShZa069ZNze9T7ukYksjad9A",
+    authDomain: "magic-thegathering2.firebaseapp.com",
+    databaseURL: "https://magic-thegathering2.firebaseio.com",
+    projectId: "magic-thegathering2",
+    storageBucket: "magic-thegathering2.appspot.com",
+    messagingSenderId: "665839466259"
 };
 firebase.initializeApp(config);
 
@@ -114,7 +114,7 @@ uploadCardInfoToDB = () => {
                         } else {
                             myToast.error("Too many cards that you are trying to add");
                         }
-                    }
+                    } else console.log("user doesn't exist");
                 });
             } else myToast.error(cardName + " is not a legal magic card.");
         });
