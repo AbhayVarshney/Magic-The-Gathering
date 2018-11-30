@@ -9,6 +9,7 @@ let config = {
 };
 firebase.initializeApp(config);
 
+// Logs into the web app through Google login. If unsuccessful, sends a message to the user notifying them.
 /**
  * googleSignIn()
  * For landing.html, when user clicks google sign in button, firebase should authenticate user's google account
@@ -26,6 +27,7 @@ googleSignIn = () => {
     })
 };
 
+// Retrieves user id from the database. If no user id found, returns to the login screen.
 /**
  * verifyUserCredentialsForIndex()
  * Handle Account Status - returns whether user is a user or not (FOR INDEX.HTML ONLY)
@@ -40,8 +42,9 @@ verifyUserCredentialsForIndex = () => {
     });
 };
 
+// Retrieves user id from the database. If no user id is found, refreshes login screen.
 /**
- * verifyUserCredentialsForIndex()
+ * verifyUserCredentialsForLanding()
  * Handle Account Status - returns whether user is a user or not (FOR LANDING.HTML ONLY)
  * Navigates to index page if user is not logged in
  * @return null
@@ -54,6 +57,7 @@ verifyUserCredentialsForLanding = () => {
     });
 };
 
+// Logs user out of the web app and returns them to the login screen.
 /**
  * logoutUser()
  * When user clicks logout button, user will be navigated to landing html
@@ -77,6 +81,11 @@ logoutUser = () => {
         console.log(error)
     });
 };
+
+// First verifies that cards input into the "Input Cards" section of the web app are legitimate cards.
+// Next retrieves the properties of the cards from the database.
+// Then verifies the user and retrieves the user id.
+// Finally, uploads the cards to the user's selected deck in the database.
 
 /**
  * uploadCardInfoToDB()
@@ -121,6 +130,8 @@ uploadCardInfoToDB = () => {
     } else myToast.error("All inputs must be of length greater than 0 in the Input Cards section");
 };
 
+// First verifies the user and retrieves the user id.
+// Then retrieves the list of all of the user's decks.
 /**
  * getUserDecks()
  * Verifies the user, gets user object from Firebase, and then gets list of all the decks for the user
@@ -147,6 +158,9 @@ getUserDecks = () => {
     });
 };
 
+// First verifies the user and retrieves the user id.
+// Next retrieves all of the cards from the selected deck from the database.
+// Finally, populates the "Cards" section of the web app with the retrieved cards.
 /**
  * loadCardList()
  * Verifies the user, gets user object from FireBase, gets all the cards of the user within a specific deck from
@@ -185,6 +199,9 @@ function loadCardList() {
     });
 }
 
+// First verifies the user and retrieves the user id.
+// Next retrieves all of the cards from the selected deck from the database.
+// Finally, constructs Card objects for each of these cards and adds them to an array.
 /**
  * getCardProperties()
  * Verifies the user, gets user object from FireBase, gets all the cards of the user within a specific deck from
@@ -238,6 +255,8 @@ getCardProperties = () => {
     })
 };
 
+// Checks the legalities of a given card. For each format the card is legal in, adds it to a string, with a space after.
+// Then removes the space at the end and returns the string.
 /**
  * getLegalities(childSnapshot)
  * Checks the legalities of a given card. Returns a string of all formats the card is legal in, with spaces between.
