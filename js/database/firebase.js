@@ -139,8 +139,8 @@ getUserDecks = () => {
                 });
 
                 let options = '';
-                for (let cancel = 0; cancel < decks.length; cancel++)
-                    options += '<option value="' + decks[cancel] + '" />';
+                for (let i = 0; i < decks.length; i++)
+                    options += '<option value="' + decks[i] + '" />';
                 document.getElementById('screens.screenid-datalist').innerHTML = options;
             });
         }
@@ -238,9 +238,11 @@ getCardProperties = () => {
     })
 };
 
-/*
-        Returns the probability of drawing the specified card in the users deck.
-        keeps the user updated using Toasty
+/**
+ * getOddsOfCard()
+ * Returns the probability of drawing the specified card in the users deck.
+ * keeps the user updated using Toasty
+ * @return null
  */
 function getOddsOfCard() {
     let cardName = document.getElementById("OddsCard").value;
